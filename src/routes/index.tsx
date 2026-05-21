@@ -2,6 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useState, type ReactNode } from "react";
 import wallpaper from "@/assets/wallpaper.jpg";
+import gallery1 from "@/assets/gallery-1.jpg";
+import gallery2 from "@/assets/gallery-2.jpg";
+import gallery3 from "@/assets/gallery-3.jpg";
+import gallery4 from "@/assets/gallery-4.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -17,27 +21,29 @@ export const Route = createFileRoute("/")({
   component: Desktop,
 });
 
-type WindowId = "about" | "orien" | "fourdev" | "debtor" | "integver" | "skills" | "contact" | "cv";
+type WindowId = "about" | "orien" | "fourdev" | "debtor" | "integver" | "skills" | "contact" | "cv" | "gallery";
 
 interface DesktopItem {
   id: WindowId;
   label: string;
   sublabel?: string;
-  icon: "folder" | "note" | "pdf" | "app";
+  icon: "folder" | "note" | "pdf" | "app" | "gallery";
   color?: string;
   x: number; // percent
   y: number; // percent
 }
 
+// Note occupies top-left (≈ x 2–40%, y 8–44%) — keep icons outside that zone.
 const items: DesktopItem[] = [
-  { id: "orien", label: "Orien.AI", sublabel: "(2025–2026)", icon: "folder", color: "var(--coral)", x: 86, y: 14 },
-  { id: "fourdev", label: "4DEV.tech", sublabel: "(2023–2025)", icon: "folder", color: "#7FB3D5", x: 86, y: 36 },
-  { id: "debtor", label: "Должник прав", sublabel: "(2023)", icon: "folder", color: "#A8C49D", x: 86, y: 58 },
-  { id: "integver", label: "Integver.tech", sublabel: "(2021–2023)", icon: "folder", color: "#D7BDE2", x: 86, y: 80 },
-  { id: "about", label: "About me.txt", icon: "note", x: 50, y: 75 },
-  { id: "skills", label: "Skills.app", icon: "app", x: 14, y: 14 },
-  { id: "contact", label: "Get in touch", icon: "app", x: 14, y: 36 },
-  { id: "cv", label: "CV_2025.pdf", icon: "pdf", x: 14, y: 80 },
+  { id: "orien", label: "Orien.AI", sublabel: "(2025–2026)", icon: "folder", color: "var(--coral)", x: 88, y: 16 },
+  { id: "fourdev", label: "4DEV.tech", sublabel: "(2023–2025)", icon: "folder", color: "#7FB3D5", x: 88, y: 36 },
+  { id: "debtor", label: "Должник прав", sublabel: "(2023)", icon: "folder", color: "#A8C49D", x: 88, y: 56 },
+  { id: "integver", label: "Integver.tech", sublabel: "(2021–2023)", icon: "folder", color: "#D7BDE2", x: 88, y: 76 },
+  { id: "gallery", label: "Галерея", sublabel: "(фото)", icon: "gallery", color: "#F4A261", x: 70, y: 84 },
+  { id: "about", label: "About me.txt", icon: "note", x: 50, y: 84 },
+  { id: "skills", label: "Skills.app", icon: "app", x: 12, y: 56 },
+  { id: "contact", label: "Get in touch", icon: "app", x: 30, y: 72 },
+  { id: "cv", label: "CV_2025.pdf", icon: "pdf", x: 12, y: 84 },
 ];
 
 function Desktop() {
@@ -193,12 +199,12 @@ function DesktopIcon({
       onDoubleClick={onOpen}
       onClick={onOpen}
       style={{ left: `${item.x}%`, top: `${item.y}%` }}
-      className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1.5 w-24 group cursor-pointer"
+      className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 w-32 group cursor-pointer"
     >
       <IconGraphic icon={item.icon} color={item.color} />
-      <div className="text-center px-2 py-0.5 rounded text-white text-[11px] leading-tight font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)] group-hover:bg-coral/80 transition-colors">
+      <div className="text-center px-2 py-0.5 rounded text-white text-[13px] leading-tight font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.7)] group-hover:bg-coral/80 transition-colors">
         {item.label}
-        {item.sublabel && <div className="text-[10px] opacity-80">{item.sublabel}</div>}
+        {item.sublabel && <div className="text-[11px] opacity-80">{item.sublabel}</div>}
       </div>
     </motion.button>
   );
@@ -207,33 +213,47 @@ function DesktopIcon({
 function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: string }) {
   if (icon === "folder") {
     return (
-      <svg viewBox="0 0 64 52" className="w-14 h-12 drop-shadow-lg">
+      <svg viewBox="0 0 64 52" className="w-20 h-[68px] drop-shadow-xl">
         <path d="M2 10 Q2 4 8 4 L22 4 L28 10 L56 10 Q62 10 62 16 L62 44 Q62 50 56 50 L8 50 Q2 50 2 44 Z" fill={color || "#7FB3D5"} stroke="rgba(0,0,0,0.15)" />
         <path d="M2 18 L62 18" stroke="rgba(255,255,255,0.4)" />
       </svg>
     );
   }
+  if (icon === "gallery") {
+    return (
+      <div className="relative w-20 h-[68px] drop-shadow-xl">
+        <div className="absolute inset-0 rounded-lg" style={{ background: color || "#F4A261" }} />
+        <div className="absolute top-2 left-2 right-2 bottom-2 bg-white/90 rounded-sm overflow-hidden grid grid-cols-2 gap-0.5 p-0.5">
+          <div className="bg-gradient-to-br from-pink-200 to-orange-200" />
+          <div className="bg-gradient-to-br from-blue-200 to-purple-200" />
+          <div className="bg-gradient-to-br from-amber-200 to-rose-200" />
+          <div className="bg-gradient-to-br from-emerald-200 to-cyan-200" />
+        </div>
+      </div>
+    );
+  }
   if (icon === "note") {
     return (
-      <div className="w-14 h-14 bg-white shadow-lg p-1.5 flex flex-col gap-0.5 -rotate-2">
-        <div className="h-0.5 bg-ink/30 w-full" />
-        <div className="h-0.5 bg-ink/20 w-3/4" />
-        <div className="h-0.5 bg-ink/20 w-full" />
-        <div className="h-0.5 bg-ink/20 w-2/3" />
-        <div className="h-0.5 bg-ink/20 w-full" />
+      <div className="w-20 h-20 bg-white shadow-xl p-2 flex flex-col gap-1 -rotate-2 drop-shadow-xl">
+        <div className="h-1 bg-ink/30 w-full" />
+        <div className="h-1 bg-ink/20 w-3/4" />
+        <div className="h-1 bg-ink/20 w-full" />
+        <div className="h-1 bg-ink/20 w-2/3" />
+        <div className="h-1 bg-ink/20 w-full" />
+        <div className="h-1 bg-ink/20 w-1/2" />
       </div>
     );
   }
   if (icon === "pdf") {
     return (
-      <div className="w-12 h-14 bg-white shadow-lg rounded-sm relative flex items-end justify-center pb-1">
-        <div className="absolute top-1 right-1 w-3 h-3 bg-ink/10" />
-        <span className="text-[9px] font-bold text-coral">PDF</span>
+      <div className="w-16 h-20 bg-white shadow-xl rounded-sm relative flex items-end justify-center pb-1.5 drop-shadow-xl">
+        <div className="absolute top-1.5 right-1.5 w-4 h-4 bg-ink/10" />
+        <span className="text-[11px] font-bold text-coral">PDF</span>
       </div>
     );
   }
   return (
-    <div className="w-14 h-14 rounded-2xl shadow-lg grid place-items-center text-2xl"
+    <div className="w-20 h-20 rounded-2xl shadow-xl grid place-items-center text-3xl drop-shadow-xl"
       style={{ background: color || "linear-gradient(135deg, var(--coral), #f4a261)" }}>
       ✨
     </div>
@@ -250,6 +270,7 @@ function Window({ id, zIndex, onClose, onFocus }: {
     fourdev: { x: -160, y: -80 }, debtor: { x: -220, y: -60 },
     integver: { x: -140, y: -140 }, skills: { x: -240, y: -90 },
     contact: { x: -120, y: -100 }, cv: { x: -200, y: -110 },
+    gallery: { x: -260, y: -130 },
   };
   return (
     <motion.div
@@ -441,6 +462,35 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
         <a href="mailto:vereskunovadaria@gmail.com?subject=CV request" className="block text-center py-3 rounded-lg bg-ink text-paper hover:bg-coral transition-colors">
           Запросить полный PDF →
         </a>
+      </div>
+    ),
+  },
+  gallery: {
+    title: "Галерея — Preview",
+    body: (
+      <div className="space-y-4">
+        <p className="font-display text-2xl">Несколько кадров из жизни ✨</p>
+        <div className="grid grid-cols-2 gap-3">
+          {[
+            { src: gallery1, w: 768, h: 1024, cap: "Утро" },
+            { src: gallery2, w: 1024, h: 768, cap: "Записки" },
+            { src: gallery3, w: 768, h: 1024, cap: "Свет" },
+            { src: gallery4, w: 1024, h: 768, cap: "Небо" },
+          ].map((p, i) => (
+            <motion.figure
+              key={i}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.08 }}
+              whileHover={{ scale: 1.02, rotate: i % 2 ? 1 : -1 }}
+              className="bg-white p-2 pb-6 shadow-md relative"
+            >
+              <img src={p.src} width={p.w} height={p.h} alt={p.cap} loading="lazy" className="w-full aspect-[4/3] object-cover" />
+              <figcaption className="absolute bottom-1 inset-x-0 text-center font-mono text-[10px] text-ink/60">{p.cap}</figcaption>
+            </motion.figure>
+          ))}
+        </div>
+        <p className="text-xs text-ink/50 font-mono">Хочешь обновить фотки? Загрузи свои в чат — заменю.</p>
       </div>
     ),
   },
