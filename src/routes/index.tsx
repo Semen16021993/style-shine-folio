@@ -465,6 +465,35 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
       </div>
     ),
   },
+  gallery: {
+    title: "Галерея — Preview",
+    body: (
+      <div className="space-y-4">
+        <p className="font-display text-2xl">Несколько кадров из жизни ✨</p>
+        <div className="grid grid-cols-2 gap-3">
+          {[
+            { src: gallery1, w: 768, h: 1024, cap: "Утро" },
+            { src: gallery2, w: 1024, h: 768, cap: "Записки" },
+            { src: gallery3, w: 768, h: 1024, cap: "Свет" },
+            { src: gallery4, w: 1024, h: 768, cap: "Небо" },
+          ].map((p, i) => (
+            <motion.figure
+              key={i}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.08 }}
+              whileHover={{ scale: 1.02, rotate: i % 2 ? 1 : -1 }}
+              className="bg-white p-2 pb-6 shadow-md relative"
+            >
+              <img src={p.src} width={p.w} height={p.h} alt={p.cap} loading="lazy" className="w-full aspect-[4/3] object-cover" />
+              <figcaption className="absolute bottom-1 inset-x-0 text-center font-mono text-[10px] text-ink/60">{p.cap}</figcaption>
+            </motion.figure>
+          ))}
+        </div>
+        <p className="text-xs text-ink/50 font-mono">Хочешь обновить фотки? Загрузи свои в чат — заменю.</p>
+      </div>
+    ),
+  },
 };
 
 function CaseStudy({ tag, period, lead, did, results }: {
