@@ -21,7 +21,7 @@ export const Route = createFileRoute("/")({
   component: Desktop,
 });
 
-type WindowId = "about" | "orien" | "fourdev" | "debtor" | "integver" | "skills" | "contact" | "cv" | "gallery";
+type WindowId = "about" | "orien" | "fourdev" | "debtor" | "integver" | "eateasy" | "tesla" | "skills" | "contact" | "cv" | "gallery";
 
 interface DesktopItem {
   id: WindowId;
@@ -35,15 +35,17 @@ interface DesktopItem {
 
 // Note occupies top-left (≈ x 2–40%, y 8–44%) — keep icons outside that zone.
 const items: DesktopItem[] = [
-  { id: "orien", label: "Orien.AI", sublabel: "(2025–2026)", icon: "folder", color: "var(--coral)", x: 88, y: 16 },
-  { id: "fourdev", label: "4DEV.tech", sublabel: "(2023–2025)", icon: "folder", color: "#7FB3D5", x: 88, y: 36 },
-  { id: "debtor", label: "Должник прав", sublabel: "(2023)", icon: "folder", color: "#A8C49D", x: 88, y: 56 },
-  { id: "integver", label: "Integver.tech", sublabel: "(2021–2023)", icon: "folder", color: "#D7BDE2", x: 88, y: 76 },
-  { id: "gallery", label: "Галерея", sublabel: "(фото)", icon: "gallery", color: "#F4A261", x: 70, y: 84 },
-  { id: "about", label: "About me.txt", icon: "note", x: 50, y: 84 },
-  { id: "skills", label: "Skills.app", icon: "app", x: 12, y: 56 },
-  { id: "contact", label: "Get in touch", icon: "app", x: 30, y: 72 },
-  { id: "cv", label: "CV_2025.pdf", icon: "pdf", x: 12, y: 84 },
+  { id: "orien", label: "Orien.AI", sublabel: "крипто-кошелёк", icon: "folder", color: "var(--coral)", x: 88, y: 14 },
+  { id: "fourdev", label: "4DEV.tech", sublabel: "девелопмент", icon: "folder", color: "#7FB3D5", x: 88, y: 30 },
+  { id: "debtor", label: "Должник прав", sublabel: "юр. приложение", icon: "folder", color: "#A8C49D", x: 88, y: 46 },
+  { id: "integver", label: "Integver.tech", sublabel: "студия", icon: "folder", color: "#D7BDE2", x: 88, y: 62 },
+  { id: "eateasy", label: "EatEasy", sublabel: "пет-проект", icon: "folder", color: "#F1C27D", x: 88, y: 78 },
+  { id: "tesla", label: "Tesla Team", sublabel: "учебный", icon: "folder", color: "#B0B7C3", x: 70, y: 84 },
+  { id: "gallery", label: "Галерея", sublabel: "фото", icon: "gallery", color: "#F4A261", x: 52, y: 84 },
+  { id: "about", label: "Обо мне.txt", icon: "note", x: 34, y: 84 },
+  { id: "skills", label: "Навыки.app", icon: "app", x: 12, y: 56 },
+  { id: "contact", label: "Связаться", icon: "app", x: 12, y: 72 },
+  { id: "cv", label: "CV_2026.pdf", icon: "pdf", x: 12, y: 88 },
 ];
 
 function Desktop() {
@@ -77,23 +79,25 @@ function Desktop() {
         style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.25)" }}
       >
         <h1 className="font-display text-2xl md:text-3xl leading-tight">
-          Hi, I'm Daria! <span className="text-coral">🌸</span>
+          Привет, я Дарья! <span className="text-coral">🌸</span>
         </h1>
         <p className="mt-3 text-sm leading-relaxed">
-          Product Designer with 5+ years in mobile & web,{" "}
-          <span className="italic">B2B & B2C</span>.
+          Продуктовый дизайнер, 5+ лет в мобайле и вебе,{" "}
+          <span className="italic">B2B и B2C</span>.
         </p>
         <p className="mt-2 text-sm leading-relaxed">
-          Worked at{" "}
+          Кейсы:{" "}
           <button onClick={() => openWindow("orien")} className="underline hover:text-coral">Orien.AI</button>,{" "}
           <button onClick={() => openWindow("fourdev")} className="underline hover:text-coral">4DEV</button>,{" "}
           <button onClick={() => openWindow("debtor")} className="underline hover:text-coral">Должник прав</button>,{" "}
-          <button onClick={() => openWindow("integver")} className="underline hover:text-coral">Integver</button>.
+          <button onClick={() => openWindow("integver")} className="underline hover:text-coral">Integver</button>,{" "}
+          <button onClick={() => openWindow("eateasy")} className="underline hover:text-coral">EatEasy</button>,{" "}
+          <button onClick={() => openWindow("tesla")} className="underline hover:text-coral">Tesla Team</button>.
         </p>
         <p className="mt-3 text-sm">
-          Let's chat →{" "}
+          Напишите →{" "}
           <a href="https://t.me/dariayud" className="underline hover:text-coral">Telegram</a>{" "}
-          or{" "}
+          или{" "}
           <a href="mailto:vereskunovadaria@gmail.com" className="underline hover:text-coral">Email ✉</a>
         </p>
       </motion.div>
@@ -128,7 +132,7 @@ function Desktop() {
         className="absolute bottom-6 right-6 text-center"
       >
         <div className="text-5xl">🗑️</div>
-        <div className="text-xs text-white/90 mt-1 font-mono drop-shadow">Don't look<br/>in here</div>
+        <div className="text-xs text-white/90 mt-1 font-mono drop-shadow">Корзина</div>
       </motion.div>
 
       {/* Windows */}
@@ -268,7 +272,8 @@ function Window({ id, zIndex, onClose, onFocus }: {
   const offsets: Record<WindowId, { x: number; y: number }> = {
     about: { x: -200, y: -100 }, orien: { x: -180, y: -120 },
     fourdev: { x: -160, y: -80 }, debtor: { x: -220, y: -60 },
-    integver: { x: -140, y: -140 }, skills: { x: -240, y: -90 },
+    integver: { x: -140, y: -140 }, eateasy: { x: -100, y: -90 },
+    tesla: { x: -260, y: -70 }, skills: { x: -240, y: -90 },
     contact: { x: -120, y: -100 }, cv: { x: -200, y: -110 },
     gallery: { x: -260, y: -130 },
   };
@@ -307,14 +312,14 @@ function Window({ id, zIndex, onClose, onFocus }: {
 
 const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
   about: {
-    title: "About me.txt — TextEdit",
+    title: "Обо мне.txt — TextEdit",
     body: (
       <div className="font-mono text-sm space-y-3 leading-relaxed">
-        <p className="font-display text-2xl not-italic">Привет, я Даша.</p>
-        <p>Продуктовый дизайнер из Рязани. Проектирую сложные цифровые продукты, которые решают реальные бизнес-задачи.</p>
-        <p>Специализируюсь на <span className="bg-note px-1">B2B/B2C, SaaS</span>, внутренних инструментах и системах автоматизации.</p>
-        <p>За плечами — опыт работы как в продуктовых стартапах (быстрая итеративность), так и в агентствах.</p>
-        <p className="text-ink/60">— vereskunovadaria@gmail.com</p>
+        <p className="font-display text-2xl not-italic">Привет! Меня зовут Дарья.</p>
+        <p>Я проектирую цифровые продукты, которые решают реальные бизнес-задачи. Специализируюсь на <span className="bg-note px-1">B2B/B2C, SaaS</span>, внутренних инструментах и системах автоматизации.</p>
+        <p>За моими плечами — успешный опыт работы как в продуктовых стартапах (быстрая итеративность), так и в агентствах.</p>
+        <p>В своей работе активно использую AI-инструменты: <i>Monterey.ai, Lovable, Whimsical AI, NotebookLM</i>.</p>
+        <p className="text-ink/60">— vereskunovadaria@gmail.com · Рязань, Россия</p>
       </div>
     ),
   },
@@ -377,7 +382,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
     />,
   },
   integver: {
-    title: "Integver.tech — Studio",
+    title: "Integver.tech — Студия",
     body: <CaseStudy
       tag="Студия полного цикла · full-time"
       period="апрель 2021 — февраль 2023"
@@ -392,6 +397,44 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
         "20+ запущенных проектов",
         "Опыт работы с крупными клиентами B2B/B2G",
         "Маркетплейс для рынка Ямайки — мобильное приложение",
+      ]}
+    />,
+  },
+  eateasy: {
+    title: "EatEasy — пет-проект",
+    body: <CaseStudy
+      tag="Агрегатор бронирования столов · pet"
+      period="2024"
+      lead="EatEasy — сервис для бронирования столов в ресторанах. Создан совместно с владельцами продукта."
+      did={[
+        "Взаимодействовала с владельцами продукта, помогала дорабатывать идеи с точки зрения UX",
+        "Строила пользовательские сценарии, продумывала base и corner-кейсы",
+        "Проектировала ключевые экраны: поиск, карточка ресторана, бронирование, профиль",
+        "Подбирала визуальный язык и собирала компонентную базу",
+      ]}
+      results={[
+        "Сквозной флоу бронирования стола за 3 шага",
+        "Понятная карточка ресторана с расписанием и меню",
+        "Готовый прототип для презентации стейкхолдерам",
+      ]}
+    />,
+  },
+  tesla: {
+    title: "Tesla Team — учебный проект",
+    body: <CaseStudy
+      tag="Арт-дирекшн цифрового продукта · Bang Bang Education"
+      period="2024"
+      lead="Концепт инструмента для управления командой Tesla — с акцентом на роль дизайна в бизнес-модели."
+      did={[
+        "Исследовала, как дизайн влияет на ценность продукта и бренда Tesla",
+        "Сформулировала продуктовую гипотезу и tone of voice",
+        "Проработала арт-дирекшн: типографика, сетка, цветовая система, иллюстрации",
+        "Спроектировала ключевые экраны внутреннего инструмента команды",
+      ]}
+      results={[
+        "Цельная визуальная концепция в духе бренда",
+        "Системный подход к дизайну как к части бизнес-стратегии",
+        "Защищённый кейс на курсе «Арт-дирекшн цифрового продукта»",
       ]}
     />,
   },
@@ -422,10 +465,10 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
     ),
   },
   contact: {
-    title: "Get in touch",
+    title: "Связаться",
     body: (
       <div className="space-y-4">
-        <p className="font-display text-3xl">Let's create something together.</p>
+        <p className="font-display text-3xl">Давайте создадим что-то вместе.</p>
         <p className="text-ink/70">Открыта к продуктовым проектам, консалтингу и менторству.</p>
         <div className="grid gap-3 mt-6">
           {[
@@ -443,7 +486,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
     ),
   },
   cv: {
-    title: "CV_2025.pdf — Preview",
+    title: "CV_2026.pdf — Preview",
     body: (
       <div className="space-y-4">
         <div className="aspect-[1/1.4] bg-white shadow-inner border border-ink/10 p-8 font-mono text-[10px] leading-relaxed">
