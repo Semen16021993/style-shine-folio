@@ -545,11 +545,21 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
   },
 };
 
-function CaseStudy({ tag, period, lead, did, results }: {
-  tag: string; period: string; lead: string; did: string[]; results: string[];
+function CaseStudy({ cover, tag, period, lead, did, results }: {
+  cover?: string; tag: string; period: string; lead: string; did: string[]; results: string[];
 }) {
   return (
     <div className="space-y-5">
+      {cover && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="rounded-lg overflow-hidden border border-ink/10 bg-ink/5 -mx-2 md:-mx-4"
+        >
+          <img src={cover} width={1280} height={896} alt={lead} loading="lazy" className="w-full h-auto block" />
+        </motion.div>
+      )}
       <div className="flex flex-wrap gap-2 text-xs font-mono">
         <span className="px-2 py-1 rounded bg-coral/15 text-coral">{tag}</span>
         <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">{period}</span>
