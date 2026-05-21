@@ -199,12 +199,12 @@ function DesktopIcon({
       onDoubleClick={onOpen}
       onClick={onOpen}
       style={{ left: `${item.x}%`, top: `${item.y}%` }}
-      className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1.5 w-24 group cursor-pointer"
+      className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 w-32 group cursor-pointer"
     >
       <IconGraphic icon={item.icon} color={item.color} />
-      <div className="text-center px-2 py-0.5 rounded text-white text-[11px] leading-tight font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)] group-hover:bg-coral/80 transition-colors">
+      <div className="text-center px-2 py-0.5 rounded text-white text-[13px] leading-tight font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.7)] group-hover:bg-coral/80 transition-colors">
         {item.label}
-        {item.sublabel && <div className="text-[10px] opacity-80">{item.sublabel}</div>}
+        {item.sublabel && <div className="text-[11px] opacity-80">{item.sublabel}</div>}
       </div>
     </motion.button>
   );
@@ -213,33 +213,47 @@ function DesktopIcon({
 function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: string }) {
   if (icon === "folder") {
     return (
-      <svg viewBox="0 0 64 52" className="w-14 h-12 drop-shadow-lg">
+      <svg viewBox="0 0 64 52" className="w-20 h-[68px] drop-shadow-xl">
         <path d="M2 10 Q2 4 8 4 L22 4 L28 10 L56 10 Q62 10 62 16 L62 44 Q62 50 56 50 L8 50 Q2 50 2 44 Z" fill={color || "#7FB3D5"} stroke="rgba(0,0,0,0.15)" />
         <path d="M2 18 L62 18" stroke="rgba(255,255,255,0.4)" />
       </svg>
     );
   }
+  if (icon === "gallery") {
+    return (
+      <div className="relative w-20 h-[68px] drop-shadow-xl">
+        <div className="absolute inset-0 rounded-lg" style={{ background: color || "#F4A261" }} />
+        <div className="absolute top-2 left-2 right-2 bottom-2 bg-white/90 rounded-sm overflow-hidden grid grid-cols-2 gap-0.5 p-0.5">
+          <div className="bg-gradient-to-br from-pink-200 to-orange-200" />
+          <div className="bg-gradient-to-br from-blue-200 to-purple-200" />
+          <div className="bg-gradient-to-br from-amber-200 to-rose-200" />
+          <div className="bg-gradient-to-br from-emerald-200 to-cyan-200" />
+        </div>
+      </div>
+    );
+  }
   if (icon === "note") {
     return (
-      <div className="w-14 h-14 bg-white shadow-lg p-1.5 flex flex-col gap-0.5 -rotate-2">
-        <div className="h-0.5 bg-ink/30 w-full" />
-        <div className="h-0.5 bg-ink/20 w-3/4" />
-        <div className="h-0.5 bg-ink/20 w-full" />
-        <div className="h-0.5 bg-ink/20 w-2/3" />
-        <div className="h-0.5 bg-ink/20 w-full" />
+      <div className="w-20 h-20 bg-white shadow-xl p-2 flex flex-col gap-1 -rotate-2 drop-shadow-xl">
+        <div className="h-1 bg-ink/30 w-full" />
+        <div className="h-1 bg-ink/20 w-3/4" />
+        <div className="h-1 bg-ink/20 w-full" />
+        <div className="h-1 bg-ink/20 w-2/3" />
+        <div className="h-1 bg-ink/20 w-full" />
+        <div className="h-1 bg-ink/20 w-1/2" />
       </div>
     );
   }
   if (icon === "pdf") {
     return (
-      <div className="w-12 h-14 bg-white shadow-lg rounded-sm relative flex items-end justify-center pb-1">
-        <div className="absolute top-1 right-1 w-3 h-3 bg-ink/10" />
-        <span className="text-[9px] font-bold text-coral">PDF</span>
+      <div className="w-16 h-20 bg-white shadow-xl rounded-sm relative flex items-end justify-center pb-1.5 drop-shadow-xl">
+        <div className="absolute top-1.5 right-1.5 w-4 h-4 bg-ink/10" />
+        <span className="text-[11px] font-bold text-coral">PDF</span>
       </div>
     );
   }
   return (
-    <div className="w-14 h-14 rounded-2xl shadow-lg grid place-items-center text-2xl"
+    <div className="w-20 h-20 rounded-2xl shadow-xl grid place-items-center text-3xl drop-shadow-xl"
       style={{ background: color || "linear-gradient(135deg, var(--coral), #f4a261)" }}>
       ✨
     </div>
@@ -256,6 +270,7 @@ function Window({ id, zIndex, onClose, onFocus }: {
     fourdev: { x: -160, y: -80 }, debtor: { x: -220, y: -60 },
     integver: { x: -140, y: -140 }, skills: { x: -240, y: -90 },
     contact: { x: -120, y: -100 }, cv: { x: -200, y: -110 },
+    gallery: { x: -260, y: -130 },
   };
   return (
     <motion.div
