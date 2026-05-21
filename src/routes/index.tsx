@@ -6,6 +6,12 @@ import gallery1 from "@/assets/gallery-1.jpg";
 import gallery2 from "@/assets/gallery-2.jpg";
 import gallery3 from "@/assets/gallery-3.jpg";
 import gallery4 from "@/assets/gallery-4.jpg";
+import caseOrien from "@/assets/case-orien.jpg";
+import caseFourdev from "@/assets/case-fourdev.jpg";
+import caseDebtor from "@/assets/case-debtor.jpg";
+import caseIntegver from "@/assets/case-integver.jpg";
+import caseEateasy from "@/assets/case-eateasy.jpg";
+import caseTesla from "@/assets/case-tesla.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -326,6 +332,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
   orien: {
     title: "Orien.AI — Crypto Wallet",
     body: <CaseStudy
+      cover={caseOrien}
       tag="Криптовалютный кошелёк · part-time"
       period="май 2025 — январь 2026"
       lead="End-to-end путь пользователя для цифровых активов с прозрачными статусами операций."
@@ -345,6 +352,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
   fourdev: {
     title: "4DEV.tech — IT-экосистема",
     body: <CaseStudy
+      cover={caseFourdev}
       tag="SaaS для девелопмента · full-time"
       period="декабрь 2023 — март 2025"
       lead="Комплексная автоматизация девелоперского бизнеса: интерфейсы, архитектура, дизайн-система."
@@ -364,6 +372,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
   debtor: {
     title: "Должник прав — Mobile App",
     body: <CaseStudy
+      cover={caseDebtor}
       tag="Юридическая компания · part-time"
       period="февраль 2023 — декабрь 2023"
       lead="Мобильное приложение для услуг финансовой защиты."
@@ -384,6 +393,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
   integver: {
     title: "Integver.tech — Студия",
     body: <CaseStudy
+      cover={caseIntegver}
       tag="Студия полного цикла · full-time"
       period="апрель 2021 — февраль 2023"
       lead="Более 20 проектов: нефтегаз, агросектор, госсектор, образование."
@@ -403,6 +413,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
   eateasy: {
     title: "EatEasy — пет-проект",
     body: <CaseStudy
+      cover={caseEateasy}
       tag="Агрегатор бронирования столов · pet"
       period="2024"
       lead="EatEasy — сервис для бронирования столов в ресторанах. Создан совместно с владельцами продукта."
@@ -422,6 +433,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
   tesla: {
     title: "Tesla Team — учебный проект",
     body: <CaseStudy
+      cover={caseTesla}
       tag="Арт-дирекшн цифрового продукта · Bang Bang Education"
       period="2024"
       lead="Концепт инструмента для управления командой Tesla — с акцентом на роль дизайна в бизнес-модели."
@@ -539,11 +551,21 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
   },
 };
 
-function CaseStudy({ tag, period, lead, did, results }: {
-  tag: string; period: string; lead: string; did: string[]; results: string[];
+function CaseStudy({ cover, tag, period, lead, did, results }: {
+  cover?: string; tag: string; period: string; lead: string; did: string[]; results: string[];
 }) {
   return (
     <div className="space-y-5">
+      {cover && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="rounded-lg overflow-hidden border border-ink/10 bg-ink/5 -mx-2 md:-mx-4"
+        >
+          <img src={cover} width={1280} height={896} alt={lead} loading="lazy" className="w-full h-auto block" />
+        </motion.div>
+      )}
       <div className="flex flex-wrap gap-2 text-xs font-mono">
         <span className="px-2 py-1 rounded bg-coral/15 text-coral">{tag}</span>
         <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">{period}</span>
