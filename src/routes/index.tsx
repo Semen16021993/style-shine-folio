@@ -2,6 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useState, type ReactNode } from "react";
 import wallpaper from "@/assets/wallpaper.jpg";
+import gallery1 from "@/assets/gallery-1.jpg";
+import gallery2 from "@/assets/gallery-2.jpg";
+import gallery3 from "@/assets/gallery-3.jpg";
+import gallery4 from "@/assets/gallery-4.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -17,27 +21,29 @@ export const Route = createFileRoute("/")({
   component: Desktop,
 });
 
-type WindowId = "about" | "orien" | "fourdev" | "debtor" | "integver" | "skills" | "contact" | "cv";
+type WindowId = "about" | "orien" | "fourdev" | "debtor" | "integver" | "skills" | "contact" | "cv" | "gallery";
 
 interface DesktopItem {
   id: WindowId;
   label: string;
   sublabel?: string;
-  icon: "folder" | "note" | "pdf" | "app";
+  icon: "folder" | "note" | "pdf" | "app" | "gallery";
   color?: string;
   x: number; // percent
   y: number; // percent
 }
 
+// Note occupies top-left (≈ x 2–40%, y 8–44%) — keep icons outside that zone.
 const items: DesktopItem[] = [
-  { id: "orien", label: "Orien.AI", sublabel: "(2025–2026)", icon: "folder", color: "var(--coral)", x: 86, y: 14 },
-  { id: "fourdev", label: "4DEV.tech", sublabel: "(2023–2025)", icon: "folder", color: "#7FB3D5", x: 86, y: 36 },
-  { id: "debtor", label: "Должник прав", sublabel: "(2023)", icon: "folder", color: "#A8C49D", x: 86, y: 58 },
-  { id: "integver", label: "Integver.tech", sublabel: "(2021–2023)", icon: "folder", color: "#D7BDE2", x: 86, y: 80 },
-  { id: "about", label: "About me.txt", icon: "note", x: 50, y: 75 },
-  { id: "skills", label: "Skills.app", icon: "app", x: 14, y: 14 },
-  { id: "contact", label: "Get in touch", icon: "app", x: 14, y: 36 },
-  { id: "cv", label: "CV_2025.pdf", icon: "pdf", x: 14, y: 80 },
+  { id: "orien", label: "Orien.AI", sublabel: "(2025–2026)", icon: "folder", color: "var(--coral)", x: 88, y: 16 },
+  { id: "fourdev", label: "4DEV.tech", sublabel: "(2023–2025)", icon: "folder", color: "#7FB3D5", x: 88, y: 36 },
+  { id: "debtor", label: "Должник прав", sublabel: "(2023)", icon: "folder", color: "#A8C49D", x: 88, y: 56 },
+  { id: "integver", label: "Integver.tech", sublabel: "(2021–2023)", icon: "folder", color: "#D7BDE2", x: 88, y: 76 },
+  { id: "gallery", label: "Галерея", sublabel: "(фото)", icon: "gallery", color: "#F4A261", x: 70, y: 84 },
+  { id: "about", label: "About me.txt", icon: "note", x: 50, y: 84 },
+  { id: "skills", label: "Skills.app", icon: "app", x: 12, y: 56 },
+  { id: "contact", label: "Get in touch", icon: "app", x: 30, y: 72 },
+  { id: "cv", label: "CV_2025.pdf", icon: "pdf", x: 12, y: 84 },
 ];
 
 function Desktop() {
