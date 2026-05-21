@@ -312,14 +312,14 @@ function Window({ id, zIndex, onClose, onFocus }: {
 
 const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
   about: {
-    title: "About me.txt — TextEdit",
+    title: "Обо мне.txt — TextEdit",
     body: (
       <div className="font-mono text-sm space-y-3 leading-relaxed">
-        <p className="font-display text-2xl not-italic">Привет, я Даша.</p>
-        <p>Продуктовый дизайнер из Рязани. Проектирую сложные цифровые продукты, которые решают реальные бизнес-задачи.</p>
-        <p>Специализируюсь на <span className="bg-note px-1">B2B/B2C, SaaS</span>, внутренних инструментах и системах автоматизации.</p>
-        <p>За плечами — опыт работы как в продуктовых стартапах (быстрая итеративность), так и в агентствах.</p>
-        <p className="text-ink/60">— vereskunovadaria@gmail.com</p>
+        <p className="font-display text-2xl not-italic">Привет! Меня зовут Дарья.</p>
+        <p>Я проектирую цифровые продукты, которые решают реальные бизнес-задачи. Специализируюсь на <span className="bg-note px-1">B2B/B2C, SaaS</span>, внутренних инструментах и системах автоматизации.</p>
+        <p>За моими плечами — успешный опыт работы как в продуктовых стартапах (быстрая итеративность), так и в агентствах.</p>
+        <p>В своей работе активно использую AI-инструменты: <i>Monterey.ai, Lovable, Whimsical AI, NotebookLM</i>.</p>
+        <p className="text-ink/60">— vereskunovadaria@gmail.com · Рязань, Россия</p>
       </div>
     ),
   },
@@ -382,7 +382,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
     />,
   },
   integver: {
-    title: "Integver.tech — Studio",
+    title: "Integver.tech — Студия",
     body: <CaseStudy
       tag="Студия полного цикла · full-time"
       period="апрель 2021 — февраль 2023"
@@ -397,6 +397,44 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
         "20+ запущенных проектов",
         "Опыт работы с крупными клиентами B2B/B2G",
         "Маркетплейс для рынка Ямайки — мобильное приложение",
+      ]}
+    />,
+  },
+  eateasy: {
+    title: "EatEasy — пет-проект",
+    body: <CaseStudy
+      tag="Агрегатор бронирования столов · pet"
+      period="2024"
+      lead="EatEasy — сервис для бронирования столов в ресторанах. Создан совместно с владельцами продукта."
+      did={[
+        "Взаимодействовала с владельцами продукта, помогала дорабатывать идеи с точки зрения UX",
+        "Строила пользовательские сценарии, продумывала base и corner-кейсы",
+        "Проектировала ключевые экраны: поиск, карточка ресторана, бронирование, профиль",
+        "Подбирала визуальный язык и собирала компонентную базу",
+      ]}
+      results={[
+        "Сквозной флоу бронирования стола за 3 шага",
+        "Понятная карточка ресторана с расписанием и меню",
+        "Готовый прототип для презентации стейкхолдерам",
+      ]}
+    />,
+  },
+  tesla: {
+    title: "Tesla Team — учебный проект",
+    body: <CaseStudy
+      tag="Арт-дирекшн цифрового продукта · Bang Bang Education"
+      period="2024"
+      lead="Концепт инструмента для управления командой Tesla — с акцентом на роль дизайна в бизнес-модели."
+      did={[
+        "Исследовала, как дизайн влияет на ценность продукта и бренда Tesla",
+        "Сформулировала продуктовую гипотезу и tone of voice",
+        "Проработала арт-дирекшн: типографика, сетка, цветовая система, иллюстрации",
+        "Спроектировала ключевые экраны внутреннего инструмента команды",
+      ]}
+      results={[
+        "Цельная визуальная концепция в духе бренда",
+        "Системный подход к дизайну как к части бизнес-стратегии",
+        "Защищённый кейс на курсе «Арт-дирекшн цифрового продукта»",
       ]}
     />,
   },
@@ -427,10 +465,10 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
     ),
   },
   contact: {
-    title: "Get in touch",
+    title: "Связаться",
     body: (
       <div className="space-y-4">
-        <p className="font-display text-3xl">Let's create something together.</p>
+        <p className="font-display text-3xl">Давайте создадим что-то вместе.</p>
         <p className="text-ink/70">Открыта к продуктовым проектам, консалтингу и менторству.</p>
         <div className="grid gap-3 mt-6">
           {[
@@ -448,7 +486,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
     ),
   },
   cv: {
-    title: "CV_2025.pdf — Preview",
+    title: "CV_2026.pdf — Preview",
     body: (
       <div className="space-y-4">
         <div className="aspect-[1/1.4] bg-white shadow-inner border border-ink/10 p-8 font-mono text-[10px] leading-relaxed">
