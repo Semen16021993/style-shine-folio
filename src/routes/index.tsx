@@ -6,6 +6,12 @@ import gallery1 from "@/assets/gallery-1.jpg";
 import gallery2 from "@/assets/gallery-2.jpg";
 import gallery3 from "@/assets/gallery-3.jpg";
 import gallery4 from "@/assets/gallery-4.jpg";
+import caseOrien from "@/assets/case-orien.jpg";
+import caseFourdev from "@/assets/case-fourdev.jpg";
+import caseDebtor from "@/assets/case-debtor.jpg";
+import caseIntegver from "@/assets/case-integver.jpg";
+import caseEateasy from "@/assets/case-eateasy.jpg";
+import caseTesla from "@/assets/case-tesla.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
