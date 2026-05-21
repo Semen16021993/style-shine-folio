@@ -332,6 +332,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
   orien: {
     title: "Orien.AI — Crypto Wallet",
     body: <CaseStudy
+      cover={caseOrien}
       tag="Криптовалютный кошелёк · part-time"
       period="май 2025 — январь 2026"
       lead="End-to-end путь пользователя для цифровых активов с прозрачными статусами операций."
@@ -351,6 +352,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
   fourdev: {
     title: "4DEV.tech — IT-экосистема",
     body: <CaseStudy
+      cover={caseFourdev}
       tag="SaaS для девелопмента · full-time"
       period="декабрь 2023 — март 2025"
       lead="Комплексная автоматизация девелоперского бизнеса: интерфейсы, архитектура, дизайн-система."
@@ -370,6 +372,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
   debtor: {
     title: "Должник прав — Mobile App",
     body: <CaseStudy
+      cover={caseDebtor}
       tag="Юридическая компания · part-time"
       period="февраль 2023 — декабрь 2023"
       lead="Мобильное приложение для услуг финансовой защиты."
@@ -390,6 +393,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
   integver: {
     title: "Integver.tech — Студия",
     body: <CaseStudy
+      cover={caseIntegver}
       tag="Студия полного цикла · full-time"
       period="апрель 2021 — февраль 2023"
       lead="Более 20 проектов: нефтегаз, агросектор, госсектор, образование."
@@ -409,6 +413,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
   eateasy: {
     title: "EatEasy — пет-проект",
     body: <CaseStudy
+      cover={caseEateasy}
       tag="Агрегатор бронирования столов · pet"
       period="2024"
       lead="EatEasy — сервис для бронирования столов в ресторанах. Создан совместно с владельцами продукта."
@@ -428,6 +433,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
   tesla: {
     title: "Tesla Team — учебный проект",
     body: <CaseStudy
+      cover={caseTesla}
       tag="Арт-дирекшн цифрового продукта · Bang Bang Education"
       period="2024"
       lead="Концепт инструмента для управления командой Tesla — с акцентом на роль дизайна в бизнес-модели."
