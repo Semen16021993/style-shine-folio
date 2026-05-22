@@ -76,9 +76,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "Портфолио продуктового дизайнера: B2B/B2C, SaaS, дизайн-системы, мобильные приложения." },
       { name: "author", content: "Daria Vereskunova" },
       { property: "og:title", content: "Дарья Верескунова — Продуктовый дизайнер" },
-      { property: "og:description", content: "Проектирую сложные цифровые продукты, которые решают реальные бизнес-задачи." },
+      { property: "og:description", content: "Портфолио продуктового дизайнера: B2B/B2C, SaaS, дизайн-системы, мобильные приложения." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Дарья Верескунова — Продуктовый дизайнер" },
+      { name: "twitter:description", content: "Портфолио продуктового дизайнера: B2B/B2C, SaaS, дизайн-системы, мобильные приложения." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/fdbff686-12ab-4db8-955c-5f1129076811/id-preview-da4b170d--62832352-3947-4eb8-aa69-225a7150bcde.lovable.app-1779362281232.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/fdbff686-12ab-4db8-955c-5f1129076811/id-preview-da4b170d--62832352-3947-4eb8-aa69-225a7150bcde.lovable.app-1779362281232.png" },
     ],
     links: [
       {
