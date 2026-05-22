@@ -154,7 +154,7 @@ function MenuBar({ focused }: { focused: WindowId | null }) {
       <div className="flex items-center gap-3">
         <img src={memoji} alt="" className="size-6 rounded-full object-cover" />
         <span className="font-semibold">Daria Vereskunova</span>
-        <span className="hidden sm:inline text-ink/70">{focused ? `— ${focused}` : "Finder"}</span>
+        <span className="hidden sm:inline text-ink/70">Product Designer</span>
       </div>
       <div className="flex items-center gap-4 font-mono">
         <a href="https://t.me/Darialud" className="hover:text-coral">TG</a>
