@@ -57,7 +57,7 @@ const items: DesktopItem[] = [
   { id: "fourdev", label: "4dev", icon: "folder", color: "#7FB3D5", x: 60, y: 52 },
   { id: "debtor", label: "Должник прав", icon: "folder", color: "#7FB3D5", x: 60, y: 72 },
   // Center-left column
-  { id: "cv", label: "CV", icon: "folder", color: "#7FB3D5", x: 38, y: 62 },
+  { id: "cv", label: "CV", icon: "pdf", x: 38, y: 62 },
   { id: "gallery", label: "Галерея", icon: "gallery", x: 38, y: 82 },
 ];
 
@@ -114,7 +114,7 @@ function Desktop() {
           onOpen={() => {
             if (item.disabled) return;
             if (item.id === "cv") {
-              window.open("/cv-daria-vereskunova.pdf", "_blank", "noopener,noreferrer");
+              window.open("https://docs.google.com/document/d/12Lyzo4MLM1DhmpTNTif1u9eAyQeliljbuUQ1dLv_KlE/edit?tab=t.0", "_blank", "noopener,noreferrer");
               return;
             }
             openWindow(item.id as WindowId);
@@ -154,7 +154,7 @@ function MenuBar({ focused }: { focused: WindowId | null }) {
       <div className="flex items-center gap-3">
         <img src={memoji} alt="" className="size-6 rounded-full object-cover" />
         <span className="font-semibold">Daria Vereskunova</span>
-        <span className="hidden sm:inline text-ink/70">{focused ? `— ${focused}` : "Finder"}</span>
+        <span className="hidden sm:inline text-ink/70">Product Designer</span>
       </div>
       <div className="flex items-center gap-4 font-mono">
         <a href="https://t.me/Darialud" className="hover:text-coral">TG</a>
@@ -223,9 +223,17 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
   }
   if (icon === "pdf") {
     return (
-      <div className="w-20 h-24 bg-white shadow-xl rounded-sm relative flex items-end justify-center pb-2 drop-shadow-xl">
-        <div className="absolute top-2 right-2 w-5 h-5 bg-ink/10" />
-        <span className="text-[13px] font-bold text-coral">PDF</span>
+      <div className="w-20 h-24 bg-white shadow-xl rounded-md relative drop-shadow-xl overflow-hidden">
+        <div className="absolute top-0 right-0 w-6 h-6 bg-ink/10" style={{ clipPath: "polygon(0 0, 100% 100%, 100% 0)" }} />
+        <div className="absolute inset-x-2 top-8 space-y-1.5">
+          <div className="h-[2px] bg-ink/30 w-full" />
+          <div className="h-[2px] bg-ink/20 w-5/6" />
+          <div className="h-[2px] bg-ink/20 w-full" />
+          <div className="h-[2px] bg-ink/20 w-2/3" />
+          <div className="h-[2px] bg-ink/20 w-full" />
+          <div className="h-[2px] bg-ink/20 w-4/6" />
+        </div>
+        <div className="absolute bottom-1.5 inset-x-0 text-center text-[10px] font-bold tracking-wider text-coral">DOC</div>
       </div>
     );
   }
