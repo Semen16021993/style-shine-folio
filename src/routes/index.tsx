@@ -112,7 +112,12 @@ function Desktop() {
           item={item}
           delay={0.5 + i * 0.05}
           onOpen={() => {
-            if (!item.disabled) openWindow(item.id as WindowId);
+            if (item.disabled) return;
+            if (item.id === "cv") {
+              window.open("/cv-daria-vereskunova.pdf", "_blank", "noopener,noreferrer");
+              return;
+            }
+            openWindow(item.id as WindowId);
           }}
         />
       ))}
