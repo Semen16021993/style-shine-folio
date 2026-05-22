@@ -208,11 +208,7 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
     );
   }
   if (icon === "photoshop") {
-    return (
-      <div className="w-24 h-24 rounded-[22%] grid place-items-center drop-shadow-xl border-[3px] border-[#31a8ff]" style={{ background: "#001e36" }}>
-        <span className="font-display text-[#31a8ff] text-4xl font-bold leading-none">Ps</span>
-      </div>
-    );
+    return <img src={iconPhotoshop} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-cover" />;
   }
   if (icon === "note") {
     return (
