@@ -223,9 +223,17 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
   }
   if (icon === "pdf") {
     return (
-      <div className="w-20 h-24 bg-white shadow-xl rounded-sm relative flex items-end justify-center pb-2 drop-shadow-xl">
-        <div className="absolute top-2 right-2 w-5 h-5 bg-ink/10" />
-        <span className="text-[13px] font-bold text-coral">PDF</span>
+      <div className="w-20 h-24 bg-white shadow-xl rounded-md relative drop-shadow-xl overflow-hidden">
+        <div className="absolute top-0 right-0 w-6 h-6 bg-ink/10" style={{ clipPath: "polygon(0 0, 100% 100%, 100% 0)" }} />
+        <div className="absolute inset-x-2 top-8 space-y-1.5">
+          <div className="h-[2px] bg-ink/30 w-full" />
+          <div className="h-[2px] bg-ink/20 w-5/6" />
+          <div className="h-[2px] bg-ink/20 w-full" />
+          <div className="h-[2px] bg-ink/20 w-2/3" />
+          <div className="h-[2px] bg-ink/20 w-full" />
+          <div className="h-[2px] bg-ink/20 w-4/6" />
+        </div>
+        <div className="absolute bottom-1.5 inset-x-0 text-center text-[10px] font-bold tracking-wider text-coral">DOC</div>
       </div>
     );
   }
