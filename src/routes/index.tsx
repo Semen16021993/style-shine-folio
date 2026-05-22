@@ -7,8 +7,9 @@ import gallery2 from "@/assets/gallery-2.jpg";
 import gallery3 from "@/assets/gallery-3.jpg";
 import gallery4 from "@/assets/gallery-4.jpg";
 import memoji from "@/assets/memoji.jpg";
-import iconPhotos from "@/assets/icon-photos.jpg";
+import iconPhotos from "@/assets/icon-photos.png";
 import iconPhotoshop from "@/assets/icon-photoshop.png";
+import iconFigma from "@/assets/icon-figma.png";
 import caseOrien from "@/assets/case-orien.jpg";
 import orien2 from "@/assets/orien-2.jpg";
 import caseFourdev from "@/assets/case-fourdev.jpg";
@@ -48,15 +49,16 @@ interface DesktopItem {
 }
 
 const items: DesktopItem[] = [
-  // Right column — case folders
-  { id: "fourdev", label: "4Dev 2023–2025", icon: "folder", color: "#7FB3D5", x: 87, y: 22 },
-  { id: "orien", label: "Crypto Orien.AI 2025–2026", icon: "folder", color: "var(--coral)", x: 87, y: 48 },
-  { id: "debtor", label: "Должник прав 2023", icon: "folder", color: "#A8C49D", x: 87, y: 74 },
-  // Bottom row — utility / tools
-  { id: "gallery", label: "Галерея", icon: "gallery", x: 70, y: 90 },
-  { id: "figma", label: "Figma", icon: "figma", x: 55, y: 90, disabled: true },
-  { id: "photoshop", label: "Photoshop", icon: "photoshop", x: 40, y: 90, disabled: true },
-  { id: "cv", label: "CV_2026.pdf", icon: "pdf", x: 10, y: 90 },
+  // Top-right corner — tools
+  { id: "photoshop", label: "Adobe Photoshop 2026", icon: "photoshop", x: 95, y: 10, disabled: true },
+  { id: "figma", label: "Figma", icon: "figma", x: 95, y: 26, disabled: true },
+  // Center-right column — case folders
+  { id: "orien", label: "Crypto", icon: "folder", color: "#7FB3D5", x: 60, y: 32 },
+  { id: "fourdev", label: "4dev", icon: "folder", color: "#7FB3D5", x: 60, y: 52 },
+  { id: "debtor", label: "Должник прав", icon: "folder", color: "#7FB3D5", x: 60, y: 72 },
+  // Center-left column
+  { id: "cv", label: "CV", icon: "folder", color: "#7FB3D5", x: 38, y: 62 },
+  { id: "gallery", label: "Галерея", icon: "gallery", x: 38, y: 82 },
 ];
 
 function Desktop() {
@@ -110,7 +112,12 @@ function Desktop() {
           item={item}
           delay={0.5 + i * 0.05}
           onOpen={() => {
-            if (!item.disabled) openWindow(item.id as WindowId);
+            if (item.disabled) return;
+            if (item.id === "cv") {
+              window.open("/cv-daria-vereskunova.pdf", "_blank", "noopener,noreferrer");
+              return;
+            }
+            openWindow(item.id as WindowId);
           }}
         />
       ))}
@@ -196,17 +203,7 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
     return <img src={iconPhotos} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-cover" />;
   }
   if (icon === "figma") {
-    return (
-      <div className="w-20 h-24 rounded-2xl bg-white shadow-xl grid place-items-center drop-shadow-xl">
-        <svg viewBox="0 0 38 57" className="w-12 h-16">
-          <path fill="#1abcfe" d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z"/>
-          <path fill="#0acf83" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z"/>
-          <path fill="#ff7262" d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z"/>
-          <path fill="#f24e1e" d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z"/>
-          <path fill="#a259ff" d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z"/>
-        </svg>
-      </div>
-    );
+    return <img src={iconFigma} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-cover" />;
   }
   if (icon === "photoshop") {
     return <img src={iconPhotoshop} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-cover" />;
@@ -244,13 +241,6 @@ function Window({ id, zIndex, onClose, onFocus }: {
   id: WindowId; zIndex: number; onClose: () => void; onFocus: () => void;
 }) {
   const config = windowConfig[id];
-  const offsets: Record<WindowId, { x: number; y: number }> = {
-    about: { x: -200, y: -120 }, orien: { x: -180, y: -140 },
-    fourdev: { x: -160, y: -100 }, debtor: { x: -220, y: -80 },
-    skills: { x: -240, y: -90 },
-    contact: { x: -120, y: -110 }, cv: { x: -200, y: -120 },
-    gallery: { x: -260, y: -130 },
-  };
   return (
     <motion.div
       drag
@@ -261,12 +251,8 @@ function Window({ id, zIndex, onClose, onFocus }: {
       exit={{ opacity: 0, scale: 0.85 }}
       transition={{ type: "spring", stiffness: 280, damping: 24 }}
       onMouseDown={onFocus}
-      style={{
-        zIndex,
-        left: `calc(50% + ${offsets[id].x}px)`,
-        top: `calc(50% + ${offsets[id].y}px)`,
-      }}
-      className="absolute w-[min(720px,92vw)] max-h-[82vh] bg-paper/95 backdrop-blur-xl rounded-xl overflow-hidden shadow-2xl border border-white/40"
+      style={{ zIndex }}
+      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(820px,92vw)] max-h-[82vh] bg-paper/95 backdrop-blur-xl rounded-xl overflow-hidden shadow-2xl border border-white/40"
     >
       <div className="h-9 px-3 flex items-center gap-2 bg-gradient-to-b from-white/80 to-white/50 border-b border-ink/10 cursor-grab active:cursor-grabbing">
         <button onClick={onClose} className="size-3 rounded-full bg-[#ff5f57] hover:opacity-80" aria-label="Close" />
