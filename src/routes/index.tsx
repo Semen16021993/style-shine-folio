@@ -198,17 +198,7 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
     return <img src={iconPhotos} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-cover" />;
   }
   if (icon === "figma") {
-    return (
-      <div className="w-20 h-24 rounded-2xl bg-white shadow-xl grid place-items-center drop-shadow-xl">
-        <svg viewBox="0 0 38 57" className="w-12 h-16">
-          <path fill="#1abcfe" d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z"/>
-          <path fill="#0acf83" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z"/>
-          <path fill="#ff7262" d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z"/>
-          <path fill="#f24e1e" d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z"/>
-          <path fill="#a259ff" d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z"/>
-        </svg>
-      </div>
-    );
+    return <img src={iconFigma} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-cover" />;
   }
   if (icon === "photoshop") {
     return <img src={iconPhotoshop} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-cover" />;
