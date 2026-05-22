@@ -200,13 +200,25 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
     );
   }
   if (icon === "gallery") {
-    return <img src={iconPhotos} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-cover" />;
+    return (
+      <div className="w-24 h-24 grid place-items-center">
+        <img src={iconPhotos} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-contain" />
+      </div>
+    );
   }
   if (icon === "figma") {
-    return <img src={iconFigma} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-cover" />;
+    return (
+      <div className="w-24 h-24 grid place-items-center">
+        <img src={iconFigma} alt="" className="max-w-full max-h-full drop-shadow-xl object-contain" />
+      </div>
+    );
   }
   if (icon === "photoshop") {
-    return <img src={iconPhotoshop} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-cover" />;
+    return (
+      <div className="w-24 h-24 grid place-items-center">
+        <img src={iconPhotoshop} alt="" className="max-w-full max-h-full drop-shadow-xl object-contain" />
+      </div>
+    );
   }
   if (icon === "note") {
     return (
