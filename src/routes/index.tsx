@@ -114,7 +114,7 @@ function Desktop() {
           onOpen={() => {
             if (item.disabled) return;
             if (item.id === "cv") {
-              window.open("/cv-daria-vereskunova.pdf", "_blank", "noopener,noreferrer");
+              window.open("https://docs.google.com/document/d/12Lyzo4MLM1DhmpTNTif1u9eAyQeliljbuUQ1dLv_KlE/edit?tab=t.0", "_blank", "noopener,noreferrer");
               return;
             }
             openWindow(item.id as WindowId);
