@@ -57,7 +57,7 @@ const items: DesktopItem[] = [
   { id: "fourdev", label: "4dev", icon: "folder", color: "#7FB3D5", x: 60, y: 52 },
   { id: "debtor", label: "Должник прав", icon: "folder", color: "#7FB3D5", x: 60, y: 72 },
   // Center-left column
-  { id: "cv", label: "CV", icon: "folder", color: "#7FB3D5", x: 38, y: 62 },
+  { id: "cv", label: "CV", icon: "pdf", x: 38, y: 62 },
   { id: "gallery", label: "Галерея", icon: "gallery", x: 38, y: 82 },
 ];
 
