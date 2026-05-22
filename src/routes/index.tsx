@@ -8,6 +8,7 @@ import gallery3 from "@/assets/gallery-3.jpg";
 import gallery4 from "@/assets/gallery-4.jpg";
 import memoji from "@/assets/memoji.jpg";
 import iconPhotos from "@/assets/icon-photos.jpg";
+import iconPhotoshop from "@/assets/icon-photoshop.png";
 import caseOrien from "@/assets/case-orien.jpg";
 import orien2 from "@/assets/orien-2.jpg";
 import caseFourdev from "@/assets/case-fourdev.jpg";
@@ -47,19 +48,15 @@ interface DesktopItem {
 }
 
 const items: DesktopItem[] = [
-  // Right column — case folders (bigger, fewer)
-  { id: "fourdev", label: "4Dev 2023–2025", icon: "folder", color: "#7FB3D5", x: 87, y: 18 },
-  { id: "orien", label: "Crypto Orien.AI 2025–2026", icon: "folder", color: "var(--coral)", x: 87, y: 42 },
-  { id: "debtor", label: "Должник прав 2023", icon: "folder", color: "#A8C49D", x: 87, y: 66 },
-  // Bottom row — utility / non-clickable tools
-  { id: "gallery", label: "Галерея", icon: "gallery", x: 72, y: 88 },
-  { id: "figma", label: "Figma", icon: "figma", x: 58, y: 88, disabled: true },
-  { id: "photoshop", label: "Photoshop", icon: "photoshop", x: 44, y: 88, disabled: true },
-  { id: "about", label: "Обо мне.txt", icon: "note", x: 30, y: 88 },
-  // Left column
-  { id: "skills", label: "Навыки.app", icon: "app", x: 10, y: 50 },
-  { id: "contact", label: "Связаться", icon: "app", x: 10, y: 70 },
-  { id: "cv", label: "CV_2026.pdf", icon: "pdf", x: 10, y: 88 },
+  // Right column — case folders
+  { id: "fourdev", label: "4Dev 2023–2025", icon: "folder", color: "#7FB3D5", x: 87, y: 22 },
+  { id: "orien", label: "Crypto Orien.AI 2025–2026", icon: "folder", color: "var(--coral)", x: 87, y: 48 },
+  { id: "debtor", label: "Должник прав 2023", icon: "folder", color: "#A8C49D", x: 87, y: 74 },
+  // Bottom row — utility / tools
+  { id: "gallery", label: "Галерея", icon: "gallery", x: 70, y: 90 },
+  { id: "figma", label: "Figma", icon: "figma", x: 55, y: 90, disabled: true },
+  { id: "photoshop", label: "Photoshop", icon: "photoshop", x: 40, y: 90, disabled: true },
+  { id: "cv", label: "CV_2026.pdf", icon: "pdf", x: 10, y: 90 },
 ];
 
 function Desktop() {
@@ -212,11 +209,7 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
     );
   }
   if (icon === "photoshop") {
-    return (
-      <div className="w-24 h-24 rounded-[22%] grid place-items-center drop-shadow-xl border-[3px] border-[#31a8ff]" style={{ background: "#001e36" }}>
-        <span className="font-display text-[#31a8ff] text-4xl font-bold leading-none">Ps</span>
-      </div>
-    );
+    return <img src={iconPhotoshop} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-cover" />;
   }
   if (icon === "note") {
     return (
