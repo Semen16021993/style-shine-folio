@@ -122,6 +122,8 @@ function Desktop() {
         />
       ))}
 
+      <WalkingCat />
+
       {/* Windows */}
       <AnimatePresence>
         {open.map((id, i) => (
