@@ -140,6 +140,52 @@ function Desktop() {
   );
 }
 
+function WalkingCat() {
+  return (
+    <motion.div
+      className="absolute bottom-6 z-[60] pointer-events-none"
+      initial={{ x: "100vw" }}
+      animate={{ x: "-160px" }}
+      transition={{ duration: 28, repeat: Infinity, ease: "linear", repeatDelay: 6 }}
+      style={{ left: 0 }}
+    >
+      <motion.svg
+        viewBox="0 0 160 90"
+        className="w-32 h-20 drop-shadow-2xl"
+        style={{ transform: "scaleX(-1)" }}
+        animate={{ y: [0, -2, 0, -1, 0] }}
+        transition={{ duration: 0.6, repeat: Infinity, ease: "easeInOut" }}
+      >
+        {/* tail */}
+        <motion.path
+          d="M20 55 Q5 45 10 25"
+          stroke="#0a0a0a" strokeWidth="6" strokeLinecap="round" fill="none"
+          animate={{ d: ["M20 55 Q5 45 10 25", "M20 55 Q2 50 6 30", "M20 55 Q5 45 10 25"] }}
+          transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+        />
+        {/* body */}
+        <ellipse cx="70" cy="58" rx="44" ry="18" fill="#0a0a0a" />
+        {/* head */}
+        <circle cx="118" cy="46" r="18" fill="#0a0a0a" />
+        {/* ears */}
+        <polygon points="105,32 108,18 117,30" fill="#0a0a0a" />
+        <polygon points="125,28 130,16 133,32" fill="#0a0a0a" />
+        {/* eye */}
+        <circle cx="124" cy="45" r="2" fill="#9bff5a" />
+        {/* legs (animated) */}
+        <motion.rect x="40" y="68" width="6" height="18" rx="2" fill="#0a0a0a"
+          animate={{ y: [68, 64, 68] }} transition={{ duration: 0.4, repeat: Infinity, ease: "easeInOut" }} />
+        <motion.rect x="58" y="68" width="6" height="18" rx="2" fill="#0a0a0a"
+          animate={{ y: [68, 68, 64] }} transition={{ duration: 0.4, repeat: Infinity, ease: "easeInOut" }} />
+        <motion.rect x="86" y="68" width="6" height="18" rx="2" fill="#0a0a0a"
+          animate={{ y: [64, 68, 68] }} transition={{ duration: 0.4, repeat: Infinity, ease: "easeInOut" }} />
+        <motion.rect x="104" y="68" width="6" height="18" rx="2" fill="#0a0a0a"
+          animate={{ y: [68, 64, 68] }} transition={{ duration: 0.4, repeat: Infinity, ease: "easeInOut" }} />
+      </motion.svg>
+    </motion.div>
+  );
+}
+
 function MenuBar({ focused }: { focused: WindowId | null }) {
   const [time, setTime] = useState("");
   useEffect(() => {
