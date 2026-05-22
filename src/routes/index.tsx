@@ -241,13 +241,6 @@ function Window({ id, zIndex, onClose, onFocus }: {
   id: WindowId; zIndex: number; onClose: () => void; onFocus: () => void;
 }) {
   const config = windowConfig[id];
-  const offsets: Record<WindowId, { x: number; y: number }> = {
-    about: { x: -200, y: -120 }, orien: { x: -180, y: -140 },
-    fourdev: { x: -160, y: -100 }, debtor: { x: -220, y: -80 },
-    skills: { x: -240, y: -90 },
-    contact: { x: -120, y: -110 }, cv: { x: -200, y: -120 },
-    gallery: { x: -260, y: -130 },
-  };
   return (
     <motion.div
       drag
@@ -258,12 +251,8 @@ function Window({ id, zIndex, onClose, onFocus }: {
       exit={{ opacity: 0, scale: 0.85 }}
       transition={{ type: "spring", stiffness: 280, damping: 24 }}
       onMouseDown={onFocus}
-      style={{
-        zIndex,
-        left: `calc(50% + ${offsets[id].x}px)`,
-        top: `calc(50% + ${offsets[id].y}px)`,
-      }}
-      className="absolute w-[min(720px,92vw)] max-h-[82vh] bg-paper/95 backdrop-blur-xl rounded-xl overflow-hidden shadow-2xl border border-white/40"
+      style={{ zIndex }}
+      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(820px,92vw)] max-h-[82vh] bg-paper/95 backdrop-blur-xl rounded-xl overflow-hidden shadow-2xl border border-white/40"
     >
       <div className="h-9 px-3 flex items-center gap-2 bg-gradient-to-b from-white/80 to-white/50 border-b border-ink/10 cursor-grab active:cursor-grabbing">
         <button onClick={onClose} className="size-3 rounded-full bg-[#ff5f57] hover:opacity-80" aria-label="Close" />
