@@ -272,7 +272,7 @@ function Window({ id, zIndex, onClose, onFocus }: {
       transition={{ type: "spring", stiffness: 280, damping: 24 }}
       onMouseDown={onFocus}
       style={{ zIndex }}
-      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(820px,92vw)] max-h-[82vh] bg-paper/95 backdrop-blur-xl rounded-xl overflow-hidden shadow-2xl border border-white/40"
+      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(820px,92vw)] max-h-[82vh] bg-white rounded-xl overflow-hidden shadow-2xl border border-ink/10"
     >
       <div className="h-9 px-3 flex items-center gap-2 bg-gradient-to-b from-white/80 to-white/50 border-b border-ink/10 cursor-grab active:cursor-grabbing">
         <button onClick={onClose} className="size-3 rounded-full bg-[#ff5f57] hover:opacity-80" aria-label="Close" />
