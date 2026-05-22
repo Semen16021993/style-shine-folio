@@ -7,8 +7,9 @@ import gallery2 from "@/assets/gallery-2.jpg";
 import gallery3 from "@/assets/gallery-3.jpg";
 import gallery4 from "@/assets/gallery-4.jpg";
 import memoji from "@/assets/memoji.jpg";
-import iconPhotos from "@/assets/icon-photos.jpg";
+import iconPhotos from "@/assets/icon-photos.png";
 import iconPhotoshop from "@/assets/icon-photoshop.png";
+import iconFigma from "@/assets/icon-figma.png";
 import caseOrien from "@/assets/case-orien.jpg";
 import orien2 from "@/assets/orien-2.jpg";
 import caseFourdev from "@/assets/case-fourdev.jpg";
@@ -48,15 +49,16 @@ interface DesktopItem {
 }
 
 const items: DesktopItem[] = [
-  // Right column — case folders
-  { id: "fourdev", label: "4Dev 2023–2025", icon: "folder", color: "#7FB3D5", x: 87, y: 22 },
-  { id: "orien", label: "Crypto Orien.AI 2025–2026", icon: "folder", color: "var(--coral)", x: 87, y: 48 },
-  { id: "debtor", label: "Должник прав 2023", icon: "folder", color: "#A8C49D", x: 87, y: 74 },
-  // Bottom row — utility / tools
-  { id: "gallery", label: "Галерея", icon: "gallery", x: 70, y: 90 },
-  { id: "figma", label: "Figma", icon: "figma", x: 55, y: 90, disabled: true },
-  { id: "photoshop", label: "Photoshop", icon: "photoshop", x: 40, y: 90, disabled: true },
-  { id: "cv", label: "CV_2026.pdf", icon: "pdf", x: 10, y: 90 },
+  // Top-right corner — tools
+  { id: "photoshop", label: "Adobe Photoshop 2026", icon: "photoshop", x: 95, y: 10, disabled: true },
+  { id: "figma", label: "Figma", icon: "figma", x: 95, y: 26, disabled: true },
+  // Center-right column — case folders
+  { id: "orien", label: "Crypto", icon: "folder", color: "#7FB3D5", x: 60, y: 32 },
+  { id: "fourdev", label: "4dev", icon: "folder", color: "#7FB3D5", x: 60, y: 52 },
+  { id: "debtor", label: "Должник прав", icon: "folder", color: "#7FB3D5", x: 60, y: 72 },
+  // Center-left column
+  { id: "cv", label: "CV", icon: "folder", color: "#7FB3D5", x: 38, y: 62 },
+  { id: "gallery", label: "Галерея", icon: "gallery", x: 38, y: 82 },
 ];
 
 function Desktop() {
