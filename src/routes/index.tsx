@@ -620,7 +620,7 @@ function FourDevCase() {
       </div>
 
       {/* Highlighted teaser */}
-      <p className="text-ink/60 text-gray-500 font-sans text-left font-semibold text-lg">
+      <p className="text-ink/60 font-sans font-semibold text-base text-green-700 text-center">
         Вот несколько наглядных примеров UX-решений, которые привели к успеху!
       </p>
 
