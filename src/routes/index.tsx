@@ -24,6 +24,12 @@ import caseDebtor from "@/assets/case-debtor.jpg";
 import debtor2 from "@/assets/debtor-2.jpg";
 import debtor3 from "@/assets/debtor-3.jpg";
 import debtor4 from "@/assets/debtor-4.jpg";
+import cryptoCover from "@/assets/crypto-cover.png";
+import cryptoBM from "@/assets/crypto-bm.png";
+import cryptoMaket from "@/assets/crypto-maket.png";
+import cryptoThemes from "@/assets/crypto-themes.png";
+import cryptoColors from "@/assets/crypto-colors.png";
+import cryptoDetails from "@/assets/crypto-details.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -238,7 +244,7 @@ function MenuBar({ focused }: { focused: WindowId | null }) {
     <div className="absolute top-0 inset-x-0 z-[100] h-8 bg-white/40 backdrop-blur-2xl border-b border-white/30 flex items-center justify-between px-4 text-xs text-ink">
       <div className="flex items-center gap-3">
         <img src={memoji} alt="" className="size-6 rounded-full object-cover" />
-        <span className="font-semibold">Product Designer</span>
+        <span className="font-semibold">Product Designer · Дарья Верескунова</span>
         <span className="hidden sm:inline text-ink/70"></span>
       </div>
       <div className="flex items-center gap-4 font-mono">
@@ -392,39 +398,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
   },
   orien: {
     title: "Crypto Orien.AI 2025–2026 — Crypto Wallet",
-    body: <CaseStudy
-      cover={caseOrien}
-      tag="Криптокошелёк · part-time"
-      period="2025 — 2026"
-      lead="Мобильный криптокошелёк ранней стадии: end-to-end путь пользователя от регистрации до первой операции."
-      sections={[
-        {
-          h: "Контекст и задачи",
-          p: "Crypto Orien.AI — мобильный криптокошелёк ранней стадии, созданный в условиях высокой конкуренции и низкого пользовательского доверия к новым Web3-продуктам. Основная аудитория — пользователи, уже знакомые с криптовалютой, но не удовлетворённые сложностью существующих решений.",
-        },
-      ]}
-      image={orien2}
-      imageCaption="Swap и Buy/Sell — экраны ключевых финансовых операций"
-      problems={[
-        "Пользователи останавливались на этапе создания кошелька",
-        "Страх подтверждать операции",
-        "Мало пользователей доходили до целевых действий",
-      ]}
-      did={[
-        "Спроектировала end-to-end user flow от регистрации до первой операции",
-        "Проработала нештатные сценарии: ошибки, задержки, отклонения",
-        "Оптимизировала шаги до первой финансовой операции",
-        "Снизила когнитивную нагрузку на этапе подтверждения",
-        "Создала систему токенов и переменных для тем и состояний",
-        "Заложила масштабируемый UI-kit как основу дизайн-системы",
-      ]}
-      results={[
-        "Спроектирован end-to-end путь с прозрачными статусами операций",
-        "Внедрена единая система статусов и UI-kit, готовая к масштабированию",
-        "Интерфейс снижает неопределённость и повышает доверие к финансовым операциям",
-        "Подготовлена архитектура для роста конверсии и уменьшения drop-off",
-      ]}
-    />,
+    body: <OrienCase />,
   },
   debtor: {
     title: "Должник прав 2023 — Mobile App",
@@ -609,20 +583,15 @@ function FourDevCase() {
       </div>
 
       {/* Page 2 — клиенты + donut */}
-      <figure className="space-y-2">
-        <motion.img
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          src={fourdev2}
-          alt="Реестр клиентов и аналитика"
-          loading="lazy"
-          className={fullImg}
-        />
-        <figcaption className={cap}>
-          <sup className="mr-1">*</sup>Дополнительный комментарий: фрагмент рабочего интерфейса — реестр клиентов и распределение по статусам.
-        </figcaption>
-      </figure>
+      <motion.img
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        src={fourdev2}
+        alt="Реестр клиентов и аналитика"
+        loading="lazy"
+        className={fullImg}
+      />
 
       {/* Анализ текущего продукта */}
       <div>
