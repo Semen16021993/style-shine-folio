@@ -135,6 +135,7 @@ function Desktop() {
       ))}
 
       <ZoomCall />
+      <Dock onOpen={openWindow} />
 
       {/* Windows */}
       <AnimatePresence>
