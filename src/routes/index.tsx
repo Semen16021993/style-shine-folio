@@ -31,7 +31,7 @@ import cryptoThemes from "@/assets/crypto-themes.png";
 import cryptoColors from "@/assets/crypto-colors.png";
 import cryptoDetails from "@/assets/crypto-details.png";
 
-// Click sound feedback (Web Audio — no asset needed)
+// Click sound feedback — iOS-style soft tap (Web Audio, no asset needed)
 let _audioCtx: AudioContext | null = null;
 function playTap() {
   if (typeof window === "undefined") return;
@@ -40,17 +40,32 @@ function playTap() {
     const ctx = _audioCtx!;
     if (ctx.state === "suspended") ctx.resume();
     const now = ctx.currentTime;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = "triangle";
-    osc.frequency.setValueAtTime(880, now);
-    osc.frequency.exponentialRampToValueAtTime(420, now + 0.09);
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(0.18, now + 0.008);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
-    osc.connect(gain).connect(ctx.destination);
-    osc.start(now);
-    osc.stop(now + 0.13);
+
+    // iOS-style tap: soft sine tone + micro "click" brightness
+    const toneOsc = ctx.createOscillator();
+    const toneGain = ctx.createGain();
+    toneOsc.type = "sine";
+    toneOsc.frequency.setValueAtTime(900, now);
+    toneOsc.frequency.exponentialRampToValueAtTime(380, now + 0.07);
+    toneGain.gain.setValueAtTime(0.0001, now);
+    toneGain.gain.exponentialRampToValueAtTime(0.14, now + 0.003);
+    toneGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.10);
+    toneOsc.connect(toneGain).connect(ctx.destination);
+    toneOsc.start(now);
+    toneOsc.stop(now + 0.11);
+
+    // Subtle click layer for that crisp iOS feel
+    const clickOsc = ctx.createOscillator();
+    const clickGain = ctx.createGain();
+    clickOsc.type = "sine";
+    clickOsc.frequency.setValueAtTime(1600, now);
+    clickOsc.frequency.exponentialRampToValueAtTime(800, now + 0.02);
+    clickGain.gain.setValueAtTime(0.0001, now);
+    clickGain.gain.exponentialRampToValueAtTime(0.06, now + 0.001);
+    clickGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.025);
+    clickOsc.connect(clickGain).connect(ctx.destination);
+    clickOsc.start(now);
+    clickOsc.stop(now + 0.03);
   } catch {}
 }
 
