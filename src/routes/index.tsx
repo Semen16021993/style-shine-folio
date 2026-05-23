@@ -57,9 +57,9 @@ const items: DesktopItem[] = [
   { id: "photoshop", label: "Adobe Photoshop 2026", icon: "photoshop", x: 95, y: 10, disabled: true },
   { id: "figma", label: "Figma", icon: "figma", x: 95, y: 26, disabled: true },
   // Center-right column — case folders
-  { id: "orien", label: "Crypto", icon: "folder", color: "#7FB3D5", x: 60, y: 32 },
-  { id: "fourdev", label: "4dev", icon: "folder", color: "#7FB3D5", x: 60, y: 52 },
-  { id: "debtor", label: "Должник прав", icon: "folder", color: "#7FB3D5", x: 60, y: 72 },
+  { id: "orien", label: "Сryptowallet 2025-26", icon: "folder", color: "#7FB3D5", x: 60, y: 32 },
+  { id: "fourdev", label: "4Dev.tech 2023-25", icon: "folder", color: "#7FB3D5", x: 60, y: 52 },
+  { id: "debtor", label: "Должник прав 2023", icon: "folder", color: "#7FB3D5", x: 60, y: 72 },
   // Center-left column
   { id: "cv", label: "CV", icon: "pdf", x: 38, y: 62 },
   { id: "gallery", label: "Галерея", icon: "gallery", x: 38, y: 82 },
@@ -126,7 +126,7 @@ function Desktop() {
         />
       ))}
 
-      <WalkingCat />
+      <ZoomCall />
 
       {/* Windows */}
       <AnimatePresence>
@@ -144,48 +144,81 @@ function Desktop() {
   );
 }
 
-function WalkingCat() {
+function ZoomCall() {
+  const participants = [
+    { name: "Дарья", color: "#e85d75", initials: "Д", speaking: true },
+    { name: "Алексей", color: "#7FB3D5", initials: "А" },
+    { name: "Мария", color: "#f4a261", initials: "М" },
+    { name: "Иван", color: "#88c9a1", initials: "И" },
+  ];
   return (
     <motion.div
-      className="absolute bottom-6 z-[60] pointer-events-none"
-      initial={{ x: "100vw" }}
-      animate={{ x: "-160px" }}
-      transition={{ duration: 28, repeat: Infinity, ease: "linear", repeatDelay: 6 }}
-      style={{ left: 0 }}
+      initial={{ opacity: 0, y: 20, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ delay: 0.8, type: "spring", stiffness: 180, damping: 20 }}
+      drag
+      dragMomentum={false}
+      className="absolute bottom-8 left-6 md:left-12 w-[320px] md:w-[360px] bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl border border-white/10 z-[55] cursor-grab active:cursor-grabbing"
+      style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.5)" }}
     >
-      <motion.svg
-        viewBox="0 0 160 90"
-        className="w-32 h-20 drop-shadow-2xl"
-        style={{ transform: "scaleX(-1)" }}
-        animate={{ y: [0, -2, 0, -1, 0] }}
-        transition={{ duration: 0.6, repeat: Infinity, ease: "easeInOut" }}
-      >
-        {/* tail */}
-        <motion.path
-          d="M20 55 Q5 45 10 25"
-          stroke="#0a0a0a" strokeWidth="6" strokeLinecap="round" fill="none"
-          animate={{ d: ["M20 55 Q5 45 10 25", "M20 55 Q2 50 6 30", "M20 55 Q5 45 10 25"] }}
-          transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
-        />
-        {/* body */}
-        <ellipse cx="70" cy="58" rx="44" ry="18" fill="#0a0a0a" />
-        {/* head */}
-        <circle cx="118" cy="46" r="18" fill="#0a0a0a" />
-        {/* ears */}
-        <polygon points="105,32 108,18 117,30" fill="#0a0a0a" />
-        <polygon points="125,28 130,16 133,32" fill="#0a0a0a" />
-        {/* eye */}
-        <circle cx="124" cy="45" r="2" fill="#9bff5a" />
-        {/* legs (animated) */}
-        <motion.rect x="40" y="68" width="6" height="18" rx="2" fill="#0a0a0a"
-          animate={{ y: [68, 64, 68] }} transition={{ duration: 0.4, repeat: Infinity, ease: "easeInOut" }} />
-        <motion.rect x="58" y="68" width="6" height="18" rx="2" fill="#0a0a0a"
-          animate={{ y: [68, 68, 64] }} transition={{ duration: 0.4, repeat: Infinity, ease: "easeInOut" }} />
-        <motion.rect x="86" y="68" width="6" height="18" rx="2" fill="#0a0a0a"
-          animate={{ y: [64, 68, 68] }} transition={{ duration: 0.4, repeat: Infinity, ease: "easeInOut" }} />
-        <motion.rect x="104" y="68" width="6" height="18" rx="2" fill="#0a0a0a"
-          animate={{ y: [68, 64, 68] }} transition={{ duration: 0.4, repeat: Infinity, ease: "easeInOut" }} />
-      </motion.svg>
+      {/* Header */}
+      <div className="h-7 px-3 flex items-center justify-between bg-[#2d2d2d] text-white/80 text-[11px]">
+        <div className="flex items-center gap-2">
+          <span className="size-2 rounded-full bg-red-500 animate-pulse" />
+          <span className="font-medium">Zoom Meeting · 00:14:32</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className="size-2.5 rounded-full bg-[#febc2e]" />
+          <span className="size-2.5 rounded-full bg-[#28c840]" />
+        </div>
+      </div>
+      {/* Grid */}
+      <div className="grid grid-cols-2 gap-1 p-1 bg-black">
+        {participants.map((p) => (
+          <div
+            key={p.name}
+            className={`relative aspect-video rounded-md flex items-center justify-center overflow-hidden ${p.speaking ? "ring-2 ring-[#28c840]" : ""}`}
+            style={{ background: `linear-gradient(135deg, ${p.color}, ${p.color}99)` }}
+          >
+            <div className="size-10 rounded-full bg-white/90 grid place-items-center font-display text-lg text-ink shadow">
+              {p.initials}
+            </div>
+            <div className="absolute bottom-1 left-1.5 text-[10px] text-white font-medium drop-shadow">
+              {p.name}
+            </div>
+            {p.speaking && (
+              <div className="absolute bottom-1 right-1.5 flex items-end gap-0.5 h-3">
+                {[0, 1, 2].map((i) => (
+                  <motion.span
+                    key={i}
+                    className="w-0.5 bg-[#28c840] rounded-full"
+                    animate={{ height: ["30%", "100%", "50%", "80%", "30%"] }}
+                    transition={{ duration: 0.9, repeat: Infinity, delay: i * 0.15 }}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      {/* Controls */}
+      <div className="h-11 px-3 flex items-center justify-center gap-2 bg-[#2d2d2d] border-t border-white/5">
+        {[
+          { icon: "🎙", bg: "bg-white/10" },
+          { icon: "📹", bg: "bg-white/10" },
+          { icon: "💬", bg: "bg-white/10" },
+          { icon: "🖥", bg: "bg-white/10" },
+          { icon: "✋", bg: "bg-white/10" },
+          { icon: "📞", bg: "bg-red-500" },
+        ].map((b, i) => (
+          <button
+            key={i}
+            className={`size-7 rounded-md ${b.bg} hover:bg-white/20 transition-colors grid place-items-center text-[12px]`}
+          >
+            {b.icon}
+          </button>
+        ))}
+      </div>
     </motion.div>
   );
 }
