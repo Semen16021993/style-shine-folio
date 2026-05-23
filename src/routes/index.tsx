@@ -31,6 +31,30 @@ import cryptoThemes from "@/assets/crypto-themes.png";
 import cryptoColors from "@/assets/crypto-colors.png";
 import cryptoDetails from "@/assets/crypto-details.png";
 
+// Click sound feedback (Web Audio — no asset needed)
+let _audioCtx: AudioContext | null = null;
+function playTap() {
+  if (typeof window === "undefined") return;
+  try {
+    _audioCtx ??= new (window.AudioContext || (window as any).webkitAudioContext)();
+    const ctx = _audioCtx!;
+    if (ctx.state === "suspended") ctx.resume();
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(880, now);
+    osc.frequency.exponentialRampToValueAtTime(420, now + 0.09);
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(0.18, now + 0.008);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.13);
+  } catch {}
+}
+
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -168,7 +192,7 @@ function Dock({ onOpen }: { onOpen: (id: WindowId) => void }) {
           whileHover={{ scale: 1.25, y: -8 }}
           whileTap={{ scale: 0.95 }}
           transition={{ type: "spring", stiffness: 400, damping: 18 }}
-          onClick={() => { if (!it.disabled) onOpen(it.id as WindowId); }}
+          onClick={() => { playTap(); if (!it.disabled) onOpen(it.id as WindowId); }}
           className="relative size-12 flex items-center justify-center group"
           title={it.label}
         >
@@ -301,7 +325,7 @@ function DesktopIcon({
       whileHover={{ scale: item.disabled ? 1 : 1.08, y: item.disabled ? 0 : -2 }}
       whileTap={{ scale: item.disabled ? 1 : 0.94 }}
       onDoubleClick={onOpen}
-      onClick={onOpen}
+      onClick={() => { if (!item.disabled) playTap(); onOpen(); }}
       disabled={item.disabled}
       style={{ left: `${item.x}%`, top: `${item.y}%` }}
       className={`absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 w-24 h-24 drop-shadow-xl rounded-[22%] text-base font-normal border-8 border-none border-slate-50 object-contain group ${item.disabled ? "cursor-default opacity-90" : "cursor-pointer"}`}
@@ -436,15 +460,23 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
   },
   debtor: {
     title: "Должник прав 2023 — Mobile App",
-    body: <CaseStudy
+      body: <CaseStudy
       cover={caseDebtor}
       tag="Юридическое мобильное приложение · part-time"
       period="2023"
-      lead="Мобильное приложение для клиентов в сложной финансовой ситуации. Работа строится через персональных менеджеров."
+      lead="Должник прав — цифровой юрист в кармане. Мобильное приложение для клиентов в сложной финансовой ситуации; работа строится через персональных менеджеров."
       sections={[
         {
-          h: "Бизнес-модель",
-          p: "Двухэтапная: 1) пользователь оплачивает тариф; 2) после оплаты открывается дело и начинается сопровождение. Ключевая точка роста — конверсия в оплату и дальнейшее удержание клиента в процессе сопровождения.",
+          h: "Контекст",
+          p: "Компания оказывает юридическую помощь людям с долговой нагрузкой. Бизнес-модель двухэтапная: 1) пользователь оплачивает тариф; 2) после оплаты открывается дело и начинается сопровождение. Ключевая точка роста — конверсия в оплату и дальнейшее удержание клиента в процессе сопровождения.",
+        },
+        {
+          h: "Задачи",
+          p: "Через дизайн повлиять на ключевые бизнес-метрики: увеличить Conv. to Pay и Completion Rate анкеты, снизить число обращений к менеджерам по статусам и документам, повысить ощущение контроля и прозрачности у клиента, упростить работу персональных менеджеров.",
+        },
+        {
+          h: "Анкета как «скрытый обязательный шаг»",
+          p: "Для запуска сопровождения требовалось заполнение подробной анкеты. Раньше она открывалась после регистрации и частично — уже в коммуникации с менеджером: пользователи откладывали её, возникали уточняющие звонки, оплаченное дело стартовало медленнее, росла нагрузка на менеджеров. Гипотеза: если встроить анкету в онбординг, объяснить ценность, разбить на этапы, добавить progress bar и автосохранение — пользователи будут чаще доводить её до конца, а Time to Case Start сократится.",
         },
       ]}
       image={debtor3}
@@ -452,27 +484,30 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
       problems={[
         "Пользователи не всегда понимали статус своего дела",
         "Анкеты заполнялись не с первого раза, к ним часто возвращались",
-        "Менеджеры тратили много времени на телефонные консультации",
-        "Оплата не была достаточно прозрачной и понятной",
+        "До 40% первичных звонков менеджеру были связаны с заполнением анкеты",
+        "Менеджеры тратили много времени на телефонные консультации и уточнения",
+        "Оплата — критичная бизнес-точка — не была достаточно прозрачной",
+        "Бизнес терял конверсию в оплату, скорость онбординга и операционную эффективность",
       ]}
       did={[
         "Провела анализ бизнес-процессов",
         "Участвовала в подготовке UX-исследования",
-        "Разработала пользовательские сценарии и структуру приложения",
+        "Разработала пользовательские сценарии",
+        "Спроектировала структуру приложения",
         "Продумала логику оплаты и анкеты",
         "Сформировала прототипы ключевых экранов",
         "Участвовала в анализе результатов тестирования",
       ]}
       gallery={[
-        { src: debtor2, cap: "Новая точка входа в анкету — встроена в онбординг" },
-        { src: debtor4, cap: "Проблемы → Гипотезы → Реализация" },
+        { src: debtor2, cap: "Новая точка входа в анкету — встроена в онбординг и регистрацию: Регистрация → Приветствие → Заполнение анкеты → Главная" },
+        { src: debtor4, cap: "Проблемы → Гипотезы → Реализация: обязательный шаг онбординга, прогресс-бар, подсказки внутри формы, автосохранение данных" },
       ]}
       results={[
-        "Conversion to Payment: +8 п.п. (с 41% до 49%)",
-        "Completion Rate анкеты: +22% (с 55% до 67%)",
+        "Conversion to Payment: +8 п.п. (с 41% до 49%) — за счёт упрощённого экрана оплаты и прозрачного статуса счёта",
+        "Completion Rate анкеты: +22% (с 55% до 67%) — разбивка на этапы, progress bar, сохранение промежуточных данных",
         "Среднее время прохождения анкеты: −18%",
-        "Количество входящих обращений на клиента: −27%",
-        "Time to Case Start: −24%",
+        "Количество входящих обращений на клиента: −27% — прозрачные этапы в «Моё дело», встроенные комментарии, структурированная загрузка документов",
+        "Time to Case Start: −24% — быстрее оплата, выше completion анкеты, меньше ручных уточнений",
       ]}
     />,
   },
