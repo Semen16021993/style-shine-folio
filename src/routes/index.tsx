@@ -551,7 +551,7 @@ function FourDevCase() {
         <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">2023 — 2025</span>
       </div>
       <h2 className="font-display text-2xl md:text-3xl leading-tight">
-        1. Экосистема для автоматизации девелопмента
+        ​Экосистема для автоматизации девелопмент
       </h2>
 
       {/* Page 1 — cover dashboard */}
@@ -618,7 +618,7 @@ function FourDevCase() {
       </div>
 
       {/* Highlighted teaser */}
-      <p className="font-display text-xl md:text-2xl font-bold text-coral leading-snug">
+      <p className="font-display md:text-3xl leading-tight text-xl font-semibold">
         Вот несколько наглядных примеров UX-решений, которые привели к успеху!
       </p>
 
