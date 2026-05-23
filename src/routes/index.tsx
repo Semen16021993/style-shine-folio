@@ -16,6 +16,10 @@ import caseFourdev from "@/assets/case-fourdev.jpg";
 import fourdev2 from "@/assets/fourdev-2.jpg";
 import fourdev3 from "@/assets/fourdev-3.jpg";
 import fourdev4 from "@/assets/fourdev-4.jpg";
+import fourdev5 from "@/assets/fourdev-5.png";
+import fourdev6 from "@/assets/fourdev-6.png";
+import fourdev7 from "@/assets/fourdev-7.png";
+import fourdev8 from "@/assets/fourdev-8.png";
 import caseDebtor from "@/assets/case-debtor.jpg";
 import debtor2 from "@/assets/debtor-2.jpg";
 import debtor3 from "@/assets/debtor-3.jpg";
@@ -380,6 +384,10 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
       gallery={[
         { src: fourdev3, cap: "1. Карточная система управления гарантийными заявками" },
         { src: fourdev4, cap: "2. Шахматка как основная модель выбора квартиры" },
+        { src: fourdev5, cap: "3. Главная — дашборд продаж и аналитика" },
+        { src: fourdev6, cap: "4. Реестр гарантийных заявок с динамикой замечаний" },
+        { src: fourdev7, cap: "5. Карточный вид объектов и статусов гарантии" },
+        { src: fourdev8, cap: "6. Подбор квартиры и форма добавления клиента" },
       ]}
       results={[
         "Просроченные заявки сократились на 11%",
