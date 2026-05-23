@@ -538,6 +538,183 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
 interface CaseSection { h: string; p: string }
 interface GalleryItem { src: string; cap: string }
 
+function FourDevCase() {
+  const cap = "text-ink/60 font-medium text-gray-500 font-sans text-left text-xl";
+  const h4 = "font-mono text-xs uppercase tracking-widest text-ink/60 mb-2";
+  const fullImg = "w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]";
+
+  return (
+    <div className="space-y-6">
+      {/* Title block */}
+      <div className="flex flex-wrap gap-2 text-xs font-mono">
+        <span className="px-2 py-1 rounded bg-coral/15 text-coral">SaaS для девелопмента · full-time</span>
+        <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">2023 — 2025</span>
+      </div>
+      <h2 className="font-display text-2xl md:text-3xl leading-tight">
+        1. Экосистема для автоматизации девелопмента
+      </h2>
+
+      {/* Page 1 — cover dashboard */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.98 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className="rounded-lg overflow-hidden border border-ink/10 bg-ink/5 -mx-2 md:-mx-4"
+      >
+        <img src={caseFourdev} alt="Дашборд продаж 4DEV" loading="lazy" className="w-full h-auto block" />
+      </motion.div>
+
+      {/* Контекст и задачи */}
+      <div>
+        <h4 className={h4}>Контекст и задачи</h4>
+        <p className="text-sm leading-relaxed text-ink/80">
+          4DEV — это IT-экосистема для автоматизации девелопмента, которая помогает застройщикам, банкам и ритейлерам управлять продажами недвижимости. Платформа уже интегрирована с 35 внешними сервисами и насчитывает 65 клиентов по всей России, экономя им свыше 1 млн рублей на автоматизации.
+        </p>
+        <p className="mt-3 text-sm leading-relaxed italic text-ink/70 border-l-2 border-coral pl-3">
+          Продукт работает в сложной правовой среде: любая сделка с недвижимостью требует проверок со стороны банков и Росреестра, что создаёт естественные паузы и риски срывов. Именно в этих точках возникает напряжение у пользователей — как у профессиональных менеджеров отдела продаж, так и у конечных клиентов-покупателей.
+        </p>
+      </div>
+
+      {/* Page 2 — клиенты + donut */}
+      <figure className="space-y-2">
+        <motion.img
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          src={fourdev2}
+          alt="Реестр клиентов и аналитика"
+          loading="lazy"
+          className={fullImg}
+        />
+        <figcaption className={cap}>
+          <sup className="mr-1">*</sup>Дополнительный комментарий: фрагмент рабочего интерфейса — реестр клиентов и распределение по статусам.
+        </figcaption>
+      </figure>
+
+      {/* Анализ текущего продукта */}
+      <div>
+        <h4 className={h4}>Анализ текущего продукта показал</h4>
+        <ol className="space-y-1.5 text-sm list-decimal pl-5 text-ink/80">
+          <li>Низкая прозрачность сделок: статусы не обновлялись &gt;24 часов, CSI — 6,5/10.</li>
+          <li>12% ошибок в бронировании.</li>
+          <li>До 34% гарантийных заявок становились просроченными; реакция — 3,2 дня.</li>
+          <li>Интерфейс не учитывал реальные сбои, что приводило к повторным действиям.</li>
+          <li>Отсутствие единой UI-системы ограничивало масштабирование продукта.</li>
+        </ol>
+      </div>
+
+      {/* Моя роль в проекте */}
+      <div>
+        <h4 className={h4}>Моя роль в проекте</h4>
+        <ol className="space-y-1.5 text-sm list-decimal pl-5 text-ink/80">
+          <li>Провела пользовательские интервью с менеджерами продаж, РОПом, специалистами по гарантии;</li>
+          <li>Анализировала операционные сценарии;</li>
+          <li>Формировала UX-гипотезы;</li>
+          <li>Проектировала новую информационную архитектуру;</li>
+          <li>Разработала систему статусов и состояний;</li>
+          <li>Создала масштабируемый UI-кит;</li>
+          <li>Сопровождала внедрения и оценку метрик.</li>
+        </ol>
+      </div>
+
+      {/* Highlighted teaser */}
+      <p className="font-display text-xl md:text-2xl font-bold text-coral leading-snug">
+        Вот несколько наглядных примеров UX-решений, которые привели к успеху!
+      </p>
+
+      {/* Page 3 — Карточная система */}
+      <figure className="space-y-2">
+        <motion.img
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          src={fourdev3}
+          alt="Карточная система управления гарантийными заявками"
+          loading="lazy"
+          className={fullImg}
+        />
+        <figcaption className={cap}>1. Карточная система управления гарантийными заявками</figcaption>
+      </figure>
+
+      <div>
+        <h4 className={h4}>Ключевые решения</h4>
+        <ul className="space-y-1.5 text-sm text-ink/80">
+          <li className="flex gap-2"><span className="text-coral">→</span>Цветной статус как основной якорь</li>
+          <li className="flex gap-2"><span className="text-coral">→</span>Показ только операционно важных данных</li>
+          <li className="flex gap-2"><span className="text-coral">→</span>Быстрые действия внутри карточки</li>
+          <li className="flex gap-2"><span className="text-coral">→</span>Сортировка и фильтрация без перестройки интерфейса</li>
+        </ul>
+      </div>
+
+      <div className="p-4 rounded-lg bg-emerald-50 border border-emerald-200">
+        <h4 className="font-mono text-xs uppercase tracking-widest text-emerald-800 mb-2">★ Результат</h4>
+        <ul className="space-y-1.5 text-sm text-emerald-950">
+          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Просроченные заявки сократились на <b>11%</b></li>
+          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Среднее время реакции снизилось с 3,2 дней до <b>1,9 дней</b></li>
+          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Руководители тратят на контроль статусов на <b>15% меньше времени</b></li>
+          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Удовлетворённость внутренних пользователей выросла с 6,5 до <b>8,4/10</b></li>
+        </ul>
+      </div>
+
+      {/* Page 4 — Шахматка */}
+      <figure className="space-y-2">
+        <motion.img
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          src={fourdev4}
+          alt="Шахматка выбора квартир"
+          loading="lazy"
+          className={fullImg}
+        />
+        <figcaption className={cap}>2. Шахматка как основная модель выбора квартиры</figcaption>
+      </figure>
+
+      <p className="text-sm leading-relaxed text-ink/80">👉 Менеджер мыслит этажами и секциями, а не строками.</p>
+
+      <div>
+        <h4 className={h4}>Ключевые решения</h4>
+        <ul className="space-y-1.5 text-sm text-ink/80">
+          <li className="flex gap-2"><span className="text-coral">→</span>Цветовая система статусов</li>
+          <li className="flex gap-2"><span className="text-coral">→</span>Фильтрация до взаимодействия (площадь, комнаты)</li>
+          <li className="flex gap-2"><span className="text-coral">→</span>Модальное окно без потери контекста</li>
+          <li className="flex gap-2"><span className="text-coral">→</span>Акцент на цене, статусе и площади</li>
+        </ul>
+      </div>
+
+      <div className="p-4 rounded-lg bg-emerald-50 border border-emerald-200">
+        <h4 className="font-mono text-xs uppercase tracking-widest text-emerald-800 mb-2">★ Результат</h4>
+        <ul className="space-y-1.5 text-sm text-emerald-950">
+          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Время подбора сократилось с 7–10 минут до <b>4 минут</b></li>
+          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Ошибки при бронировании снизились с 12% до <b>5,5%</b></li>
+          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Количество кликов до бронирования уменьшилось на <b>6%</b></li>
+          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Увеличение скорости обработки лида на <b>15%</b></li>
+        </ul>
+      </div>
+
+      {/* Вывод */}
+      <div className="space-y-3 pt-2 border-t border-ink/10">
+        <h3 className="font-display text-2xl">Вывод</h3>
+        <p className="text-sm leading-relaxed text-ink/80">
+          После внедрения система стала основным рабочим инструментом для отделов продаж и эксплуатации. Время подбора квартиры сократилось более чем в два раза — с 7–10 минут до 4 минут, что напрямую повлияло на скорость обработки входящих лидов и позволило увеличить операционную эффективность отдела на 15%.
+        </p>
+        <p className="text-sm leading-relaxed text-ink/80">
+          Количество ошибок при бронировании снизилось с 12% до 5,5%, что уменьшило внутренние потери времени и снизило нагрузку на административные процессы. В блоке гарантийных заявок просрочки сократились на 11%, а среднее время реакции уменьшилось почти вдвое — с 3,2 до 1,9 дней.
+        </p>
+        <p className="text-sm leading-relaxed text-ink/80">
+          Для руководителей система стала инструментом прозрачного контроля: время на мониторинг статусов сократилось на 45%, а субъективная оценка удобства работы выросла с 6,8 до 8,4 из 10.
+        </p>
+        <p className="text-sm leading-relaxed text-ink/80">
+          Интерфейс начал влиять на ключевые бизнес-метрики: скорость операций, количество ошибок, нагрузку на административные процессы и удовлетворённость пользователей.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+interface CaseSectionLegacy { h: string; p: string }
+interface GalleryItem { src: string; cap: string }
+
 function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaption, problems, did, gallery = [], results }: {
   cover?: string;
   tag: string;
