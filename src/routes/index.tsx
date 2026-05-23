@@ -227,7 +227,7 @@ function DesktopIcon({
       onClick={onOpen}
       disabled={item.disabled}
       style={{ left: `${item.x}%`, top: `${item.y}%` }}
-      className={`absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 w-24 h-24 drop-shadow-xl rounded-[22%] object-fill text-base font-normal border-slate-800 border-8 border-none group ${item.disabled ? "cursor-default opacity-90" : "cursor-pointer"}`}
+      className={`absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 w-24 h-24 drop-shadow-xl rounded-[22%] text-base font-normal border-8 border-none border-slate-50 object-contain group ${item.disabled ? "cursor-default opacity-90" : "cursor-pointer"}`}
     >
       <IconGraphic icon={item.icon} color={item.color} />
       <div className="text-center px-2 py-0.5 rounded text-white text-[14px] leading-tight font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.7)] group-hover:bg-coral/80 transition-colors">
