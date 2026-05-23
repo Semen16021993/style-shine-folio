@@ -563,10 +563,10 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
         {/* Squircle grid */}
         <div className="px-3 pb-5 grid grid-cols-2 gap-1.5">
           {[
-            { src: gallery1, cap: "Цирк" },
-            { src: gallery2, cap: "Шаолинь" },
-            { src: gallery3, cap: "Марс" },
-            { src: gallery4, cap: "Отдыхаем" },
+            { src: gallery1, cap: "Готовимся к большому выступлению с Шерханом, Раджой, Диего и Тигрой" },
+            { src: gallery2, cap: "Усердно тренируемся три раза по 2-3 часа каждый день" },
+            { src: gallery3, cap: "Наконец-то добрались" },
+            { src: gallery4, cap: "Отдыхаем в Камакуре" },
           ].map((p, i) => (
             <motion.figure
               key={i}
