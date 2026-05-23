@@ -712,8 +712,6 @@ function FourDevCase() {
   );
 }
 
-interface CaseSectionLegacy { h: string; p: string }
-interface GalleryItem { src: string; cap: string }
 
 function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaption, problems, did, gallery = [], results }: {
   cover?: string;
