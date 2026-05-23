@@ -566,7 +566,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
             { src: gallery1, cap: "Цирк" },
             { src: gallery2, cap: "Шаолинь" },
             { src: gallery3, cap: "Марс" },
-            { src: gallery4, cap: "С папой" },
+            { src: gallery4, cap: "Отдыхаем" },
           ].map((p, i) => (
             <motion.figure
               key={i}
