@@ -59,16 +59,18 @@ interface DesktopItem {
 }
 
 const items: DesktopItem[] = [
-  // Top-right corner — tools
-  { id: "photoshop", label: "Adobe Photoshop 2026", icon: "photoshop", x: 95, y: 10, disabled: true },
-  { id: "figma", label: "Figma", icon: "figma", x: 95, y: 26, disabled: true },
   // Center-right column — case folders
   { id: "orien", label: "Сryptowallet 2025-26", icon: "folder", color: "#7FB3D5", x: 60, y: 32 },
   { id: "fourdev", label: "4Dev.tech 2023-25", icon: "folder", color: "#7FB3D5", x: 60, y: 52 },
   { id: "debtor", label: "Должник прав 2023", icon: "folder", color: "#7FB3D5", x: 60, y: 72 },
   // Center-left column
   { id: "cv", label: "CV", icon: "pdf", x: 38, y: 62 },
-  { id: "gallery", label: "Галерея", icon: "gallery", x: 38, y: 82 },
+];
+
+const dockItems: { id: "photoshop" | "figma" | "gallery"; label: string; icon: "photoshop" | "figma" | "gallery"; disabled?: boolean }[] = [
+  { id: "photoshop", label: "Adobe Photoshop 2026", icon: "photoshop", disabled: true },
+  { id: "figma", label: "Figma", icon: "figma", disabled: true },
+  { id: "gallery", label: "Галерея", icon: "gallery" },
 ];
 
 function Desktop() {
@@ -133,6 +135,7 @@ function Desktop() {
       ))}
 
       <ZoomCall />
+      <Dock onOpen={openWindow} />
 
       {/* Windows */}
       <AnimatePresence>
@@ -147,6 +150,35 @@ function Desktop() {
         ))}
       </AnimatePresence>
     </div>
+  );
+}
+
+function Dock({ onOpen }: { onOpen: (id: WindowId) => void }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.6, type: "spring", stiffness: 180, damping: 22 }}
+      className="absolute bottom-3 left-1/2 -translate-x-1/2 z-[90] flex items-end gap-2 px-3 py-2 rounded-2xl bg-white/30 backdrop-blur-2xl border border-white/40 shadow-2xl"
+      style={{ boxShadow: "0 15px 50px rgba(0,0,0,0.25)" }}
+    >
+      {dockItems.map((it) => (
+        <motion.button
+          key={it.id}
+          whileHover={{ scale: 1.25, y: -8 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ type: "spring", stiffness: 400, damping: 18 }}
+          onClick={() => { if (!it.disabled) onOpen(it.id as WindowId); }}
+          className="relative size-12 grid place-items-center group"
+          title={it.label}
+        >
+          <div className="scale-[0.5] origin-center"><IconGraphic icon={it.icon} /></div>
+          <span className="absolute -top-8 px-2 py-1 rounded bg-black/75 text-white text-[11px] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            {it.label}
+          </span>
+        </motion.button>
+      ))}
+    </motion.div>
   );
 }
 
