@@ -153,6 +153,35 @@ function Desktop() {
   );
 }
 
+function Dock({ onOpen }: { onOpen: (id: WindowId) => void }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.6, type: "spring", stiffness: 180, damping: 22 }}
+      className="absolute bottom-3 left-1/2 -translate-x-1/2 z-[90] flex items-end gap-2 px-3 py-2 rounded-2xl bg-white/30 backdrop-blur-2xl border border-white/40 shadow-2xl"
+      style={{ boxShadow: "0 15px 50px rgba(0,0,0,0.25)" }}
+    >
+      {dockItems.map((it) => (
+        <motion.button
+          key={it.id}
+          whileHover={{ scale: 1.25, y: -8 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ type: "spring", stiffness: 400, damping: 18 }}
+          onClick={() => { if (!it.disabled) onOpen(it.id as WindowId); }}
+          className="relative size-14 grid place-items-center group"
+          title={it.label}
+        >
+          <IconGraphic icon={it.icon} />
+          <span className="absolute -top-8 px-2 py-1 rounded bg-black/75 text-white text-[11px] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            {it.label}
+          </span>
+        </motion.button>
+      ))}
+    </motion.div>
+  );
+}
+
 function ZoomCall() {
   const participants = [
     { name: "Дарья", color: "#e85d75", initials: "Д", speaking: true },
