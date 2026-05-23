@@ -169,10 +169,10 @@ function Dock({ onOpen }: { onOpen: (id: WindowId) => void }) {
           whileTap={{ scale: 0.95 }}
           transition={{ type: "spring", stiffness: 400, damping: 18 }}
           onClick={() => { if (!it.disabled) onOpen(it.id as WindowId); }}
-          className="relative size-14 grid place-items-center group"
+          className="relative size-12 grid place-items-center group"
           title={it.label}
         >
-          <IconGraphic icon={it.icon} />
+          <div className="scale-[0.5] origin-center"><IconGraphic icon={it.icon} /></div>
           <span className="absolute -top-8 px-2 py-1 rounded bg-black/75 text-white text-[11px] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             {it.label}
           </span>
