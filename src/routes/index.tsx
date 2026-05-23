@@ -629,7 +629,7 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
             loading="lazy"
             className="w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]"
           />
-          {imageCaption && <figcaption className="text-xs font-mono text-ink/60 text-center">{imageCaption}</figcaption>}
+          {imageCaption && <figcaption className="text-ink/60 text-base font-sans text-left text-slate-950 font-medium">{imageCaption}</figcaption>}
         </figure>
       )}
 
@@ -662,7 +662,7 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
                 loading="lazy"
                 className="w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]"
               />
-              <figcaption className="text-xs font-mono text-ink/60 text-center">{g.cap}</figcaption>
+              <figcaption className="text-ink/60 text-base font-sans text-left text-slate-950 font-medium">{g.cap}</figcaption>
             </figure>
           ))}
         </div>
