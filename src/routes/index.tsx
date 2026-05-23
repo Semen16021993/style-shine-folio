@@ -554,7 +554,7 @@ function FourDevCase() {
     <div className="space-y-6">
       {/* Title block */}
       <div className="flex flex-wrap gap-2 text-xs font-mono">
-        <span className="px-2 py-1 rounded bg-coral/15 text-coral">SaaS для девелопмента · full-time</span>
+        <span className="font-display md:text-2xl leading-snug text-ink/90 bg-blue-50 border-solid font-medium font-mono text-sm text-center">SaaS для девелопмента · full-time</span>
         <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">2023 — 2025</span>
       </div>
       <h2 className="font-display text-2xl md:text-3xl leading-tight">
