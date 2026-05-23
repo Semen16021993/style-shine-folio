@@ -59,16 +59,18 @@ interface DesktopItem {
 }
 
 const items: DesktopItem[] = [
-  // Top-right corner — tools
-  { id: "photoshop", label: "Adobe Photoshop 2026", icon: "photoshop", x: 95, y: 10, disabled: true },
-  { id: "figma", label: "Figma", icon: "figma", x: 95, y: 26, disabled: true },
   // Center-right column — case folders
   { id: "orien", label: "Сryptowallet 2025-26", icon: "folder", color: "#7FB3D5", x: 60, y: 32 },
   { id: "fourdev", label: "4Dev.tech 2023-25", icon: "folder", color: "#7FB3D5", x: 60, y: 52 },
   { id: "debtor", label: "Должник прав 2023", icon: "folder", color: "#7FB3D5", x: 60, y: 72 },
   // Center-left column
   { id: "cv", label: "CV", icon: "pdf", x: 38, y: 62 },
-  { id: "gallery", label: "Галерея", icon: "gallery", x: 38, y: 82 },
+];
+
+const dockItems: { id: "photoshop" | "figma" | "gallery"; label: string; icon: "photoshop" | "figma" | "gallery"; disabled?: boolean }[] = [
+  { id: "photoshop", label: "Adobe Photoshop 2026", icon: "photoshop", disabled: true },
+  { id: "figma", label: "Figma", icon: "figma", disabled: true },
+  { id: "gallery", label: "Галерея", icon: "gallery" },
 ];
 
 function Desktop() {
