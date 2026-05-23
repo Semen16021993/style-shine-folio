@@ -371,7 +371,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
         },
       ]}
       image={fourdev2}
-      imageCaption="Анализ текущего продукта показал ключевые проблемы интерфейса"
+      imageCaption="1. Карточная система управления гарантийными заявками"
       did={[
         "Провела пользовательские интервью с менеджерами продаж, РОПом, специалистами по гарантии",
         "Анализировала операционные сценарии и формировала UX-гипотезы",
@@ -633,7 +633,7 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
             loading="lazy"
             className="w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]"
           />
-          {imageCaption && <figcaption className="text-ink/60 text-base font-sans text-left text-slate-950 font-medium">{imageCaption}</figcaption>}
+          {imageCaption && <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-left text-xl">{imageCaption}</figcaption>}
         </figure>
       )}
 
@@ -666,7 +666,7 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
                 loading="lazy"
                 className="w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]"
               />
-              <figcaption className="text-ink/60 text-base font-sans text-left text-slate-950 font-medium">{g.cap}</figcaption>
+              <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-left text-xl">{g.cap}</figcaption>
             </figure>
           ))}
         </div>
