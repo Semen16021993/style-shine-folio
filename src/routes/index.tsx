@@ -201,8 +201,8 @@ function MenuBar({ focused }: { focused: WindowId | null }) {
     <div className="absolute top-0 inset-x-0 z-[100] h-8 bg-white/40 backdrop-blur-2xl border-b border-white/30 flex items-center justify-between px-4 text-xs text-ink">
       <div className="flex items-center gap-3">
         <img src={memoji} alt="" className="size-6 rounded-full object-cover" />
-        <span className="font-semibold">Daria Vereskunova</span>
-        <span className="hidden sm:inline text-ink/70">Product Designer</span>
+        <span className="font-semibold">Product Designer</span>
+        <span className="hidden sm:inline text-ink/70"></span>
       </div>
       <div className="flex items-center gap-4 font-mono">
         <a href="https://t.me/Darialud" className="hover:text-coral">TG</a>
@@ -227,7 +227,7 @@ function DesktopIcon({
       onClick={onOpen}
       disabled={item.disabled}
       style={{ left: `${item.x}%`, top: `${item.y}%` }}
-      className={`absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 w-40 group ${item.disabled ? "cursor-default opacity-90" : "cursor-pointer"}`}
+      className={`absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 w-24 h-24 drop-shadow-xl rounded-[22%] object-fill text-base font-normal border-slate-800 border-8 border-none group ${item.disabled ? "cursor-default opacity-90" : "cursor-pointer"}`}
     >
       <IconGraphic icon={item.icon} color={item.color} />
       <div className="text-center px-2 py-0.5 rounded text-white text-[14px] leading-tight font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.7)] group-hover:bg-coral/80 transition-colors">
