@@ -714,6 +714,152 @@ function FourDevCase() {
   );
 }
 
+function OrienCase() {
+  const h4 = "font-mono text-xs uppercase tracking-widest text-ink/60 mb-2";
+  const fullImg = "w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]";
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-wrap gap-2 text-xs font-mono">
+        <span className="px-2 py-1 rounded bg-coral/15 text-coral">Криптокошелёк · part-time</span>
+        <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">2025 — 2026</span>
+      </div>
+      <h2 className="font-display text-2xl md:text-3xl leading-tight">
+        Crypto Orien.AI — мобильный криптокошелёк
+      </h2>
+
+      <motion.img
+        initial={{ opacity: 0, scale: 0.98 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        src={cryptoCover}
+        alt="Crypto Orien.AI — обложка"
+        loading="lazy"
+        className={fullImg}
+      />
+
+      <div>
+        <h4 className={h4}>Контекст и задачи</h4>
+        <p className="text-sm leading-relaxed text-ink/80">
+          Crypto Orien.AI — мобильный криптокошелёк ранней стадии, созданный в условиях высокой конкуренции и низкого пользовательского доверия к новым Web3-продуктам. Основная аудитория — пользователи, уже знакомые с криптовалютой, но не удовлетворённые сложностью и перегруженностью существующих решений.
+        </p>
+      </div>
+
+      <div>
+        <h4 className={h4}>Проблемы</h4>
+        <ul className="space-y-1.5 text-sm text-ink/80">
+          <li className="flex gap-2"><span className="text-coral">→</span>Пользователи останавливались на этапе создания кошелька</li>
+          <li className="flex gap-2"><span className="text-coral">→</span>Страх юзеров подтверждать операции</li>
+          <li className="flex gap-2"><span className="text-coral">→</span>Мало пользователей доходили до целевых действий</li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 className={h4}>Задачи</h4>
+        <ol className="space-y-1.5 text-sm list-decimal pl-5 text-ink/80">
+          <li>Спроектировать end-to-end user flow от регистрации до первой операции.</li>
+          <li>Проработать нештатные сценарии: ошибки, задержки, отклонения.</li>
+          <li>Оптимизировать шаги до первой финансовой операции.</li>
+          <li>Снизить когнитивную нагрузку на этапе подтверждения.</li>
+          <li>Встроить элементы, усиливающие ощущение контроля (история, прогресс, подтверждение статуса).</li>
+          <li>Спроектировать информационную архитектуру с учётом будущих ролей и функций.</li>
+          <li>Создать систему токенов и переменных для тем и состояний.</li>
+          <li>Заложить масштабируемый UI-kit как основу дизайн-системы.</li>
+          <li>Обеспечить консистентность паттернов для роста продукта.</li>
+        </ol>
+      </div>
+
+      <div>
+        <h4 className={h4}>Моя роль</h4>
+        <ol className="space-y-1.5 text-sm list-decimal pl-5 text-ink/80">
+          <li>Провела бенчмаркинг: изучила самые популярные приложения отрасли с похожими фичами, выявила их сильные и слабые стороны;</li>
+          <li>Детально разобрала путь пользователя — от регистрации до первой реальной операции с деньгами. Было важно понять не только позитивные сценарии, но и все моменты, где что-то может пойти не так.</li>
+          <li>Спроектировала user flow, рассматривала разные роли, точки принятия решений, системные события и возвраты.</li>
+          <li>Разработала систему статусов и состояний;</li>
+          <li>Создала масштабируемый UI-кит.</li>
+        </ol>
+      </div>
+
+      <motion.img
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        src={cryptoBM}
+        alt="Бенчмаркинг hot wallets"
+        loading="lazy"
+        className={fullImg}
+      />
+
+      <p className="font-display text-xl md:text-2xl leading-snug text-ink/90">
+        Визуально продукт строился вокруг спокойствия и фокуса.
+      </p>
+
+      <motion.img
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        src={cryptoMaket}
+        alt="Ключевые экраны приложения"
+        loading="lazy"
+        className={fullImg}
+      />
+
+      <div>
+        <h4 className={h4}>Темы и состояния</h4>
+        <p className="text-sm leading-relaxed text-ink/80">
+          Тёмная тема стала основной — она лучше подходит для работы с финансовыми данными и длительного использования. Все экраны я сразу проектировала с расчётом на:
+        </p>
+        <ul className="mt-2 space-y-1.5 text-sm text-ink/80">
+          <li className="flex gap-2"><span className="text-coral">→</span>перевод цветов и состояний в дизайн-токены;</li>
+          <li className="flex gap-2"><span className="text-coral">→</span>использование variables для тем;</li>
+          <li className="flex gap-2"><span className="text-coral">→</span>дальнейшее масштабирование в дизайн-систему.</li>
+        </ul>
+      </div>
+
+      <motion.img
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        src={cryptoThemes}
+        alt="Светлая и тёмная темы"
+        loading="lazy"
+        className={fullImg}
+      />
+
+      <motion.img
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        src={cryptoColors}
+        alt="Дизайн-токены и примитивы"
+        loading="lazy"
+        className={fullImg}
+      />
+
+      <motion.img
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        src={cryptoDetails}
+        alt="Детали интерфейса"
+        loading="lazy"
+        className={fullImg}
+      />
+
+      <div className="p-4 rounded-lg bg-emerald-50 border border-emerald-200">
+        <h4 className="font-mono text-xs uppercase tracking-widest text-emerald-800 mb-2">★ Результаты</h4>
+        <ul className="space-y-1.5 text-sm text-emerald-950">
+          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Спроектирован end-to-end путь пользователя с прозрачными статусами операций, учитывающий ошибки, задержки и проверки.</li>
+          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Внедрена единая система статусов и UI-kit, готовая к масштабированию новых функций и ролей.</li>
+          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Интерфейс снижает неопределённость и когнитивную нагрузку, повышая доверие к финансовым операциям.</li>
+          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Подготовлена архитектура для последующего роста конверсии и уменьшения drop-off при запуске продукта с нуля.</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+
+
 
 function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaption, problems, did, gallery = [], results }: {
   cover?: string;
