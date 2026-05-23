@@ -169,10 +169,12 @@ function Dock({ onOpen }: { onOpen: (id: WindowId) => void }) {
           whileTap={{ scale: 0.95 }}
           transition={{ type: "spring", stiffness: 400, damping: 18 }}
           onClick={() => { if (!it.disabled) onOpen(it.id as WindowId); }}
-          className="relative size-12 grid place-items-center group"
+          className="relative size-12 flex items-center justify-center group"
           title={it.label}
         >
-          <div className="scale-[0.5] origin-center"><IconGraphic icon={it.icon} /></div>
+          <div className="w-11 h-11 flex items-center justify-center [&>*]:!w-11 [&>*]:!h-11 [&_svg]:!w-11 [&_svg]:!h-11 [&_img]:!w-11 [&_img]:!h-11 [&_img]:object-contain">
+            <IconGraphic icon={it.icon} />
+          </div>
           <span className="absolute -top-8 px-2 py-1 rounded bg-black/75 text-white text-[11px] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             {it.label}
           </span>
@@ -545,28 +547,50 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
     ),
   },
   gallery: {
-    title: "Галерея — Preview",
+    title: "Фото",
     body: (
-      <div className="space-y-4">
-        <p className="font-display text-2xl">Несколько кадров из жизни ✨</p>
-        <div className="grid grid-cols-2 gap-3">
+      <div className="-m-6 bg-[#f2f2f7] dark:bg-[#1c1c1e] rounded-b-2xl">
+        {/* iOS 26 Photos header */}
+        <div className="px-5 pt-5 pb-3 flex items-end justify-between">
+          <div>
+            <h2 className="text-[34px] leading-tight font-semibold tracking-tight text-ink">Недавние</h2>
+            <p className="text-[13px] text-ink/50 mt-0.5">4 фото · 2025</p>
+          </div>
+          <div className="size-9 rounded-full bg-white/80 backdrop-blur grid place-items-center text-ink/70 shadow-sm">
+            <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          </div>
+        </div>
+        {/* Squircle grid */}
+        <div className="px-3 pb-5 grid grid-cols-2 gap-1.5">
           {[
-            { src: gallery1, cap: "Утро" },
-            { src: gallery2, cap: "Записки" },
-            { src: gallery3, cap: "Свет" },
-            { src: gallery4, cap: "Небо" },
+            { src: gallery1, cap: "Цирк" },
+            { src: gallery2, cap: "Шаолинь" },
+            { src: gallery3, cap: "Марс" },
+            { src: gallery4, cap: "С папой" },
           ].map((p, i) => (
             <motion.figure
               key={i}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.08 }}
-              whileHover={{ scale: 1.02, rotate: i % 2 ? 1 : -1 }}
-              className="bg-white p-2 pb-6 shadow-md relative"
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: i * 0.06, type: "spring", stiffness: 200, damping: 22 }}
+              whileHover={{ scale: 0.98 }}
+              whileTap={{ scale: 0.95 }}
+              className="relative overflow-hidden rounded-[22px] aspect-square cursor-pointer group"
+              style={{ boxShadow: "0 1px 2px rgba(0,0,0,0.06)" }}
             >
-              <img src={p.src} alt={p.cap} loading="lazy" className="w-full aspect-[4/3] object-cover" />
-              <figcaption className="absolute bottom-1 inset-x-0 text-center font-mono text-[10px] text-ink/60">{p.cap}</figcaption>
+              <img src={p.src} alt={p.cap} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <figcaption className="absolute bottom-2 left-3 text-white text-[12px] font-medium opacity-0 group-hover:opacity-100 transition-opacity drop-shadow">{p.cap}</figcaption>
             </motion.figure>
+          ))}
+        </div>
+        {/* iOS tab bar */}
+        <div className="mx-3 mb-3 rounded-2xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-sm px-2 py-2 flex justify-around text-[10px] text-ink/60">
+          {["Библиотека","Для вас","Альбомы","Поиск"].map((t,i) => (
+            <div key={t} className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl ${i===0?"text-coral":""}`}>
+              <div className="w-4 h-4 rounded-sm bg-current opacity-70" />
+              <span>{t}</span>
+            </div>
           ))}
         </div>
       </div>
