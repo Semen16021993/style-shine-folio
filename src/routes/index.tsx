@@ -453,14 +453,14 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
   if (icon === "figma") {
     return (
       <div className="w-24 h-24 grid place-items-center">
-        <img src={iconFigma} alt="" className="max-w-full max-h-full drop-shadow-xl object-contain" />
+        <img src={iconFigma} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-contain" />
       </div>
     );
   }
   if (icon === "photoshop") {
     return (
       <div className="w-24 h-24 grid place-items-center">
-        <img src={iconPhotoshop} alt="" className="max-w-full max-h-full drop-shadow-xl object-contain" />
+        <img src={iconPhotoshop} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-contain" />
       </div>
     );
   }
