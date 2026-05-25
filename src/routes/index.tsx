@@ -403,7 +403,7 @@ function MenuBar({ focused: _focused }: { focused: WindowId | null }) {
         </span>
       </div>
       <div className="flex items-center gap-4">
-        <span className="tabular-nums">{stamp}</span>
+        <span className="tabular-nums font-semibold">{stamp}</span>
       </div>
     </div>
   );
