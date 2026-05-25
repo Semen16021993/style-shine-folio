@@ -737,7 +737,8 @@ function FourDevCase() {
   const fullImg = "w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]";
 
   return (
-    <div className="space-y-6">
+    <TypoScope className="space-y-6">
+
       {/* Cover image first */}
       <motion.div
         initial={{ opacity: 0, scale: 0.98 }}
