@@ -9,7 +9,7 @@ import gallery4 from "@/assets/gallery-4.jpg";
 import memoji from "@/assets/memoji.jpg";
 import iconPhotos from "@/assets/icon-photos.png";
 import iconPhotoshop from "@/assets/icon-photoshop.png";
-import iconFigma from "@/assets/icon-figma.png";
+import iconFigma from "@/assets/icon-figma-color.svg";
 import caseOrien from "@/assets/case-orien.jpg";
 import orien2 from "@/assets/orien-2.jpg";
 import caseFourdev from "@/assets/case-fourdev.jpg";
