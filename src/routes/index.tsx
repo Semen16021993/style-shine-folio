@@ -151,6 +151,14 @@ const dockItems: { id: "photoshop" | "figma" | "gallery"; label: string; icon: "
 function Desktop() {
   const [open, setOpen] = useState<WindowId[]>([]);
   const [focus, setFocus] = useState<WindowId | null>(null);
+  const [phoneMode, setPhoneMode] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    const update = () => setPhoneMode(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   const openWindow = (id: WindowId) => {
     setOpen((s) => (s.includes(id) ? s : [...s, id]));
@@ -160,14 +168,25 @@ function Desktop() {
     setOpen((s) => s.filter((i) => i !== id));
 
   return (
-    <div
-      className="fixed inset-0 overflow-hidden font-sans text-ink select-none"
-      style={{
-        backgroundImage: `url(${wallpaper})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
+    <div className={`fixed inset-0 overflow-hidden flex items-center justify-center ${phoneMode ? "bg-zinc-950" : "block"}`}>
+      <div
+        className={`relative overflow-hidden font-sans text-ink select-none ${
+          phoneMode
+            ? "rounded-[44px] ring-[10px] ring-black shadow-[0_30px_80px_rgba(0,0,0,0.6)]"
+            : "w-full h-full"
+        }`}
+        style={{
+          backgroundImage: `url(${wallpaper})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          ...(phoneMode
+            ? { width: "min(92vw, calc(92vh * 9 / 19.5))", aspectRatio: "9 / 19.5" }
+            : {}),
+        }}
+      >
+        {phoneMode && (
+          <div className="pointer-events-none absolute top-2 left-1/2 -translate-x-1/2 w-28 h-7 rounded-full bg-black z-[200]" />
+        )}
       <MenuBar focused={focus} />
 
       {/* Welcome sticky note */}
@@ -224,6 +243,7 @@ function Desktop() {
           />
         ))}
       </AnimatePresence>
+      </div>
     </div>
   );
 }
@@ -403,7 +423,7 @@ function MenuBar({ focused: _focused }: { focused: WindowId | null }) {
         </span>
       </div>
       <div className="flex items-center gap-4">
-        <span className="tabular-nums">{stamp}</span>
+        <span className="tabular-nums font-semibold">{stamp}</span>
       </div>
     </div>
   );
@@ -453,14 +473,14 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
   if (icon === "figma") {
     return (
       <div className="w-24 h-24 grid place-items-center">
-        <img src={iconFigma} alt="" className="max-w-full max-h-full drop-shadow-xl object-contain" />
+        <img src={iconFigma} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-contain" />
       </div>
     );
   }
   if (icon === "photoshop") {
     return (
       <div className="w-24 h-24 grid place-items-center">
-        <img src={iconPhotoshop} alt="" className="max-w-full max-h-full drop-shadow-xl object-contain" />
+        <img src={iconPhotoshop} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-contain" />
       </div>
     );
   }
@@ -909,14 +929,6 @@ function OrienCase() {
   return (
     <TypoScope className="space-y-6">
 
-      <div className="flex flex-wrap gap-2 text-xs font-mono">
-        <span className="px-2 py-1 rounded bg-coral/15 text-coral">Криптокошелёк · part-time</span>
-        <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">2025 — 2026</span>
-      </div>
-      <h2 className="font-display text-2xl md:text-3xl leading-tight">
-        Crypto Orien.AI — мобильный криптокошелёк
-      </h2>
-
       <motion.img
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -926,6 +938,14 @@ function OrienCase() {
         loading="lazy"
         className={fullImg}
       />
+
+      <div className="flex flex-wrap gap-2 text-xs font-mono">
+        <span className="px-2 py-1 rounded bg-coral/15 text-coral">Криптокошелёк · part-time</span>
+        <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">2025 — 2026</span>
+      </div>
+      <h2 className="font-display text-2xl md:text-3xl leading-tight">
+        Crypto Orien.AI — мобильный криптокошелёк
+      </h2>
 
       <div>
         <h4 className={h4}>Контекст и задачи</h4>
