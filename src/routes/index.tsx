@@ -1147,6 +1147,7 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
           {results.map((r, i) => <li key={i} className="flex gap-2"><span className="text-emerald-600">✓</span>{r}</li>)}
         </ul>
       </div>
-    </div>
+    </TypoScope>
+
   );
 }
