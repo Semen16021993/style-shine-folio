@@ -235,6 +235,7 @@ function Desktop() {
           />
         ))}
       </AnimatePresence>
+      </div>
     </div>
   );
 }
