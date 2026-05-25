@@ -151,6 +151,7 @@ const dockItems: { id: "photoshop" | "figma" | "gallery"; label: string; icon: "
 function Desktop() {
   const [open, setOpen] = useState<WindowId[]>([]);
   const [focus, setFocus] = useState<WindowId | null>(null);
+  const isMobile = useIsMobile();
 
   const openWindow = (id: WindowId) => {
     setOpen((s) => (s.includes(id) ? s : [...s, id]));
