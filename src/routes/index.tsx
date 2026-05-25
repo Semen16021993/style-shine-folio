@@ -168,21 +168,25 @@ function Desktop() {
     setOpen((s) => s.filter((i) => i !== id));
 
   return (
-    <div className="fixed inset-0 overflow-hidden bg-zinc-950 md:bg-transparent flex items-center justify-center md:block">
+    <div className={`fixed inset-0 overflow-hidden flex items-center justify-center ${phoneMode ? "bg-zinc-950" : "block"}`}>
       <div
-        className="relative overflow-hidden font-sans text-ink select-none
-          md:w-full md:h-full md:max-w-none md:max-h-none md:rounded-none md:ring-0 md:shadow-none
-          rounded-[44px] ring-[10px] ring-black shadow-[0_30px_80px_rgba(0,0,0,0.6)]"
+        className={`relative overflow-hidden font-sans text-ink select-none ${
+          phoneMode
+            ? "rounded-[44px] ring-[10px] ring-black shadow-[0_30px_80px_rgba(0,0,0,0.6)]"
+            : "w-full h-full"
+        }`}
         style={{
           backgroundImage: `url(${wallpaper})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          width: "min(92vw, calc(92vh * 9 / 19.5))",
-          aspectRatio: "9 / 19.5",
+          ...(phoneMode
+            ? { width: "min(92vw, calc(92vh * 9 / 19.5))", aspectRatio: "9 / 19.5" }
+            : {}),
         }}
       >
-        {/* Dynamic island — mobile / tablet only */}
-        <div className="md:hidden pointer-events-none absolute top-2 left-1/2 -translate-x-1/2 w-28 h-7 rounded-full bg-black z-[200]" />
+        {phoneMode && (
+          <div className="pointer-events-none absolute top-2 left-1/2 -translate-x-1/2 w-28 h-7 rounded-full bg-black z-[200]" />
+        )}
       <MenuBar focused={focus} />
 
       {/* Welcome sticky note */}
