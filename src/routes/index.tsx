@@ -352,28 +352,37 @@ function ZoomCall() {
   );
 }
 
-function MenuBar({ focused }: { focused: WindowId | null }) {
-  const [time, setTime] = useState("");
+function MenuBar({ focused: _focused }: { focused: WindowId | null }) {
+  void _focused;
+  const [stamp, setStamp] = useState("");
   useEffect(() => {
+    const days = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
+    const months = [
+      "января", "февраля", "марта", "апреля", "мая", "июня",
+      "июля", "августа", "сентября", "октября", "ноября", "декабря",
+    ];
     const tick = () => {
       const d = new Date();
-      setTime(`${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}:${String(d.getSeconds()).padStart(2, "0")}`);
+      const hh = String(d.getHours()).padStart(2, "0");
+      const mm = String(d.getMinutes()).padStart(2, "0");
+      setStamp(`${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${hh}:${mm}`);
     };
     tick();
-    const id = setInterval(tick, 1000);
+    const id = setInterval(tick, 1000 * 15);
     return () => clearInterval(id);
   }, []);
   return (
     <div className="absolute top-0 inset-x-0 z-[100] h-8 bg-white/40 backdrop-blur-2xl border-b border-white/30 flex items-center justify-between px-4 text-xs text-ink">
       <div className="flex items-center gap-3">
         <img src={memoji} alt="" className="size-6 rounded-full object-cover" />
-        <span className="font-semibold">Product Designer · Дарья Верескунова</span>
-        <span className="hidden sm:inline text-ink/70"></span>
+        <span>
+          <span className="font-normal">Дарья Верескунова</span>
+          <span className="mx-1.5 text-ink/40">·</span>
+          <span className="font-semibold">Product designer</span>
+        </span>
       </div>
-      <div className="flex items-center gap-4 font-mono">
-        <a href="https://t.me/Darialud" className="hover:text-coral">TG</a>
-        <a href="mailto:vereskunova@gmail.com" className="hover:text-coral">✉</a>
-        <span>{time}</span>
+      <div className="flex items-center gap-4">
+        <span className="tabular-nums">{stamp}</span>
       </div>
     </div>
   );
