@@ -1044,7 +1044,8 @@ function OrienCase() {
           <li className="flex gap-2"><span className="text-emerald-600">✓</span>Подготовлена архитектура для последующего роста конверсии и уменьшения drop-off при запуске продукта с нуля.</li>
         </ul>
       </div>
-    </div>
+    </TypoScope>
+
   );
 }
 
