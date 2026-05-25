@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { useIsMobile } from "@/hooks/use-mobile";
 import wallpaper from "@/assets/wallpaper.jpg";
 import gallery1 from "@/assets/gallery-1.jpg";
 import gallery2 from "@/assets/gallery-2.jpg";
