@@ -161,24 +161,20 @@ function Desktop() {
 
   return (
     <div className="fixed inset-0 overflow-hidden bg-zinc-950 md:bg-transparent flex items-center justify-center md:block">
-      {/* Phone bezel — mobile / tablet only */}
-      <div className="md:hidden pointer-events-none absolute z-[210] inset-0 flex items-center justify-center">
-        <div
-          className="relative rounded-[48px] ring-[10px] ring-black shadow-[0_30px_80px_rgba(0,0,0,0.6)]"
-          style={{ width: "min(92vw, calc(92vh * 9 / 19.5))", aspectRatio: "9 / 19.5" }}
-        >
-          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-28 h-7 rounded-full bg-black" />
-        </div>
-      </div>
       <div
-        className="relative overflow-hidden font-sans text-ink select-none w-full h-full md:rounded-none rounded-[40px] md:max-w-none md:max-h-none"
+        className="relative overflow-hidden font-sans text-ink select-none
+          md:w-full md:h-full md:max-w-none md:max-h-none md:rounded-none md:ring-0 md:shadow-none
+          rounded-[44px] ring-[10px] ring-black shadow-[0_30px_80px_rgba(0,0,0,0.6)]"
         style={{
           backgroundImage: `url(${wallpaper})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          width: undefined,
+          width: "min(92vw, calc(92vh * 9 / 19.5))",
+          aspectRatio: "9 / 19.5",
         }}
       >
+        {/* Dynamic island — mobile / tablet only */}
+        <div className="md:hidden pointer-events-none absolute top-2 left-1/2 -translate-x-1/2 w-28 h-7 rounded-full bg-black z-[200]" />
       <MenuBar focused={focus} />
 
       {/* Welcome sticky note */}
