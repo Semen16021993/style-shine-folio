@@ -907,7 +907,8 @@ function OrienCase() {
   const h4 = "font-mono text-xs uppercase tracking-widest text-ink/60 mb-2";
   const fullImg = "w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]";
   return (
-    <div className="space-y-6">
+    <TypoScope className="space-y-6">
+
       <div className="flex flex-wrap gap-2 text-xs font-mono">
         <span className="px-2 py-1 rounded bg-coral/15 text-coral">Криптокошелёк · part-time</span>
         <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">2025 — 2026</span>
