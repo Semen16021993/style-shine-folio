@@ -909,14 +909,6 @@ function OrienCase() {
   return (
     <TypoScope className="space-y-6">
 
-      <div className="flex flex-wrap gap-2 text-xs font-mono">
-        <span className="px-2 py-1 rounded bg-coral/15 text-coral">Криптокошелёк · part-time</span>
-        <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">2025 — 2026</span>
-      </div>
-      <h2 className="font-display text-2xl md:text-3xl leading-tight">
-        Crypto Orien.AI — мобильный криптокошелёк
-      </h2>
-
       <motion.img
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -926,6 +918,14 @@ function OrienCase() {
         loading="lazy"
         className={fullImg}
       />
+
+      <div className="flex flex-wrap gap-2 text-xs font-mono">
+        <span className="px-2 py-1 rounded bg-coral/15 text-coral">Криптокошелёк · part-time</span>
+        <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">2025 — 2026</span>
+      </div>
+      <h2 className="font-display text-2xl md:text-3xl leading-tight">
+        Crypto Orien.AI — мобильный криптокошелёк
+      </h2>
 
       <div>
         <h4 className={h4}>Контекст и задачи</h4>
