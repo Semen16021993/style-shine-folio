@@ -222,12 +222,30 @@ function Dock({ onOpen }: { onOpen: (id: WindowId) => void }) {
           whileHover={{ scale: 1.25, y: -8 }}
           whileTap={{ scale: 0.95 }}
           transition={{ type: "spring", stiffness: 400, damping: 18 }}
-          onClick={() => { playTap(); if (!it.disabled) onOpen(it.id as WindowId); }}
+          onClick={() => {
+            playTap();
+            if (it.disabled) return;
+            if (it.href) {
+              window.open(it.href, "_blank", "noopener,noreferrer");
+              return;
+            }
+            onOpen(it.id as WindowId);
+          }}
           className="relative size-12 flex items-center justify-center group"
           title={it.label}
         >
-          <div className="w-11 h-11 flex items-center justify-center [&>*]:!w-11 [&>*]:!h-11 [&_svg]:!w-11 [&_svg]:!h-11 [&_img]:!w-11 [&_img]:!h-11 [&_img]:object-contain">
-            <IconGraphic icon={it.icon} />
+          <div className="w-11 h-11 flex items-center justify-center overflow-hidden rounded-[22%]">
+            <img
+              src={
+                it.icon === "figma"
+                  ? iconFigma
+                  : it.icon === "photoshop"
+                  ? iconPhotoshop
+                  : iconPhotos
+              }
+              alt={it.label}
+              className="w-11 h-11 object-contain drop-shadow"
+            />
           </div>
           <span className="absolute -top-8 px-2 py-1 rounded bg-black/75 text-white text-[11px] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             {it.label}
