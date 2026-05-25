@@ -1066,7 +1066,8 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
   results: string[];
 }) {
   return (
-    <div className="space-y-6">
+    <TypoScope className="space-y-6">
+
       {cover && (
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
