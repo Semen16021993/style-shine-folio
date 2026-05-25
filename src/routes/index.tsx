@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import wallpaper from "@/assets/wallpaper.jpg";
 import gallery1 from "@/assets/gallery-1.jpg";
 import gallery2 from "@/assets/gallery-2.jpg";
@@ -9,7 +9,7 @@ import gallery4 from "@/assets/gallery-4.jpg";
 import memoji from "@/assets/memoji.jpg";
 import iconPhotos from "@/assets/icon-photos.png";
 import iconPhotoshop from "@/assets/icon-photoshop.png";
-import iconFigma from "@/assets/icon-figma.png";
+import iconFigma from "@/assets/icon-figma-color.svg";
 import caseOrien from "@/assets/case-orien.jpg";
 import orien2 from "@/assets/orien-2.jpg";
 import caseFourdev from "@/assets/case-fourdev.jpg";
@@ -69,6 +69,40 @@ function playTap() {
   } catch {}
 }
 
+// Typography: prevent dangling short prepositions/conjunctions ("висящие предлоги")
+// by joining them to the next word with a non-breaking space.
+const SHORT_WORDS = new Set([
+  "в","и","а","у","о","с","к","я",
+  "на","по","до","из","от","не","но","со","во","об","за","то","та","те","же","бы","ли","мы","ты","вы",
+  "или","для","при","что","как","без","под","над","перед","через","про","ещё","уже","это","эти","том","там","тут",
+]);
+function nbsp(input: string): string {
+  return input.replace(/(^|[\s(«"])([A-Za-zА-Яа-яЁё]{1,5}) (?=[A-Za-zА-Яа-яЁё0-9])/g, (m, pre, w) => {
+    return SHORT_WORDS.has(w.toLowerCase()) ? `${pre}${w}\u00A0` : m;
+  });
+}
+
+// Wraps a subtree and post-processes its text nodes to remove hanging prepositions.
+function TypoScope({ children, as: As = "div", className }: { children: ReactNode; as?: "div" | "span"; className?: string }) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const root = ref.current;
+    if (!root) return;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    const toFix: Text[] = [];
+    let n: Node | null = walker.nextNode();
+    while (n) {
+      if (n.nodeValue && /\s/.test(n.nodeValue)) toFix.push(n as Text);
+      n = walker.nextNode();
+    }
+    for (const t of toFix) {
+      const fixed = nbsp(t.nodeValue || "");
+      if (fixed !== t.nodeValue) t.nodeValue = fixed;
+    }
+  });
+  return <As ref={ref as never} className={className}>{children}</As>;
+}
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -99,16 +133,18 @@ interface DesktopItem {
 
 const items: DesktopItem[] = [
   // Center-right column — case folders
-  { id: "orien", label: "Сryptowallet 2025-26", icon: "folder", color: "#7FB3D5", x: 60, y: 32 },
-  { id: "fourdev", label: "4Dev.tech 2023-25", icon: "folder", color: "#7FB3D5", x: 60, y: 52 },
-  { id: "debtor", label: "Должник прав 2023", icon: "folder", color: "#7FB3D5", x: 60, y: 72 },
+  { id: "orien", label: "Сryptowallet 2025-26", icon: "folder", color: "#7FB3D5", x: 78, y: 32 },
+  { id: "fourdev", label: "4Dev.tech 2023-25", icon: "folder", color: "#7FB3D5", x: 78, y: 52 },
+  { id: "debtor", label: "Должник прав 2023", icon: "folder", color: "#7FB3D5", x: 78, y: 72 },
   // Center-left column
-  { id: "cv", label: "CV", icon: "pdf", x: 38, y: 62 },
+  { id: "cv", label: "CV", icon: "pdf", x: 58, y: 62 },
 ];
 
-const dockItems: { id: "photoshop" | "figma" | "gallery"; label: string; icon: "photoshop" | "figma" | "gallery"; disabled?: boolean }[] = [
+const FIGMA_URL = "https://www.figma.com/design/tPwY5DNw9Q20JQzMyMVldC/Design-System-%7C-Ui-Kit?node-id=403-674&p=f&t=aq5IZpO7bMZti4sO-0";
+
+const dockItems: { id: "photoshop" | "figma" | "gallery"; label: string; icon: "photoshop" | "figma" | "gallery"; disabled?: boolean; href?: string }[] = [
   { id: "photoshop", label: "Adobe Photoshop 2026", icon: "photoshop", disabled: true },
-  { id: "figma", label: "Figma", icon: "figma", disabled: true },
+  { id: "figma", label: "Figma", icon: "figma", href: FIGMA_URL },
   { id: "gallery", label: "Галерея", icon: "gallery" },
 ];
 
@@ -207,12 +243,30 @@ function Dock({ onOpen }: { onOpen: (id: WindowId) => void }) {
           whileHover={{ scale: 1.25, y: -8 }}
           whileTap={{ scale: 0.95 }}
           transition={{ type: "spring", stiffness: 400, damping: 18 }}
-          onClick={() => { playTap(); if (!it.disabled) onOpen(it.id as WindowId); }}
+          onClick={() => {
+            playTap();
+            if (it.disabled) return;
+            if (it.href) {
+              window.open(it.href, "_blank", "noopener,noreferrer");
+              return;
+            }
+            onOpen(it.id as WindowId);
+          }}
           className="relative size-12 flex items-center justify-center group"
           title={it.label}
         >
-          <div className="w-11 h-11 flex items-center justify-center [&>*]:!w-11 [&>*]:!h-11 [&_svg]:!w-11 [&_svg]:!h-11 [&_img]:!w-11 [&_img]:!h-11 [&_img]:object-contain">
-            <IconGraphic icon={it.icon} />
+          <div className="w-11 h-11 flex items-center justify-center overflow-hidden rounded-[22%]">
+            <img
+              src={
+                it.icon === "figma"
+                  ? iconFigma
+                  : it.icon === "photoshop"
+                  ? iconPhotoshop
+                  : iconPhotos
+              }
+              alt={it.label}
+              className="w-11 h-11 object-contain drop-shadow"
+            />
           </div>
           <span className="absolute -top-8 px-2 py-1 rounded bg-black/75 text-white text-[11px] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             {it.label}
@@ -224,49 +278,52 @@ function Dock({ onOpen }: { onOpen: (id: WindowId) => void }) {
 }
 
 function ZoomCall() {
-  const participants = [
-    { name: "Дарья", color: "#e85d75", initials: "Д", speaking: true },
-    { name: "Алексей", color: "#7FB3D5", initials: "А" },
-    { name: "Мария", color: "#f4a261", initials: "М" },
-    { name: "Иван", color: "#88c9a1", initials: "И" },
-  ];
+  const [visible, setVisible] = useState(true);
+  const [elapsed, setElapsed] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setElapsed((s) => s + 1), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const mm = String(Math.floor(elapsed / 60)).padStart(2, "0");
+  const ss = String(elapsed % 60).padStart(2, "0");
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20, scale: 0.9 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ delay: 0.8, type: "spring", stiffness: 180, damping: 20 }}
-      drag
-      dragMomentum={false}
-      className="absolute bottom-8 left-6 md:left-12 w-[320px] md:w-[360px] bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl border border-white/10 z-[55] cursor-grab active:cursor-grabbing"
-      style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.5)" }}
-    >
-      {/* Header */}
-      <div className="h-7 px-3 flex items-center justify-between bg-[#2d2d2d] text-white/80 text-[11px]">
-        <div className="flex items-center gap-2">
-          <span className="size-2 rounded-full bg-red-500 animate-pulse" />
-          <span className="font-medium">Zoom Meeting · 00:14:32</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <span className="size-2.5 rounded-full bg-[#febc2e]" />
-          <span className="size-2.5 rounded-full bg-[#28c840]" />
-        </div>
-      </div>
-      {/* Grid */}
-      <div className="grid grid-cols-2 gap-1 p-1 bg-black">
-        {participants.map((p) => (
-          <div
-            key={p.name}
-            className={`relative aspect-video rounded-md flex items-center justify-center overflow-hidden ${p.speaking ? "ring-2 ring-[#28c840]" : ""}`}
-            style={{ background: `linear-gradient(135deg, ${p.color}, ${p.color}99)` }}
-          >
-            <div className="size-10 rounded-full bg-white/90 grid place-items-center font-display text-lg text-ink shadow">
-              {p.initials}
+    <AnimatePresence>
+      {visible && (
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 20, scale: 0.9 }}
+          transition={{ delay: 0.8, type: "spring", stiffness: 180, damping: 20 }}
+          drag
+          dragMomentum={false}
+          className="absolute bottom-8 left-6 md:left-12 w-[320px] md:w-[360px] bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl border border-white/10 z-[55] cursor-grab active:cursor-grabbing"
+          style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.5)" }}
+        >
+          {/* Header */}
+          <div className="h-7 px-3 flex items-center justify-between bg-[#2d2d2d] text-white/80 text-[11px]">
+            <div className="flex items-center gap-2">
+              <span className="size-2 rounded-full bg-red-500 animate-pulse" />
+              <span className="font-medium">Zoom Meeting · 00:{mm}:{ss}</span>
             </div>
-            <div className="absolute bottom-1 left-1.5 text-[10px] text-white font-medium drop-shadow">
-              {p.name}
+            <div className="flex items-center gap-1.5">
+              <span className="size-2.5 rounded-full bg-[#febc2e]" />
+              <span className="size-2.5 rounded-full bg-[#28c840]" />
             </div>
-            {p.speaking && (
-              <div className="absolute bottom-1 right-1.5 flex items-end gap-0.5 h-3">
+          </div>
+          {/* Stage */}
+          <div className="p-1 bg-black">
+            <div
+              className="relative aspect-video rounded-md flex items-center justify-center overflow-hidden ring-2 ring-[#28c840]"
+              style={{ background: "linear-gradient(135deg, #e85d75, #e85d7599)" }}
+            >
+              <div className="size-16 rounded-full bg-white/90 grid place-items-center font-display text-3xl text-ink shadow">
+                Д
+              </div>
+              <div className="absolute bottom-1.5 left-2 text-[11px] text-white font-medium drop-shadow">
+                Дарья (вы)
+              </div>
+              <div className="absolute bottom-1.5 right-2 flex items-end gap-0.5 h-3">
                 {[0, 1, 2].map((i) => (
                   <motion.span
                     key={i}
@@ -276,54 +333,77 @@ function ZoomCall() {
                   />
                 ))}
               </div>
-            )}
+              <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-black/40 backdrop-blur text-white text-[10px] font-medium flex items-center gap-1.5">
+                <motion.span
+                  className="size-1.5 rounded-full bg-white/80"
+                  animate={{ opacity: [0.3, 1, 0.3] }}
+                  transition={{ duration: 1.4, repeat: Infinity }}
+                />
+                Ожидание участников…
+              </div>
+            </div>
           </div>
-        ))}
-      </div>
-      {/* Controls */}
-      <div className="h-11 px-3 flex items-center justify-center gap-2 bg-[#2d2d2d] border-t border-white/5">
-        {[
-          { icon: "🎙", bg: "bg-white/10" },
-          { icon: "📹", bg: "bg-white/10" },
-          { icon: "💬", bg: "bg-white/10" },
-          { icon: "🖥", bg: "bg-white/10" },
-          { icon: "✋", bg: "bg-white/10" },
-          { icon: "📞", bg: "bg-red-500" },
-        ].map((b, i) => (
-          <button
-            key={i}
-            className={`size-7 rounded-md ${b.bg} hover:bg-white/20 transition-colors grid place-items-center text-[12px]`}
-          >
-            {b.icon}
-          </button>
-        ))}
-      </div>
-    </motion.div>
+          {/* Controls */}
+          <div className="h-11 px-3 flex items-center justify-center gap-2 bg-[#2d2d2d] border-t border-white/5">
+            {[
+              { icon: "🎙", bg: "bg-white/10" },
+              { icon: "💬", bg: "bg-white/10" },
+              { icon: "🖥", bg: "bg-white/10" },
+              { icon: "✋", bg: "bg-white/10" },
+            ].map((b, i) => (
+              <button
+                key={i}
+                className={`size-7 rounded-md ${b.bg} hover:bg-white/20 transition-colors grid place-items-center text-[12px]`}
+              >
+                {b.icon}
+              </button>
+            ))}
+            <button
+              onClick={() => { playTap(); setVisible(false); }}
+              className="size-7 rounded-md bg-red-500 hover:bg-red-600 transition-colors grid place-items-center text-[12px] shadow-[0_0_0_2px_rgba(239,68,68,0.35)]"
+              aria-label="Завершить звонок"
+              title="Завершить звонок"
+            >
+              📞
+            </button>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 
-function MenuBar({ focused }: { focused: WindowId | null }) {
-  const [time, setTime] = useState("");
+function MenuBar({ focused: _focused }: { focused: WindowId | null }) {
+  void _focused;
+  const [stamp, setStamp] = useState("");
   useEffect(() => {
+    const days = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
+    const months = [
+      "января", "февраля", "марта", "апреля", "мая", "июня",
+      "июля", "августа", "сентября", "октября", "ноября", "декабря",
+    ];
     const tick = () => {
       const d = new Date();
-      setTime(`${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}:${String(d.getSeconds()).padStart(2, "0")}`);
+      const hh = String(d.getHours()).padStart(2, "0");
+      const mm = String(d.getMinutes()).padStart(2, "0");
+      setStamp(`${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${hh}:${mm}`);
     };
     tick();
-    const id = setInterval(tick, 1000);
+    const id = setInterval(tick, 1000 * 15);
     return () => clearInterval(id);
   }, []);
   return (
     <div className="absolute top-0 inset-x-0 z-[100] h-8 bg-white/40 backdrop-blur-2xl border-b border-white/30 flex items-center justify-between px-4 text-xs text-ink">
       <div className="flex items-center gap-3">
         <img src={memoji} alt="" className="size-6 rounded-full object-cover" />
-        <span className="font-semibold">Product Designer · Дарья Верескунова</span>
-        <span className="hidden sm:inline text-ink/70"></span>
+        <span>
+          <span className="font-normal">Дарья Верескунова</span>
+          <span className="mx-1.5 text-ink/40">·</span>
+          <span className="font-semibold">Product designer</span>
+        </span>
       </div>
-      <div className="flex items-center gap-4 font-mono">
-        <a href="https://t.me/Darialud" className="hover:text-coral">TG</a>
-        <a href="mailto:vereskunova@gmail.com" className="hover:text-coral">✉</a>
-        <span>{time}</span>
+      <div className="flex items-center gap-4">
+        <span className="tabular-nums">{stamp}</span>
       </div>
     </div>
   );
@@ -657,17 +737,9 @@ function FourDevCase() {
   const fullImg = "w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]";
 
   return (
-    <div className="space-y-6">
-      {/* Title block */}
-      <div className="flex flex-wrap gap-2 text-xs font-mono">
-        <span className="font-display md:text-2xl leading-snug text-ink/90 bg-blue-50 border-solid font-medium font-mono text-sm text-center">SaaS для девелопмента · full-time</span>
-        <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">2023 — 2025</span>
-      </div>
-      <h2 className="font-display text-2xl md:text-3xl leading-tight">
-        ​Экосистема для автоматизации девелопмент
-      </h2>
+    <TypoScope className="space-y-6">
 
-      {/* Page 1 — cover dashboard */}
+      {/* Cover image first */}
       <motion.div
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -676,6 +748,16 @@ function FourDevCase() {
       >
         <img src={caseFourdev} alt="Дашборд продаж 4DEV" loading="lazy" className="w-full h-auto block" />
       </motion.div>
+
+      {/* Tag row — unified with other cases */}
+      <div className="flex flex-wrap gap-2 text-xs font-mono">
+        <span className="px-2 py-1 rounded bg-coral/15 text-coral">{nbsp("SaaS для девелопмента · full-time")}</span>
+        <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">2023 — 2025</span>
+      </div>
+
+      <h2 className="font-display text-2xl md:text-3xl leading-tight">
+        {nbsp("Экосистема для автоматизации девелопмента")}
+      </h2>
 
       {/* Контекст и задачи */}
       <div>
@@ -816,7 +898,8 @@ function FourDevCase() {
           Интерфейс начал влиять на ключевые бизнес-метрики: скорость операций, количество ошибок, нагрузку на административные процессы и удовлетворённость пользователей.
         </p>
       </div>
-    </div>
+    </TypoScope>
+
   );
 }
 
@@ -824,7 +907,8 @@ function OrienCase() {
   const h4 = "font-mono text-xs uppercase tracking-widest text-ink/60 mb-2";
   const fullImg = "w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]";
   return (
-    <div className="space-y-6">
+    <TypoScope className="space-y-6">
+
       <div className="flex flex-wrap gap-2 text-xs font-mono">
         <span className="px-2 py-1 rounded bg-coral/15 text-coral">Криптокошелёк · part-time</span>
         <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">2025 — 2026</span>
@@ -960,7 +1044,8 @@ function OrienCase() {
           <li className="flex gap-2"><span className="text-emerald-600">✓</span>Подготовлена архитектура для последующего роста конверсии и уменьшения drop-off при запуске продукта с нуля.</li>
         </ul>
       </div>
-    </div>
+    </TypoScope>
+
   );
 }
 
@@ -981,7 +1066,8 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
   results: string[];
 }) {
   return (
-    <div className="space-y-6">
+    <TypoScope className="space-y-6">
+
       {cover && (
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
@@ -1061,6 +1147,7 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
           {results.map((r, i) => <li key={i} className="flex gap-2"><span className="text-emerald-600">✓</span>{r}</li>)}
         </ul>
       </div>
-    </div>
+    </TypoScope>
+
   );
 }
