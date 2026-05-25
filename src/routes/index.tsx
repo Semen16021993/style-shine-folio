@@ -257,49 +257,52 @@ function Dock({ onOpen }: { onOpen: (id: WindowId) => void }) {
 }
 
 function ZoomCall() {
-  const participants = [
-    { name: "Дарья", color: "#e85d75", initials: "Д", speaking: true },
-    { name: "Алексей", color: "#7FB3D5", initials: "А" },
-    { name: "Мария", color: "#f4a261", initials: "М" },
-    { name: "Иван", color: "#88c9a1", initials: "И" },
-  ];
+  const [visible, setVisible] = useState(true);
+  const [elapsed, setElapsed] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setElapsed((s) => s + 1), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const mm = String(Math.floor(elapsed / 60)).padStart(2, "0");
+  const ss = String(elapsed % 60).padStart(2, "0");
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20, scale: 0.9 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ delay: 0.8, type: "spring", stiffness: 180, damping: 20 }}
-      drag
-      dragMomentum={false}
-      className="absolute bottom-8 left-6 md:left-12 w-[320px] md:w-[360px] bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl border border-white/10 z-[55] cursor-grab active:cursor-grabbing"
-      style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.5)" }}
-    >
-      {/* Header */}
-      <div className="h-7 px-3 flex items-center justify-between bg-[#2d2d2d] text-white/80 text-[11px]">
-        <div className="flex items-center gap-2">
-          <span className="size-2 rounded-full bg-red-500 animate-pulse" />
-          <span className="font-medium">Zoom Meeting · 00:14:32</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <span className="size-2.5 rounded-full bg-[#febc2e]" />
-          <span className="size-2.5 rounded-full bg-[#28c840]" />
-        </div>
-      </div>
-      {/* Grid */}
-      <div className="grid grid-cols-2 gap-1 p-1 bg-black">
-        {participants.map((p) => (
-          <div
-            key={p.name}
-            className={`relative aspect-video rounded-md flex items-center justify-center overflow-hidden ${p.speaking ? "ring-2 ring-[#28c840]" : ""}`}
-            style={{ background: `linear-gradient(135deg, ${p.color}, ${p.color}99)` }}
-          >
-            <div className="size-10 rounded-full bg-white/90 grid place-items-center font-display text-lg text-ink shadow">
-              {p.initials}
+    <AnimatePresence>
+      {visible && (
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 20, scale: 0.9 }}
+          transition={{ delay: 0.8, type: "spring", stiffness: 180, damping: 20 }}
+          drag
+          dragMomentum={false}
+          className="absolute bottom-8 left-6 md:left-12 w-[320px] md:w-[360px] bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl border border-white/10 z-[55] cursor-grab active:cursor-grabbing"
+          style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.5)" }}
+        >
+          {/* Header */}
+          <div className="h-7 px-3 flex items-center justify-between bg-[#2d2d2d] text-white/80 text-[11px]">
+            <div className="flex items-center gap-2">
+              <span className="size-2 rounded-full bg-red-500 animate-pulse" />
+              <span className="font-medium">Zoom Meeting · 00:{mm}:{ss}</span>
             </div>
-            <div className="absolute bottom-1 left-1.5 text-[10px] text-white font-medium drop-shadow">
-              {p.name}
+            <div className="flex items-center gap-1.5">
+              <span className="size-2.5 rounded-full bg-[#febc2e]" />
+              <span className="size-2.5 rounded-full bg-[#28c840]" />
             </div>
-            {p.speaking && (
-              <div className="absolute bottom-1 right-1.5 flex items-end gap-0.5 h-3">
+          </div>
+          {/* Stage */}
+          <div className="p-1 bg-black">
+            <div
+              className="relative aspect-video rounded-md flex items-center justify-center overflow-hidden ring-2 ring-[#28c840]"
+              style={{ background: "linear-gradient(135deg, #e85d75, #e85d7599)" }}
+            >
+              <div className="size-16 rounded-full bg-white/90 grid place-items-center font-display text-3xl text-ink shadow">
+                Д
+              </div>
+              <div className="absolute bottom-1.5 left-2 text-[11px] text-white font-medium drop-shadow">
+                Дарья (вы)
+              </div>
+              <div className="absolute bottom-1.5 right-2 flex items-end gap-0.5 h-3">
                 {[0, 1, 2].map((i) => (
                   <motion.span
                     key={i}
@@ -309,29 +312,43 @@ function ZoomCall() {
                   />
                 ))}
               </div>
-            )}
+              <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-black/40 backdrop-blur text-white text-[10px] font-medium flex items-center gap-1.5">
+                <motion.span
+                  className="size-1.5 rounded-full bg-white/80"
+                  animate={{ opacity: [0.3, 1, 0.3] }}
+                  transition={{ duration: 1.4, repeat: Infinity }}
+                />
+                Ожидание участников…
+              </div>
+            </div>
           </div>
-        ))}
-      </div>
-      {/* Controls */}
-      <div className="h-11 px-3 flex items-center justify-center gap-2 bg-[#2d2d2d] border-t border-white/5">
-        {[
-          { icon: "🎙", bg: "bg-white/10" },
-          { icon: "📹", bg: "bg-white/10" },
-          { icon: "💬", bg: "bg-white/10" },
-          { icon: "🖥", bg: "bg-white/10" },
-          { icon: "✋", bg: "bg-white/10" },
-          { icon: "📞", bg: "bg-red-500" },
-        ].map((b, i) => (
-          <button
-            key={i}
-            className={`size-7 rounded-md ${b.bg} hover:bg-white/20 transition-colors grid place-items-center text-[12px]`}
-          >
-            {b.icon}
-          </button>
-        ))}
-      </div>
-    </motion.div>
+          {/* Controls */}
+          <div className="h-11 px-3 flex items-center justify-center gap-2 bg-[#2d2d2d] border-t border-white/5">
+            {[
+              { icon: "🎙", bg: "bg-white/10" },
+              { icon: "💬", bg: "bg-white/10" },
+              { icon: "🖥", bg: "bg-white/10" },
+              { icon: "✋", bg: "bg-white/10" },
+            ].map((b, i) => (
+              <button
+                key={i}
+                className={`size-7 rounded-md ${b.bg} hover:bg-white/20 transition-colors grid place-items-center text-[12px]`}
+              >
+                {b.icon}
+              </button>
+            ))}
+            <button
+              onClick={() => { playTap(); setVisible(false); }}
+              className="size-7 rounded-md bg-red-500 hover:bg-red-600 transition-colors grid place-items-center text-[12px] shadow-[0_0_0_2px_rgba(239,68,68,0.35)]"
+              aria-label="Завершить звонок"
+              title="Завершить звонок"
+            >
+              📞
+            </button>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 
