@@ -69,6 +69,19 @@ function playTap() {
   } catch {}
 }
 
+// Typography: prevent dangling short prepositions/conjunctions ("висящие предлоги")
+// by joining them to the next word with a non-breaking space.
+const SHORT_WORDS = new Set([
+  "в","и","а","у","о","с","к","я",
+  "на","по","до","из","от","не","но","со","во","об","за","то","та","те","же","бы","ли","мы","ты","вы",
+  "или","для","при","что","как","без","под","над","перед","через","про","ещё","уже","это","эти","том","там","тут",
+]);
+function nbsp(input: string): string {
+  return input.replace(/(^|[\s(«"])([A-Za-zА-Яа-яЁё]{1,5}) (?=[A-Za-zА-Яа-яЁё0-9])/g, (m, pre, w) => {
+    return SHORT_WORDS.has(w.toLowerCase()) ? `${pre}${w}\u00A0` : m;
+  });
+}
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
