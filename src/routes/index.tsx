@@ -112,16 +112,18 @@ interface DesktopItem {
 
 const items: DesktopItem[] = [
   // Center-right column — case folders
-  { id: "orien", label: "Сryptowallet 2025-26", icon: "folder", color: "#7FB3D5", x: 60, y: 32 },
-  { id: "fourdev", label: "4Dev.tech 2023-25", icon: "folder", color: "#7FB3D5", x: 60, y: 52 },
-  { id: "debtor", label: "Должник прав 2023", icon: "folder", color: "#7FB3D5", x: 60, y: 72 },
+  { id: "orien", label: "Сryptowallet 2025-26", icon: "folder", color: "#7FB3D5", x: 78, y: 32 },
+  { id: "fourdev", label: "4Dev.tech 2023-25", icon: "folder", color: "#7FB3D5", x: 78, y: 52 },
+  { id: "debtor", label: "Должник прав 2023", icon: "folder", color: "#7FB3D5", x: 78, y: 72 },
   // Center-left column
-  { id: "cv", label: "CV", icon: "pdf", x: 38, y: 62 },
+  { id: "cv", label: "CV", icon: "pdf", x: 58, y: 62 },
 ];
 
-const dockItems: { id: "photoshop" | "figma" | "gallery"; label: string; icon: "photoshop" | "figma" | "gallery"; disabled?: boolean }[] = [
+const FIGMA_URL = "https://www.figma.com/design/tPwY5DNw9Q20JQzMyMVldC/Design-System-%7C-Ui-Kit?node-id=403-674&p=f&t=aq5IZpO7bMZti4sO-0";
+
+const dockItems: { id: "photoshop" | "figma" | "gallery"; label: string; icon: "photoshop" | "figma" | "gallery"; disabled?: boolean; href?: string }[] = [
   { id: "photoshop", label: "Adobe Photoshop 2026", icon: "photoshop", disabled: true },
-  { id: "figma", label: "Figma", icon: "figma", disabled: true },
+  { id: "figma", label: "Figma", icon: "figma", href: FIGMA_URL },
   { id: "gallery", label: "Галерея", icon: "gallery" },
 ];
 
