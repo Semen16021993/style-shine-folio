@@ -82,6 +82,27 @@ function nbsp(input: string): string {
   });
 }
 
+// Wraps a subtree and post-processes its text nodes to remove hanging prepositions.
+function TypoScope({ children, as: As = "div", className }: { children: ReactNode; as?: "div" | "span"; className?: string }) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const root = ref.current;
+    if (!root) return;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    const toFix: Text[] = [];
+    let n: Node | null = walker.nextNode();
+    while (n) {
+      if (n.nodeValue && /\s/.test(n.nodeValue)) toFix.push(n as Text);
+      n = walker.nextNode();
+    }
+    for (const t of toFix) {
+      const fixed = nbsp(t.nodeValue || "");
+      if (fixed !== t.nodeValue) t.nodeValue = fixed;
+    }
+  });
+  return <As ref={ref as never} className={className}>{children}</As>;
+}
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
