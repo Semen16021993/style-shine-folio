@@ -717,16 +717,7 @@ function FourDevCase() {
 
   return (
     <div className="space-y-6">
-      {/* Title block */}
-      <div className="flex flex-wrap gap-2 text-xs font-mono">
-        <span className="font-display md:text-2xl leading-snug text-ink/90 bg-blue-50 border-solid font-medium font-mono text-sm text-center">SaaS для девелопмента · full-time</span>
-        <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">2023 — 2025</span>
-      </div>
-      <h2 className="font-display text-2xl md:text-3xl leading-tight">
-        ​Экосистема для автоматизации девелопмент
-      </h2>
-
-      {/* Page 1 — cover dashboard */}
+      {/* Cover image first */}
       <motion.div
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -735,6 +726,16 @@ function FourDevCase() {
       >
         <img src={caseFourdev} alt="Дашборд продаж 4DEV" loading="lazy" className="w-full h-auto block" />
       </motion.div>
+
+      {/* Tag row — unified with other cases */}
+      <div className="flex flex-wrap gap-2 text-xs font-mono">
+        <span className="px-2 py-1 rounded bg-coral/15 text-coral">{nbsp("SaaS для девелопмента · full-time")}</span>
+        <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">2023 — 2025</span>
+      </div>
+
+      <h2 className="font-display text-2xl md:text-3xl leading-tight">
+        {nbsp("Экосистема для автоматизации девелопмента")}
+      </h2>
 
       {/* Контекст и задачи */}
       <div>
