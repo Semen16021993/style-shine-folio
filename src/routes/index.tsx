@@ -152,7 +152,14 @@ const dockItems: { id: "photoshop" | "figma" | "gallery"; label: string; icon: "
 function Desktop() {
   const [open, setOpen] = useState<WindowId[]>([]);
   const [focus, setFocus] = useState<WindowId | null>(null);
-  const isMobile = useIsMobile();
+  const [phoneMode, setPhoneMode] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    const update = () => setPhoneMode(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   const openWindow = (id: WindowId) => {
     setOpen((s) => (s.includes(id) ? s : [...s, id]));
