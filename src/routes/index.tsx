@@ -490,7 +490,7 @@ function ZoomCall() {
           transition={{ delay: 0.8, type: "spring", stiffness: 180, damping: 20 }}
           drag
           dragMomentum={false}
-          className="absolute bottom-8 left-6 md:left-12 w-[320px] md:w-[360px] bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl border border-white/10 z-[55] cursor-grab active:cursor-grabbing"
+          className="absolute bottom-32 left-6 md:left-12 w-[420px] md:w-[480px] bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl border border-white/10 z-[55] cursor-grab active:cursor-grabbing"
           style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.5)" }}
         >
           {/* Header */}
