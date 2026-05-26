@@ -296,8 +296,8 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
 
   const dock: { src: string; label: string; href?: string; action?: "gallery" }[] = [
     { src: sysIcon1, label: "Телефон", href: "tel:+79109076181" },
-    { src: sysIcon2, label: "Фото", action: "gallery" },
     { src: sysIcon3, label: "Почта", href: "mailto:vereskunovadaria@gmail.com" },
+    { src: sysIcon2, label: "Фото", action: "gallery" },
     { src: sysAqua, label: "Telegram", href: "https://t.me/DariaIud" },
   ];
 
