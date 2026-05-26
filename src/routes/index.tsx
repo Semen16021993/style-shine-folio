@@ -294,7 +294,12 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
     { id: "gallery", label: "EatEasy", icon: appEateasy },
   ];
 
-  const dock = [sysIcon1, sysIcon2, sysIcon3, sysAqua];
+  const dock: { src: string; label: string; href?: string; action?: "gallery" }[] = [
+    { src: sysIcon1, label: "Телефон", href: "tel:+79109076181" },
+    { src: sysIcon2, label: "Фото", action: "gallery" },
+    { src: sysIcon3, label: "Почта", href: "mailto:vereskunovadaria@gmail.com" },
+    { src: sysAqua, label: "Telegram", href: "https://t.me/DariaIud" },
+  ];
 
   return (
     <div className="absolute inset-0 flex flex-col">
