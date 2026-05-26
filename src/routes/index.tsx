@@ -488,7 +488,7 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
   if (icon === "photoshop") {
     return (
       <div className="w-24 h-24 grid place-items-center">
-        <img src={iconPhotoshop} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-contain" />
+        <img src={iconPs} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-contain" />
       </div>
     );
   }
