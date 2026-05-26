@@ -8,8 +8,12 @@ import gallery3 from "@/assets/gallery-3.jpg";
 import gallery4 from "@/assets/gallery-4.jpg";
 import memoji from "@/assets/memoji.jpg";
 import iconPhotos from "@/assets/icon-photos.png";
-import iconPhotoshop from "@/assets/icon-photoshop.png";
+import iconGal from "@/assets/icon-gal.svg";
 import iconFigma from "@/assets/icon-figma-color.svg";
+import iconPs from "@/assets/icon-ps.svg";
+import iconAi from "@/assets/icon-ai.svg";
+import iconId from "@/assets/icon-id.svg";
+import iconIn from "@/assets/icon-in.svg";
 import caseOrien from "@/assets/case-orien.jpg";
 import orien2 from "@/assets/orien-2.jpg";
 import caseFourdev from "@/assets/case-fourdev.jpg";
@@ -142,11 +146,23 @@ const items: DesktopItem[] = [
 
 const FIGMA_URL = "https://www.figma.com/design/tPwY5DNw9Q20JQzMyMVldC/Design-System-%7C-Ui-Kit?node-id=403-674&p=f&t=aq5IZpO7bMZti4sO-0";
 
-const dockItems: { id: "photoshop" | "figma" | "gallery"; label: string; icon: "photoshop" | "figma" | "gallery"; disabled?: boolean; href?: string }[] = [
-  { id: "photoshop", label: "Adobe Photoshop 2026", icon: "photoshop", disabled: true },
+type DockIconKey = "gal" | "figma" | "ps" | "ai" | "id" | "in";
+const dockItems: { id: DockIconKey | "gallery"; label: string; icon: DockIconKey; disabled?: boolean; href?: string }[] = [
+  { id: "gallery", label: "Галерея", icon: "gal" },
   { id: "figma", label: "Figma", icon: "figma", href: FIGMA_URL },
-  { id: "gallery", label: "Галерея", icon: "gallery" },
+  { id: "ps", label: "Adobe Photoshop", icon: "ps", disabled: true },
+  { id: "ai", label: "Adobe Illustrator", icon: "ai", disabled: true },
+  { id: "id", label: "Adobe InDesign", icon: "id", disabled: true },
+  { id: "in", label: "Adobe InCopy", icon: "in", disabled: true },
 ];
+const dockIconMap: Record<DockIconKey, string> = {
+  gal: iconGal,
+  figma: iconFigma,
+  ps: iconPs,
+  ai: iconAi,
+  id: iconId,
+  in: iconIn,
+};
 
 function Desktop() {
   const [open, setOpen] = useState<WindowId[]>([]);
@@ -275,19 +291,11 @@ function Dock({ onOpen }: { onOpen: (id: WindowId) => void }) {
           className="relative size-12 flex items-center justify-center group"
           title={it.label}
         >
-          <div className="w-11 h-11 flex items-center justify-center overflow-hidden rounded-[22%]">
-            <img
-              src={
-                it.icon === "figma"
-                  ? iconFigma
-                  : it.icon === "photoshop"
-                  ? iconPhotoshop
-                  : iconPhotos
-              }
-              alt={it.label}
-              className="w-11 h-11 object-contain drop-shadow"
-            />
-          </div>
+          <img
+            src={dockIconMap[it.icon]}
+            alt={it.label}
+            className="w-11 h-11 rounded-[22%] object-cover drop-shadow"
+          />
           <span className="absolute -top-8 px-2 py-1 rounded bg-black/75 text-white text-[11px] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             {it.label}
           </span>
@@ -480,7 +488,7 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
   if (icon === "photoshop") {
     return (
       <div className="w-24 h-24 grid place-items-center">
-        <img src={iconPhotoshop} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-contain" />
+        <img src={iconPs} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-contain" />
       </div>
     );
   }
