@@ -698,6 +698,43 @@ function Window({ id, zIndex, onClose, onFocus }: {
   id: WindowId; zIndex: number; onClose: () => void; onFocus: () => void;
 }) {
   const config = windowConfig[id];
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  if (isMobile) {
+    return (
+      <motion.div
+        initial={{ y: "100%" }}
+        animate={{ y: 0 }}
+        exit={{ y: "100%" }}
+        transition={{ type: "spring", stiffness: 320, damping: 34 }}
+        onMouseDown={onFocus}
+        style={{ zIndex }}
+        className="absolute inset-0 bg-white flex flex-col"
+      >
+        <div className="pointer-events-none absolute top-2 left-1/2 -translate-x-1/2 w-28 h-7 rounded-full bg-black z-[10]" />
+        <div className="h-14 px-3 pt-3 flex items-center gap-2 border-b border-ink/10">
+          <button onClick={onClose} className="flex items-center gap-1 text-[15px] text-[#007aff] font-medium px-2 py-1 -ml-2 active:opacity-60">
+            <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m15 6-6 6 6 6"/></svg>
+            Назад
+          </button>
+          <div className="flex-1 text-center text-[14px] font-semibold text-ink truncate px-2">{config.title}</div>
+          <div className="w-14" />
+        </div>
+        <div className="flex-1 overflow-y-auto overscroll-contain p-5 pb-10">
+          {config.body}
+        </div>
+        <div className="pointer-events-none absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 rounded-full bg-black/80" />
+      </motion.div>
+    );
+  }
+
   return (
     <motion.div
       drag
