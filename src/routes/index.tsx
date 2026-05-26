@@ -809,7 +809,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
         },
       ]}
       image={debtor3}
-      imageCaption="Мои документы · Оплата услуг · Моё дело — ключевые экраны клиента"
+      imageCaption="Ключевые экраны, с которыми чаще всего взаимодействует пользователь"
       problems={[
         "Пользователи не всегда понимали статус своего дела",
         "Анкеты заполнялись не с первого раза, к ним часто возвращались",
@@ -1336,7 +1336,7 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
             loading="lazy"
             className="w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]"
           />
-          {imageCaption && <figcaption className="text-ink/60 font-medium text-left font-sans text-sm bg-stone-50 text-stone-500">{imageCaption}</figcaption>}
+          {imageCaption && <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-xs text-center">{imageCaption}</figcaption>}
         </figure>
       )}
 
@@ -1369,7 +1369,7 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
                 loading="lazy"
                 className="w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]"
               />
-              <figcaption className="text-ink/60 font-medium text-left font-sans text-sm bg-stone-50 text-stone-500">{g.cap}</figcaption>
+              <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-xs text-center">{g.cap}</figcaption>
             </figure>
           ))}
         </div>
