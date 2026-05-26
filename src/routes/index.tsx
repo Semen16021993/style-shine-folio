@@ -345,15 +345,19 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
           <div className="px-4 py-2 text-[13px] text-ink leading-snug border-b border-ink/10">
             Привет, я&nbsp;Дарья! Проектирую сложные цифровые продукты, которые решают реальные бизнес-задачи.
           </div>
-          <div className="px-4 py-2 text-[13px] text-ink/90 border-b border-ink/10">Король земли</div>
           <div className="px-4 py-2 text-[13px] text-ink/90 flex items-center justify-between">
             <span>Новая заметка</span>
             <span className="w-6 h-6 rounded-md bg-ink/5 grid place-items-center text-ink/40 text-[12px]">✎</span>
           </div>
         </motion.div>
 
-        {/* App grid 2x2 — pushed to the right */}
-        <div className="grid grid-cols-2 gap-x-3 gap-y-4 w-[48%] ml-auto">
+        {/* "Заметки" label centered under widget */}
+        <div className="text-center text-white text-[11px] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.7)] -mt-2">
+          Заметки
+        </div>
+
+        {/* App row — 4 in a single row */}
+        <div className="grid grid-cols-4 gap-2 w-full">
           {apps.map((a, i) => (
             <motion.button
               key={a.id}
@@ -490,7 +494,7 @@ function ZoomCall() {
           transition={{ delay: 0.8, type: "spring", stiffness: 180, damping: 20 }}
           drag
           dragMomentum={false}
-          className="absolute bottom-8 left-6 md:left-12 w-[320px] md:w-[360px] bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl border border-white/10 z-[55] cursor-grab active:cursor-grabbing"
+          className="absolute bottom-32 left-6 md:left-12 w-[420px] md:w-[480px] bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl border border-white/10 z-[55] cursor-grab active:cursor-grabbing"
           style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.5)" }}
         >
           {/* Header */}
