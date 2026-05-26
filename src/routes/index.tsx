@@ -322,23 +322,33 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
       />
 
       {/* Content area */}
-      <div className="relative z-[5] flex-1 flex flex-col px-5 pt-10 pb-6 gap-5">
-        {/* Note widget */}
+      <div className="relative z-[5] flex-1 flex flex-col px-4 pt-8 pb-4 gap-4">
+        {/* Notes widget — iOS style with yellow header */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.4 }}
-          className="rounded-[22px] bg-[#fff7d6] shadow-lg p-4 w-[62%]"
-          style={{ boxShadow: "0 10px 30px rgba(0,0,0,0.18)" }}
+          className="rounded-[22px] overflow-hidden shadow-lg bg-white/95 backdrop-blur"
+          style={{ boxShadow: "0 12px 32px rgba(0,0,0,0.22)" }}
         >
-          <p className="text-[12px] font-semibold text-ink/80 leading-tight">Заметка</p>
-          <p className="mt-1.5 text-[13px] leading-snug text-ink">
-            <b>Привет, я&nbsp;Дарья!</b> Проектирую сложные цифровые продукты, которые решают реальные бизнес-задачи.
-          </p>
+          <div className="bg-[#FFC93D] px-4 py-2.5 flex items-center gap-2">
+            <svg viewBox="0 0 24 24" className="w-4 h-4 text-white" fill="currentColor">
+              <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" />
+            </svg>
+            <span className="text-white text-[15px] font-semibold leading-none">Заметки</span>
+          </div>
+          <div className="px-4 py-2 text-[13px] text-ink leading-snug border-b border-ink/10">
+            Привет, я&nbsp;Дарья! Проектирую сложные цифровые продукты, которые решают реальные бизнес-задачи.
+          </div>
+          <div className="px-4 py-2 text-[13px] text-ink/90 border-b border-ink/10">Король земли</div>
+          <div className="px-4 py-2 text-[13px] text-ink/90 flex items-center justify-between">
+            <span>Новая заметка</span>
+            <span className="w-6 h-6 rounded-md bg-ink/5 grid place-items-center text-ink/40 text-[12px]">✎</span>
+          </div>
         </motion.div>
 
         {/* App grid 2x2 — pushed to the right */}
-        <div className="grid grid-cols-2 gap-x-3 gap-y-4 w-[44%] ml-auto">
+        <div className="grid grid-cols-2 gap-x-3 gap-y-4 w-[48%] ml-auto">
           {apps.map((a, i) => (
             <motion.button
               key={a.id}
@@ -354,7 +364,7 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
                 alt={a.label}
                 className="w-[60px] h-[60px] rounded-[14px] object-cover shadow-md"
               />
-              <span className="text-white text-[11px] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.7)] leading-tight text-center max-w-[70px] truncate">
+              <span className="text-white text-[11px] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.7)] leading-tight text-center max-w-[72px] truncate">
                 {a.label}
               </span>
             </motion.button>
@@ -373,21 +383,38 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
 
         {/* Dock */}
         <div className="mt-2 rounded-[28px] bg-white/25 backdrop-blur-2xl border border-white/30 px-3 py-3 flex justify-around items-center shadow-xl">
-          {dock.map((src, i) => (
-            <motion.button
-              key={i}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => playTap()}
-              className="block"
-            >
+          {dock.map((d, i) => {
+            const inner = (
               <img
-                src={src}
-                alt=""
+                src={d.src}
+                alt={d.label}
                 className="w-[60px] h-[60px] rounded-[14px] object-cover"
                 draggable={false}
               />
-            </motion.button>
-          ))}
+            );
+            const common = "block";
+            if (d.action === "gallery") {
+              return (
+                <motion.button key={i} whileTap={{ scale: 0.9 }} onClick={() => { playTap(); onOpen("gallery"); }} className={common} aria-label={d.label}>
+                  {inner}
+                </motion.button>
+              );
+            }
+            return (
+              <motion.a
+                key={i}
+                whileTap={{ scale: 0.9 }}
+                href={d.href}
+                target={d.href?.startsWith("http") ? "_blank" : undefined}
+                rel={d.href?.startsWith("http") ? "noreferrer" : undefined}
+                onClick={() => playTap()}
+                className={common}
+                aria-label={d.label}
+              >
+                {inner}
+              </motion.a>
+            );
+          })}
         </div>
 
         {/* Home indicator */}
