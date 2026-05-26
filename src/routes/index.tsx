@@ -209,52 +209,54 @@ function Desktop() {
             : {}),
         }}
       >
-        {phoneMode && (
-          <div className="pointer-events-none absolute top-2 left-1/2 -translate-x-1/2 w-28 h-7 rounded-full bg-black z-[200]" />
+        {phoneMode ? (
+          <MobileHome onOpen={openWindow} />
+        ) : (
+          <>
+            <MenuBar focused={focus} />
+
+            {/* Welcome sticky note */}
+            <motion.div
+              initial={{ opacity: 0, y: -20, rotate: -3 }}
+              animate={{ opacity: 1, y: 0, rotate: -3 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              className="absolute top-14 left-4 md:left-12 w-[280px] md:w-[340px] p-5 bg-note shadow-2xl"
+              style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.25)" }}
+            >
+              <h1 className="font-display text-2xl md:text-3xl leading-tight">
+                Привет! <span className="text-coral">🌸</span>
+              </h1>
+              <p className="mt-3 text-sm leading-relaxed">
+                Меня зовут <b>Дарья</b>, я проектирую цифровые продукты, которые решают реальные бизнес-задачи. Специализируюсь на <i>B2B/B2C</i>, SaaS, внутренних инструментах и системах автоматизации.
+              </p>
+              <p className="mt-3 text-sm leading-relaxed">
+                Контакты:{" "}
+                <a href="https://t.me/Darialud" target="_blank" rel="noreferrer" className="underline hover:text-coral">@Darialud</a>{" "}·{" "}
+                <a href="mailto:vereskunova@gmail.com" className="underline hover:text-coral">vereskunova@gmail.com</a>
+              </p>
+              <p className="mt-1 text-sm">Локация: Москва, РФ</p>
+            </motion.div>
+
+            {items.map((item, i) => (
+              <DesktopIcon
+                key={item.id}
+                item={item}
+                delay={0.5 + i * 0.05}
+                onOpen={() => {
+                  if (item.disabled) return;
+                  if (item.id === "cv") {
+                    window.open("https://docs.google.com/document/d/12Lyzo4MLM1DhmpTNTif1u9eAyQeliljbuUQ1dLv_KlE/edit?tab=t.0", "_blank", "noopener,noreferrer");
+                    return;
+                  }
+                  openWindow(item.id as WindowId);
+                }}
+              />
+            ))}
+
+            <ZoomCall />
+            <Dock onOpen={openWindow} />
+          </>
         )}
-      <MenuBar focused={focus} />
-
-      {/* Welcome sticky note */}
-      <motion.div
-        initial={{ opacity: 0, y: -20, rotate: -3 }}
-        animate={{ opacity: 1, y: 0, rotate: -3 }}
-        transition={{ delay: 0.3, duration: 0.6 }}
-        className="absolute top-14 left-4 md:left-12 w-[280px] md:w-[340px] p-5 bg-note shadow-2xl"
-        style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.25)" }}
-      >
-        <h1 className="font-display text-2xl md:text-3xl leading-tight">
-          Привет! <span className="text-coral">🌸</span>
-        </h1>
-        <p className="mt-3 text-sm leading-relaxed">
-          Меня зовут <b>Дарья</b>, я проектирую цифровые продукты, которые решают реальные бизнес-задачи. Специализируюсь на <i>B2B/B2C</i>, SaaS, внутренних инструментах и системах автоматизации.
-        </p>
-        <p className="mt-3 text-sm leading-relaxed">
-          Контакты:{" "}
-          <a href="https://t.me/Darialud" target="_blank" rel="noreferrer" className="underline hover:text-coral">@Darialud</a>{" "}·{" "}
-          <a href="mailto:vereskunova@gmail.com" className="underline hover:text-coral">vereskunova@gmail.com</a>
-        </p>
-        <p className="mt-1 text-sm">Локация: Москва, РФ</p>
-      </motion.div>
-
-      {/* Desktop icons */}
-      {items.map((item, i) => (
-        <DesktopIcon
-          key={item.id}
-          item={item}
-          delay={0.5 + i * 0.05}
-          onOpen={() => {
-            if (item.disabled) return;
-            if (item.id === "cv") {
-              window.open("https://docs.google.com/document/d/12Lyzo4MLM1DhmpTNTif1u9eAyQeliljbuUQ1dLv_KlE/edit?tab=t.0", "_blank", "noopener,noreferrer");
-              return;
-            }
-            openWindow(item.id as WindowId);
-          }}
-        />
-      ))}
-
-      <ZoomCall />
-      <Dock onOpen={openWindow} />
 
       {/* Windows */}
       <AnimatePresence>
@@ -268,6 +270,128 @@ function Desktop() {
           />
         ))}
       </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
+  const [time, setTime] = useState("");
+  useEffect(() => {
+    const tick = () => {
+      const d = new Date();
+      setTime(`${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`);
+    };
+    tick();
+    const id = setInterval(tick, 15000);
+    return () => clearInterval(id);
+  }, []);
+
+  const apps: { id: WindowId; label: string; icon: string }[] = [
+    { id: "orien", label: "Crypto", icon: appCrypto },
+    { id: "fourdev", label: "4Dev", icon: app4dev },
+    { id: "debtor", label: "Должник прав", icon: appDebtor },
+    { id: "gallery", label: "EatEasy", icon: appEateasy },
+  ];
+
+  const dock = [sysIcon1, sysIcon2, sysIcon3, sysAqua];
+
+  return (
+    <div className="absolute inset-0 flex flex-col">
+      {/* Dynamic island */}
+      <div className="pointer-events-none absolute top-2 left-1/2 -translate-x-1/2 w-28 h-7 rounded-full bg-black z-[200]" />
+
+      {/* Status bar */}
+      <div className="relative z-10 flex items-center justify-between px-7 pt-3 text-white text-[14px] font-semibold tabular-nums drop-shadow">
+        <span>{time}</span>
+        <span className="flex items-center gap-1 text-[11px]">
+          <span>•••</span>
+          <span>5G</span>
+          <span className="ml-1 w-6 h-2.5 rounded-sm border border-white/80 relative">
+            <span className="absolute inset-0.5 bg-white rounded-[1px]" />
+          </span>
+        </span>
+      </div>
+
+      {/* Photo of Дарья behind */}
+      <img
+        src={mobileDarya}
+        alt=""
+        className="pointer-events-none absolute inset-x-0 bottom-[120px] mx-auto w-[78%] object-contain z-[1] select-none"
+        draggable={false}
+      />
+
+      {/* Content area */}
+      <div className="relative z-[5] flex-1 flex flex-col px-5 pt-10 pb-6 gap-5">
+        {/* Note widget */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15, duration: 0.4 }}
+          className="rounded-[22px] bg-[#fff7d6] shadow-lg p-4 w-[62%]"
+          style={{ boxShadow: "0 10px 30px rgba(0,0,0,0.18)" }}
+        >
+          <p className="text-[12px] font-semibold text-ink/80 leading-tight">Заметка</p>
+          <p className="mt-1.5 text-[13px] leading-snug text-ink">
+            <b>Привет, я&nbsp;Дарья!</b> Проектирую сложные цифровые продукты, которые решают реальные бизнес-задачи.
+          </p>
+        </motion.div>
+
+        {/* App grid 2x2 — pushed to the right */}
+        <div className="grid grid-cols-2 gap-x-3 gap-y-4 w-[44%] ml-auto">
+          {apps.map((a, i) => (
+            <motion.button
+              key={a.id}
+              initial={{ opacity: 0, scale: 0.7 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 + i * 0.05, type: "spring", stiffness: 220, damping: 18 }}
+              whileTap={{ scale: 0.92 }}
+              onClick={() => { playTap(); onOpen(a.id); }}
+              className="flex flex-col items-center gap-1 group"
+            >
+              <img
+                src={a.icon}
+                alt={a.label}
+                className="w-[60px] h-[60px] rounded-[14px] object-cover shadow-md"
+              />
+              <span className="text-white text-[11px] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.7)] leading-tight text-center max-w-[70px] truncate">
+                {a.label}
+              </span>
+            </motion.button>
+          ))}
+        </div>
+
+        <div className="flex-1" />
+
+        {/* Search pill */}
+        <div className="mx-auto px-4 py-1.5 rounded-full bg-black/25 backdrop-blur-xl text-white text-[13px] flex items-center gap-2">
+          <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" />
+          </svg>
+          Поиск
+        </div>
+
+        {/* Dock */}
+        <div className="mt-2 rounded-[28px] bg-white/25 backdrop-blur-2xl border border-white/30 px-3 py-3 flex justify-around items-center shadow-xl">
+          {dock.map((src, i) => (
+            <motion.button
+              key={i}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => playTap()}
+              className="block"
+            >
+              <img
+                src={src}
+                alt=""
+                className="w-[60px] h-[60px] rounded-[14px] object-cover"
+                draggable={false}
+              />
+            </motion.button>
+          ))}
+        </div>
+
+        {/* Home indicator */}
+        <div className="mx-auto w-32 h-1 rounded-full bg-white/80" />
       </div>
     </div>
   );
