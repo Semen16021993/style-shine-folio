@@ -828,7 +828,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
         "Участвовала в анализе результатов тестирования",
       ]}
       gallery={[
-        { src: debtor2, cap: "Новая точка входа в анкету — встроена в онбординг и регистрацию: Регистрация → Приветствие → Заполнение анкеты → Главная" },
+        { src: debtor2, cap: "Фактически анкета была «скрытым обязательным шагом», который откладывался пользователями, вызывал большое количество уточняющих звонков, замедлял запуск оплаченного дела и увеличивал нагрузку на менеджеров." },
         { src: debtor4, cap: "Проблемы → Гипотезы → Реализация: обязательный шаг онбординга, прогресс-бар, подсказки внутри формы, автосохранение данных" },
       ]}
       results={[
@@ -966,7 +966,7 @@ interface CaseSection { h: string; p: string }
 interface GalleryItem { src: string; cap: string }
 
 function FourDevCase() {
-  const cap = "text-ink/60 font-medium text-gray-500 font-sans text-left text-xl";
+  const cap = "text-ink/60 font-medium text-left font-sans text-sm bg-stone-50 text-stone-500";
   const h4 = "font-mono text-xs uppercase tracking-widest text-ink/60 mb-2";
   const fullImg = "w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]";
 
@@ -1336,7 +1336,7 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
             loading="lazy"
             className="w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]"
           />
-          {imageCaption && <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-left text-xl">{imageCaption}</figcaption>}
+          {imageCaption && <figcaption className="text-ink/60 font-medium text-left font-sans text-sm bg-stone-50 text-stone-500">{imageCaption}</figcaption>}
         </figure>
       )}
 
@@ -1369,7 +1369,7 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
                 loading="lazy"
                 className="w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]"
               />
-              <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-left text-xl">{g.cap}</figcaption>
+              <figcaption className="text-ink/60 font-medium text-left font-sans text-sm bg-stone-50 text-stone-500">{g.cap}</figcaption>
             </figure>
           ))}
         </div>
