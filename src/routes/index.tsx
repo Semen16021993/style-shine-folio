@@ -15,7 +15,7 @@ import iconAi from "@/assets/icon-ai.svg";
 import iconId from "@/assets/icon-id.svg";
 import iconIn from "@/assets/icon-in.svg";
 import caseOrien from "@/assets/case-orien.jpg";
-import mobileDarya from "@/assets/mobile/darya-photo.png";
+import mobileDarya from "@/assets/mobile/darya-photo.jpg";
 import appCrypto from "@/assets/mobile/app-crypto.svg";
 import app4dev from "@/assets/mobile/app-4dev.svg";
 import appDebtor from "@/assets/mobile/app-debtor.svg";
@@ -318,11 +318,11 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
         </span>
       </div>
 
-      {/* Photo of Дарья behind */}
+      {/* Background photo — full cover */}
       <img
         src={mobileDarya}
         alt=""
-        className="pointer-events-none absolute inset-x-0 bottom-[120px] mx-auto w-[78%] object-contain z-[1] select-none"
+        className="pointer-events-none absolute inset-0 w-full h-full object-cover object-center z-0 select-none"
         draggable={false}
       />
 
