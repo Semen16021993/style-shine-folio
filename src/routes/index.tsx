@@ -158,7 +158,6 @@ const items: DesktopItem[] = [
   { id: "cv", label: "CV", icon: "pdf", x: 62, y: 72 },
 ];
 
-const FIGMA_URL = "https://www.figma.com/design/tPwY5DNw9Q20JQzMyMVldC/Design-System-%7C-Ui-Kit?node-id=403-674&p=f&t=aq5IZpO7bMZti4sO-0";
 
 type DockIconKey = "gal" | "figma" | "ps" | "ai" | "id" | "in";
 const dockItems: { id: DockIconKey | "gallery"; label: string; icon: DockIconKey; disabled?: boolean; href?: string }[] = [
