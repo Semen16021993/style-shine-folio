@@ -996,7 +996,7 @@ function FourDevCase() {
       {/* Контекст и задачи */}
       <div>
         <h4 className={h4}>Контекст и задачи</h4>
-        <p className="text-sm leading-relaxed text-ink/80">
+        <p className="leading-relaxed text-ink/80 text-base">
           4DEV — это IT-экосистема для автоматизации девелопмента, которая помогает застройщикам, банкам и ритейлерам управлять продажами недвижимости. Платформа уже интегрирована с 35 внешними сервисами и насчитывает 65 клиентов по всей России, экономя им свыше 1 млн рублей на автоматизации.
         </p>
         <p className="mt-3 text-sm leading-relaxed italic text-ink/70 border-l-2 border-coral pl-3">
@@ -1094,7 +1094,7 @@ function FourDevCase() {
         <figcaption className={cap}>2. Шахматка как основная модель выбора квартиры</figcaption>
       </figure>
 
-      <p className="text-sm leading-relaxed text-ink/80">👉 Менеджер мыслит этажами и секциями, а не строками.</p>
+      <p className="leading-relaxed text-ink/80 text-base">👉 Менеджер мыслит этажами и секциями, а не строками.</p>
 
       <div>
         <h4 className={h4}>Ключевые решения</h4>
@@ -1163,7 +1163,7 @@ function OrienCase() {
 
       <div>
         <h4 className={h4}>Контекст и задачи</h4>
-        <p className="text-sm leading-relaxed text-ink/80">
+        <p className="leading-relaxed text-ink/80 text-base">
           Crypto Orien.AI — мобильный криптокошелёк ранней стадии, созданный в условиях высокой конкуренции и низкого пользовательского доверия к новым Web3-продуктам. Основная аудитория — пользователи, уже знакомые с криптовалютой, но не удовлетворённые сложностью и перегруженностью существующих решений.
         </p>
       </div>
@@ -1229,7 +1229,7 @@ function OrienCase() {
 
       <div>
         <h4 className={h4}>Темы и состояния</h4>
-        <p className="text-sm leading-relaxed text-ink/80">
+        <p className="leading-relaxed text-ink/80 text-base">
           Тёмная тема стала основной — она лучше подходит для работы с финансовыми данными и длительного использования. Все экраны я сразу проектировала с расчётом на:
         </p>
         <ul className="mt-2 space-y-1.5 text-sm text-ink/80">
