@@ -142,18 +142,22 @@ interface DesktopItem {
   x: number;
   y: number;
   disabled?: boolean;
+  href?: string;
 }
 
+const FIGMA_URL = "https://www.figma.com/design/tPwY5DNw9Q20JQzMyMVldC/Design-System-%7C-Ui-Kit?node-id=403-674&p=f&t=aq5IZpO7bMZti4sO-0";
+
 const items: DesktopItem[] = [
-  // Center-right column — case folders
-  { id: "orien", label: "Сryptowallet 2025-26", icon: "folder", color: "#7FB3D5", x: 78, y: 32 },
-  { id: "fourdev", label: "4Dev.tech 2023-25", icon: "folder", color: "#7FB3D5", x: 78, y: 52 },
-  { id: "debtor", label: "Должник прав 2023", icon: "folder", color: "#7FB3D5", x: 78, y: 72 },
-  // Center-left column
-  { id: "cv", label: "CV", icon: "pdf", x: 58, y: 62 },
+  // Right column — case folders
+  { id: "orien", label: "Сryptowallet 2025-26", icon: "folder", color: "#7FB3D5", x: 82, y: 28 },
+  { id: "fourdev", label: "4Dev.tech 2023-25", icon: "folder", color: "#7FB3D5", x: 82, y: 50 },
+  { id: "debtor", label: "Должник прав 2023", icon: "folder", color: "#7FB3D5", x: 82, y: 72 },
+  // Middle column — gallery, figma, cv
+  { id: "gallery", label: "Галерея", icon: "gallery", x: 62, y: 28 },
+  { id: "figma", label: "Figma", icon: "figma", x: 62, y: 50, href: FIGMA_URL },
+  { id: "cv", label: "CV", icon: "pdf", x: 62, y: 72 },
 ];
 
-const FIGMA_URL = "https://www.figma.com/design/tPwY5DNw9Q20JQzMyMVldC/Design-System-%7C-Ui-Kit?node-id=403-674&p=f&t=aq5IZpO7bMZti4sO-0";
 
 type DockIconKey = "gal" | "figma" | "ps" | "ai" | "id" | "in";
 const dockItems: { id: DockIconKey | "gallery"; label: string; icon: DockIconKey; disabled?: boolean; href?: string }[] = [
@@ -193,21 +197,27 @@ function Desktop() {
     setOpen((s) => s.filter((i) => i !== id));
 
   return (
-    <div className={`fixed inset-0 overflow-hidden flex items-center justify-center ${phoneMode ? "bg-zinc-950" : "block"}`}>
+    <div className={`fixed inset-0 overflow-hidden ${phoneMode ? "flex items-center justify-center bg-zinc-950" : "block"}`}>
       <div
         className={`relative overflow-hidden font-sans text-ink select-none ${
           phoneMode
             ? "rounded-[44px] ring-[10px] ring-black shadow-[0_30px_80px_rgba(0,0,0,0.6)]"
             : "w-full h-full"
         }`}
-        style={{
-          backgroundImage: `url(${wallpaper})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          ...(phoneMode
-            ? { width: "min(92vw, calc(92vh * 9 / 19.5))", aspectRatio: "9 / 19.5" }
-            : {}),
-        }}
+        style={
+          phoneMode
+            ? {
+                backgroundImage: `url(${wallpaper})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                width: "min(92vw, calc(92vh * 9 / 19.5))",
+                aspectRatio: "9 / 19.5",
+              }
+            : {
+                background:
+                  "radial-gradient(ellipse at top, #e9e4dc 0%, #d8d2c7 55%, #c8c1b4 100%)",
+              }
+        }
       >
         {phoneMode ? (
           <MobileHome onOpen={openWindow} />
@@ -244,6 +254,10 @@ function Desktop() {
                 delay={0.5 + i * 0.05}
                 onOpen={() => {
                   if (item.disabled) return;
+                  if (item.href) {
+                    window.open(item.href, "_blank", "noopener,noreferrer");
+                    return;
+                  }
                   if (item.id === "cv") {
                     window.open("https://docs.google.com/document/d/12Lyzo4MLM1DhmpTNTif1u9eAyQeliljbuUQ1dLv_KlE/edit?tab=t.0", "_blank", "noopener,noreferrer");
                     return;
@@ -254,7 +268,6 @@ function Desktop() {
             ))}
 
             <ZoomCall />
-            <Dock onOpen={openWindow} />
           </>
         )}
 
@@ -620,10 +633,10 @@ function DesktopIcon({
       onClick={() => { if (!item.disabled) playTap(); onOpen(); }}
       disabled={item.disabled}
       style={{ left: `${item.x}%`, top: `${item.y}%` }}
-      className={`absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 w-24 h-24 drop-shadow-xl rounded-[22%] text-base font-normal border-8 border-none border-slate-50 object-contain group ${item.disabled ? "cursor-default opacity-90" : "cursor-pointer"}`}
+      className={`absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 w-36 drop-shadow-xl rounded-[22%] text-base font-normal group ${item.disabled ? "cursor-default opacity-90" : "cursor-pointer"}`}
     >
       <IconGraphic icon={item.icon} color={item.color} />
-      <div className="text-center px-2 py-0.5 rounded text-white text-[14px] leading-tight font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.7)] group-hover:bg-coral/80 transition-colors">
+      <div className="text-center px-2 py-0.5 rounded text-ink text-[15px] leading-tight font-semibold drop-shadow-sm group-hover:bg-coral/80 group-hover:text-white transition-colors">
         {item.label}
         {item.sublabel && <div className="text-[12px] opacity-80">{item.sublabel}</div>}
       </div>
@@ -634,7 +647,7 @@ function DesktopIcon({
 function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: string }) {
   if (icon === "folder") {
     return (
-      <svg viewBox="0 0 64 52" className="w-28 h-24 drop-shadow-xl">
+      <svg viewBox="0 0 64 52" className="w-36 h-32 drop-shadow-xl">
         <path d="M2 10 Q2 4 8 4 L22 4 L28 10 L56 10 Q62 10 62 16 L62 44 Q62 50 56 50 L8 50 Q2 50 2 44 Z" fill={color || "#7FB3D5"} stroke="rgba(0,0,0,0.15)" />
         <path d="M2 18 L62 18" stroke="rgba(255,255,255,0.4)" />
       </svg>
@@ -642,28 +655,28 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
   }
   if (icon === "gallery") {
     return (
-      <div className="w-24 h-24 grid place-items-center">
-        <img src={iconPhotos} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-contain" />
+      <div className="w-32 h-32 grid place-items-center">
+        <img src={iconPhotos} alt="" className="w-32 h-32 drop-shadow-xl rounded-[22%] object-contain" />
       </div>
     );
   }
   if (icon === "figma") {
     return (
-      <div className="w-24 h-24 grid place-items-center">
-        <img src={iconFigma} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-contain" />
+      <div className="w-32 h-32 grid place-items-center">
+        <img src={iconFigma} alt="" className="w-32 h-32 drop-shadow-xl rounded-[22%] object-contain" />
       </div>
     );
   }
   if (icon === "photoshop") {
     return (
-      <div className="w-24 h-24 grid place-items-center">
-        <img src={iconPs} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-contain" />
+      <div className="w-32 h-32 grid place-items-center">
+        <img src={iconPs} alt="" className="w-32 h-32 drop-shadow-xl rounded-[22%] object-contain" />
       </div>
     );
   }
   if (icon === "note") {
     return (
-      <div className="w-24 h-24 bg-white shadow-xl p-2.5 flex flex-col gap-1.5 -rotate-2 drop-shadow-xl">
+      <div className="w-32 h-32 bg-white shadow-xl p-3 flex flex-col gap-1.5 -rotate-2 drop-shadow-xl">
         <div className="h-1 bg-ink/30 w-full" />
         <div className="h-1 bg-ink/20 w-3/4" />
         <div className="h-1 bg-ink/20 w-full" />
@@ -676,9 +689,9 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
   }
   if (icon === "pdf") {
     return (
-      <div className="w-20 h-24 bg-white shadow-xl rounded-md relative drop-shadow-xl overflow-hidden">
-        <div className="absolute top-0 right-0 w-6 h-6 bg-ink/10" style={{ clipPath: "polygon(0 0, 100% 100%, 100% 0)" }} />
-        <div className="absolute inset-x-2 top-8 space-y-1.5">
+      <div className="w-28 h-32 bg-white shadow-xl rounded-md relative drop-shadow-xl overflow-hidden">
+        <div className="absolute top-0 right-0 w-8 h-8 bg-ink/10" style={{ clipPath: "polygon(0 0, 100% 100%, 100% 0)" }} />
+        <div className="absolute inset-x-3 top-10 space-y-2">
           <div className="h-[2px] bg-ink/30 w-full" />
           <div className="h-[2px] bg-ink/20 w-5/6" />
           <div className="h-[2px] bg-ink/20 w-full" />
@@ -686,7 +699,7 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
           <div className="h-[2px] bg-ink/20 w-full" />
           <div className="h-[2px] bg-ink/20 w-4/6" />
         </div>
-        <div className="absolute bottom-1.5 inset-x-0 text-center text-[10px] font-bold tracking-wider text-coral">DOC</div>
+        <div className="absolute bottom-2 inset-x-0 text-center text-[11px] font-bold tracking-wider text-coral">DOC</div>
       </div>
     );
   }
