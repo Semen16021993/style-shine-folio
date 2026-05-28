@@ -223,7 +223,7 @@ function Desktop() {
               className="absolute top-14 left-4 md:left-12 w-[280px] md:w-[340px] p-5 bg-note shadow-2xl"
               style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.25)" }}
             >
-              <h1 className="font-display text-2xl md:text-3xl leading-tight">
+              <h1 className="font-display text-2xl md:text-3xl leading-tight font-semibold">
                 Привет! <span className="text-coral">🌸</span>
               </h1>
               <p className="mt-3 text-sm leading-relaxed">
@@ -797,7 +797,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
       sections={[
         {
           h: "Контекст",
-          p: "Компания оказывает юридическую помощь людям с долговой нагрузкой. Бизнес-модель двухэтапная: 1) пользователь оплачивает тариф; 2) после оплаты открывается дело и начинается сопровождение. Ключевая точка роста — конверсия в оплату и дальнейшее удержание клиента в процессе сопровождения.",
+          p: "Компания оказывает юридическую помощь людям с долговой нагрузкой. \n\nБизнес-модель двухэтапная: \n1) пользователь оплачивает тариф; \n2) после оплаты открывается дело и начинается сопровождение. \n\nКлючевая точка роста — конверсия в оплату и дальнейшее удержание клиента в процессе сопровождения.\n",
         },
         {
           h: "Задачи",
@@ -966,8 +966,8 @@ interface CaseSection { h: string; p: string }
 interface GalleryItem { src: string; cap: string }
 
 function FourDevCase() {
-  const cap = "text-ink/60 font-medium text-left font-sans text-sm bg-stone-50 text-stone-500";
-  const h4 = "font-mono text-xs uppercase tracking-widest text-ink/60 mb-2";
+  const cap = "text-ink/60 font-medium text-gray-500 font-sans text-center text-sm";
+  const h4 = "font-mono text-xs uppercase tracking-widest text-ink/60 mb-2 font-semibold";
   const fullImg = "w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]";
 
   return (
@@ -989,14 +989,14 @@ function FourDevCase() {
         <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">2023 — 2025</span>
       </div>
 
-      <h2 className="font-display text-2xl md:text-3xl leading-tight">
+      <h2 className="font-display text-2xl md:text-3xl leading-tight font-semibold">
         {nbsp("Экосистема для автоматизации девелопмента")}
       </h2>
 
       {/* Контекст и задачи */}
       <div>
         <h4 className={h4}>Контекст и задачи</h4>
-        <p className="text-sm leading-relaxed text-ink/80">
+        <p className="leading-relaxed text-ink/80 text-base">
           4DEV — это IT-экосистема для автоматизации девелопмента, которая помогает застройщикам, банкам и ритейлерам управлять продажами недвижимости. Платформа уже интегрирована с 35 внешними сервисами и насчитывает 65 клиентов по всей России, экономя им свыше 1 млн рублей на автоматизации.
         </p>
         <p className="mt-3 text-sm leading-relaxed italic text-ink/70 border-l-2 border-coral pl-3">
@@ -1094,7 +1094,7 @@ function FourDevCase() {
         <figcaption className={cap}>2. Шахматка как основная модель выбора квартиры</figcaption>
       </figure>
 
-      <p className="text-sm leading-relaxed text-ink/80">👉 Менеджер мыслит этажами и секциями, а не строками.</p>
+      <p className="leading-relaxed text-ink/80 text-base">👉 Менеджер мыслит этажами и секциями, а не строками.</p>
 
       <div>
         <h4 className={h4}>Ключевые решения</h4>
@@ -1119,16 +1119,16 @@ function FourDevCase() {
       {/* Вывод */}
       <div className="space-y-3 pt-2 border-t border-ink/10">
         <h3 className="font-display text-2xl">Вывод</h3>
-        <p className="text-sm leading-relaxed text-ink/80">
+        <p className="leading-relaxed text-ink/80 text-base">
           После внедрения система стала основным рабочим инструментом для отделов продаж и эксплуатации. Время подбора квартиры сократилось более чем в два раза — с 7–10 минут до 4 минут, что напрямую повлияло на скорость обработки входящих лидов и позволило увеличить операционную эффективность отдела на 15%.
         </p>
-        <p className="text-sm leading-relaxed text-ink/80">
+        <p className="leading-relaxed text-ink/80 text-base">
           Количество ошибок при бронировании снизилось с 12% до 5,5%, что уменьшило внутренние потери времени и снизило нагрузку на административные процессы. В блоке гарантийных заявок просрочки сократились на 11%, а среднее время реакции уменьшилось почти вдвое — с 3,2 до 1,9 дней.
         </p>
-        <p className="text-sm leading-relaxed text-ink/80">
+        <p className="leading-relaxed text-ink/80 text-base">
           Для руководителей система стала инструментом прозрачного контроля: время на мониторинг статусов сократилось на 45%, а субъективная оценка удобства работы выросла с 6,8 до 8,4 из 10.
         </p>
-        <p className="text-sm leading-relaxed text-ink/80">
+        <p className="leading-relaxed text-ink/80 text-base">
           Интерфейс начал влиять на ключевые бизнес-метрики: скорость операций, количество ошибок, нагрузку на административные процессы и удовлетворённость пользователей.
         </p>
       </div>
@@ -1138,7 +1138,7 @@ function FourDevCase() {
 }
 
 function OrienCase() {
-  const h4 = "font-mono text-xs uppercase tracking-widest text-ink/60 mb-2";
+  const h4 = "font-mono text-xs uppercase tracking-widest text-ink/60 mb-2 font-semibold";
   const fullImg = "w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]";
   return (
     <TypoScope className="space-y-6">
@@ -1157,13 +1157,13 @@ function OrienCase() {
         <span className="px-2 py-1 rounded bg-coral/15 text-coral">Криптокошелёк · part-time</span>
         <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">2025 — 2026</span>
       </div>
-      <h2 className="font-display text-2xl md:text-3xl leading-tight">
+      <h2 className="font-display text-2xl md:text-3xl leading-tight font-semibold">
         Crypto Orien.AI — мобильный криптокошелёк
       </h2>
 
       <div>
         <h4 className={h4}>Контекст и задачи</h4>
-        <p className="text-sm leading-relaxed text-ink/80">
+        <p className="leading-relaxed text-ink/80 text-base">
           Crypto Orien.AI — мобильный криптокошелёк ранней стадии, созданный в условиях высокой конкуренции и низкого пользовательского доверия к новым Web3-продуктам. Основная аудитория — пользователи, уже знакомые с криптовалютой, но не удовлетворённые сложностью и перегруженностью существующих решений.
         </p>
       </div>
@@ -1229,7 +1229,7 @@ function OrienCase() {
 
       <div>
         <h4 className={h4}>Темы и состояния</h4>
-        <p className="text-sm leading-relaxed text-ink/80">
+        <p className="leading-relaxed text-ink/80 text-base">
           Тёмная тема стала основной — она лучше подходит для работы с финансовыми данными и длительного использования. Все экраны я сразу проектировала с расчётом на:
         </p>
         <ul className="mt-2 space-y-1.5 text-sm text-ink/80">
@@ -1316,12 +1316,12 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
         <span className="px-2 py-1 rounded bg-coral/15 text-coral">{tag}</span>
         <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">{period}</span>
       </div>
-      <p className="font-display text-2xl md:text-3xl leading-tight">{lead}</p>
+      <p className="font-display text-2xl md:text-3xl leading-tight font-semibold">{lead}</p>
 
       {sections.map((s) => (
         <div key={s.h}>
-          <h4 className="font-mono text-xs uppercase tracking-widest text-ink/60 mb-2">{s.h}</h4>
-          <p className="text-sm leading-relaxed text-ink/80">{s.p}</p>
+          <h4 className="font-mono text-xs uppercase tracking-widest text-ink/60 mb-2 font-semibold">{s.h}</h4>
+          <p className="leading-relaxed text-ink/80 text-base whitespace-pre-line">{s.p}</p>
         </div>
       ))}
 
@@ -1336,7 +1336,7 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
             loading="lazy"
             className="w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]"
           />
-          {imageCaption && <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-xs text-center">{imageCaption}</figcaption>}
+          {imageCaption && <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-center text-sm">{imageCaption}</figcaption>}
         </figure>
       )}
 
@@ -1369,7 +1369,7 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
                 loading="lazy"
                 className="w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]"
               />
-              <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-xs text-center">{g.cap}</figcaption>
+              <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-center text-sm">{g.cap}</figcaption>
             </figure>
           ))}
         </div>
