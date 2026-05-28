@@ -647,7 +647,7 @@ function DesktopIcon({
 function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: string }) {
   if (icon === "folder") {
     return (
-      <svg viewBox="0 0 64 52" className="w-28 h-24 drop-shadow-xl">
+      <svg viewBox="0 0 64 52" className="w-36 h-32 drop-shadow-xl">
         <path d="M2 10 Q2 4 8 4 L22 4 L28 10 L56 10 Q62 10 62 16 L62 44 Q62 50 56 50 L8 50 Q2 50 2 44 Z" fill={color || "#7FB3D5"} stroke="rgba(0,0,0,0.15)" />
         <path d="M2 18 L62 18" stroke="rgba(255,255,255,0.4)" />
       </svg>
@@ -655,28 +655,28 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
   }
   if (icon === "gallery") {
     return (
-      <div className="w-24 h-24 grid place-items-center">
-        <img src={iconPhotos} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-contain" />
+      <div className="w-32 h-32 grid place-items-center">
+        <img src={iconPhotos} alt="" className="w-32 h-32 drop-shadow-xl rounded-[22%] object-contain" />
       </div>
     );
   }
   if (icon === "figma") {
     return (
-      <div className="w-24 h-24 grid place-items-center">
-        <img src={iconFigma} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-contain" />
+      <div className="w-32 h-32 grid place-items-center">
+        <img src={iconFigma} alt="" className="w-32 h-32 drop-shadow-xl rounded-[22%] object-contain" />
       </div>
     );
   }
   if (icon === "photoshop") {
     return (
-      <div className="w-24 h-24 grid place-items-center">
-        <img src={iconPs} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-contain" />
+      <div className="w-32 h-32 grid place-items-center">
+        <img src={iconPs} alt="" className="w-32 h-32 drop-shadow-xl rounded-[22%] object-contain" />
       </div>
     );
   }
   if (icon === "note") {
     return (
-      <div className="w-24 h-24 bg-white shadow-xl p-2.5 flex flex-col gap-1.5 -rotate-2 drop-shadow-xl">
+      <div className="w-32 h-32 bg-white shadow-xl p-3 flex flex-col gap-1.5 -rotate-2 drop-shadow-xl">
         <div className="h-1 bg-ink/30 w-full" />
         <div className="h-1 bg-ink/20 w-3/4" />
         <div className="h-1 bg-ink/20 w-full" />
@@ -689,9 +689,9 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
   }
   if (icon === "pdf") {
     return (
-      <div className="w-20 h-24 bg-white shadow-xl rounded-md relative drop-shadow-xl overflow-hidden">
-        <div className="absolute top-0 right-0 w-6 h-6 bg-ink/10" style={{ clipPath: "polygon(0 0, 100% 100%, 100% 0)" }} />
-        <div className="absolute inset-x-2 top-8 space-y-1.5">
+      <div className="w-28 h-32 bg-white shadow-xl rounded-md relative drop-shadow-xl overflow-hidden">
+        <div className="absolute top-0 right-0 w-8 h-8 bg-ink/10" style={{ clipPath: "polygon(0 0, 100% 100%, 100% 0)" }} />
+        <div className="absolute inset-x-3 top-10 space-y-2">
           <div className="h-[2px] bg-ink/30 w-full" />
           <div className="h-[2px] bg-ink/20 w-5/6" />
           <div className="h-[2px] bg-ink/20 w-full" />
@@ -699,7 +699,7 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
           <div className="h-[2px] bg-ink/20 w-full" />
           <div className="h-[2px] bg-ink/20 w-4/6" />
         </div>
-        <div className="absolute bottom-1.5 inset-x-0 text-center text-[10px] font-bold tracking-wider text-coral">DOC</div>
+        <div className="absolute bottom-2 inset-x-0 text-center text-[11px] font-bold tracking-wider text-coral">DOC</div>
       </div>
     );
   }
