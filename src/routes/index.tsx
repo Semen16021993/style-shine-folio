@@ -161,8 +161,8 @@ const dockItems: { id: DockIconKey | "gallery"; label: string; icon: DockIconKey
   { id: "figma", label: "Figma", icon: "figma", href: FIGMA_URL },
   { id: "ps", label: "Adobe Photoshop", icon: "ps", disabled: true },
   { id: "ai", label: "Adobe Illustrator", icon: "ai", disabled: true },
-  { id: "id", label: "Adobe InDesign", icon: "id", disabled: true },
-  { id: "in", label: "Adobe InCopy", icon: "in", disabled: true },
+  { id: "id", label: "Adobe After Effects", icon: "id", disabled: true },
+  { id: "in", label: "Adobe InDesign", icon: "in", disabled: true },
 ];
 const dockIconMap: Record<DockIconKey, string> = {
   gal: iconGal,
