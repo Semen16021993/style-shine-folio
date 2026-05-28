@@ -223,7 +223,7 @@ function Desktop() {
               className="absolute top-14 left-4 md:left-12 w-[280px] md:w-[340px] p-5 bg-note shadow-2xl"
               style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.25)" }}
             >
-              <h1 className="font-display text-2xl md:text-3xl leading-tight">
+              <h1 className="font-display text-2xl md:text-3xl leading-tight font-semibold">
                 Привет! <span className="text-coral">🌸</span>
               </h1>
               <p className="mt-3 text-sm leading-relaxed">
@@ -989,7 +989,7 @@ function FourDevCase() {
         <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">2023 — 2025</span>
       </div>
 
-      <h2 className="font-display text-2xl md:text-3xl leading-tight">
+      <h2 className="font-display text-2xl md:text-3xl leading-tight font-semibold">
         {nbsp("Экосистема для автоматизации девелопмента")}
       </h2>
 
@@ -1157,7 +1157,7 @@ function OrienCase() {
         <span className="px-2 py-1 rounded bg-coral/15 text-coral">Криптокошелёк · part-time</span>
         <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">2025 — 2026</span>
       </div>
-      <h2 className="font-display text-2xl md:text-3xl leading-tight">
+      <h2 className="font-display text-2xl md:text-3xl leading-tight font-semibold">
         Crypto Orien.AI — мобильный криптокошелёк
       </h2>
 
@@ -1316,7 +1316,7 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
         <span className="px-2 py-1 rounded bg-coral/15 text-coral">{tag}</span>
         <span className="px-2 py-1 rounded bg-ink/5 text-ink/70">{period}</span>
       </div>
-      <p className="font-display text-2xl md:text-3xl leading-tight">{lead}</p>
+      <p className="font-display text-2xl md:text-3xl leading-tight font-semibold">{lead}</p>
 
       {sections.map((s) => (
         <div key={s.h}>
