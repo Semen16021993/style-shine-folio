@@ -197,21 +197,27 @@ function Desktop() {
     setOpen((s) => s.filter((i) => i !== id));
 
   return (
-    <div className={`fixed inset-0 overflow-hidden flex items-center justify-center ${phoneMode ? "bg-zinc-950" : "block"}`}>
+    <div className={`fixed inset-0 overflow-hidden ${phoneMode ? "flex items-center justify-center bg-zinc-950" : "block"}`}>
       <div
         className={`relative overflow-hidden font-sans text-ink select-none ${
           phoneMode
             ? "rounded-[44px] ring-[10px] ring-black shadow-[0_30px_80px_rgba(0,0,0,0.6)]"
             : "w-full h-full"
         }`}
-        style={{
-          backgroundImage: `url(${wallpaper})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          ...(phoneMode
-            ? { width: "min(92vw, calc(92vh * 9 / 19.5))", aspectRatio: "9 / 19.5" }
-            : {}),
-        }}
+        style={
+          phoneMode
+            ? {
+                backgroundImage: `url(${wallpaper})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                width: "min(92vw, calc(92vh * 9 / 19.5))",
+                aspectRatio: "9 / 19.5",
+              }
+            : {
+                background:
+                  "radial-gradient(ellipse at top, #e9e4dc 0%, #d8d2c7 55%, #c8c1b4 100%)",
+              }
+        }
       >
         {phoneMode ? (
           <MobileHome onOpen={openWindow} />
