@@ -797,7 +797,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
       sections={[
         {
           h: "Контекст",
-          p: "Компания оказывает юридическую помощь людям с долговой нагрузкой. Бизнес-модель двухэтапная: 1) пользователь оплачивает тариф; 2) после оплаты открывается дело и начинается сопровождение. Ключевая точка роста — конверсия в оплату и дальнейшее удержание клиента в процессе сопровождения.",
+          p: "Компания оказывает юридическую помощь людям с долговой нагрузкой. \n\nБизнес-модель двухэтапная: \n1) пользователь оплачивает тариф; \n2) после оплаты открывается дело и начинается сопровождение. \n\nКлючевая точка роста — конверсия в оплату и дальнейшее удержание клиента в процессе сопровождения.\n",
         },
         {
           h: "Задачи",
@@ -967,7 +967,7 @@ interface GalleryItem { src: string; cap: string }
 
 function FourDevCase() {
   const cap = "text-ink/60 font-medium text-left font-sans text-sm bg-stone-50 text-stone-500";
-  const h4 = "font-mono text-xs uppercase tracking-widest text-ink/60 mb-2";
+  const h4 = "font-mono text-xs uppercase tracking-widest text-ink/60 mb-2 font-semibold";
   const fullImg = "w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]";
 
   return (
@@ -1138,7 +1138,7 @@ function FourDevCase() {
 }
 
 function OrienCase() {
-  const h4 = "font-mono text-xs uppercase tracking-widest text-ink/60 mb-2";
+  const h4 = "font-mono text-xs uppercase tracking-widest text-ink/60 mb-2 font-semibold";
   const fullImg = "w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]";
   return (
     <TypoScope className="space-y-6">
@@ -1320,8 +1320,8 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
 
       {sections.map((s) => (
         <div key={s.h}>
-          <h4 className="font-mono text-xs uppercase tracking-widest text-ink/60 mb-2">{s.h}</h4>
-          <p className="text-sm leading-relaxed text-ink/80">{s.p}</p>
+          <h4 className="font-mono text-xs uppercase tracking-widest text-ink/60 mb-2 font-semibold">{s.h}</h4>
+          <p className="leading-relaxed text-ink/80 text-base whitespace-pre-line">{s.p}</p>
         </div>
       ))}
 
@@ -1336,7 +1336,7 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
             loading="lazy"
             className="w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]"
           />
-          {imageCaption && <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-xs text-center">{imageCaption}</figcaption>}
+          {imageCaption && <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-center text-sm">{imageCaption}</figcaption>}
         </figure>
       )}
 
@@ -1369,7 +1369,7 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
                 loading="lazy"
                 className="w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]"
               />
-              <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-xs text-center">{g.cap}</figcaption>
+              <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-center text-sm">{g.cap}</figcaption>
             </figure>
           ))}
         </div>
