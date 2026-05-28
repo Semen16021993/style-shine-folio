@@ -254,6 +254,10 @@ function Desktop() {
                 delay={0.5 + i * 0.05}
                 onOpen={() => {
                   if (item.disabled) return;
+                  if (item.href) {
+                    window.open(item.href, "_blank", "noopener,noreferrer");
+                    return;
+                  }
                   if (item.id === "cv") {
                     window.open("https://docs.google.com/document/d/12Lyzo4MLM1DhmpTNTif1u9eAyQeliljbuUQ1dLv_KlE/edit?tab=t.0", "_blank", "noopener,noreferrer");
                     return;
@@ -264,7 +268,6 @@ function Desktop() {
             ))}
 
             <ZoomCall />
-            <Dock onOpen={openWindow} />
           </>
         )}
 
