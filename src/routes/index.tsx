@@ -966,7 +966,7 @@ interface CaseSection { h: string; p: string }
 interface GalleryItem { src: string; cap: string }
 
 function FourDevCase() {
-  const cap = "text-ink/60 font-medium text-left font-sans text-sm bg-stone-50 text-stone-500";
+  const cap = "text-ink/60 font-medium text-gray-500 font-sans text-center text-sm";
   const h4 = "font-mono text-xs uppercase tracking-widest text-ink/60 mb-2 font-semibold";
   const fullImg = "w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]";
 
