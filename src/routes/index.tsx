@@ -547,9 +547,10 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
               onClick={() => { playTap(); onOpen(f.id); }}
               className="flex flex-col items-center gap-1"
             >
-              <div className="w-[110px] h-[88px]">
+              <div className="w-[144px] h-[128px] origin-top scale-[0.78]">
                 <IconGraphic icon="folder" color={FOLDER_BLUE} />
               </div>
+
               <span className="text-ink text-[12px] font-semibold leading-tight text-center">
                 {f.label}
               </span>
