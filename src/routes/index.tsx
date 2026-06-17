@@ -151,11 +151,12 @@ const FIGMA_URL = "https://www.figma.com/design/tPwY5DNw9Q20JQzMyMVldC/Design-Sy
 
 // Case folders are clustered in the upper-right "projects" cloud so the
 // hierarchy reads: «папки = кейсы», even when the rest is scattered.
+const FOLDER_BLUE = "#9CC4E4";
 const items: DesktopItem[] = [
   // === Cluster: case folders (upper-right) ===
-  { id: "orien",   label: "Сryptowallet 2025-26", icon: "folder", color: "#7FB3D5", emblem: "₿",  x: 72, y: 24, rot: -4 },
-  { id: "fourdev", label: "4Dev.tech 2023-25",    icon: "folder", color: "#A8C9A8", emblem: "</>", x: 86, y: 32, rot: 3 },
-  { id: "debtor",  label: "Должник прав 2023",    icon: "folder", color: "#E5B97F", emblem: "⚖",  x: 78, y: 48, rot: -2 },
+  { id: "orien",   label: "Сryptowallet 2025-26", icon: "folder", color: FOLDER_BLUE, x: 72, y: 24, rot: -4 },
+  { id: "fourdev", label: "4Dev.tech 2023-25",    icon: "folder", color: FOLDER_BLUE, x: 86, y: 32, rot: 3 },
+  { id: "debtor",  label: "Должник прав 2023",    icon: "folder", color: FOLDER_BLUE, x: 78, y: 48, rot: -2 },
   // === Scattered tools ===
   { id: "gallery", label: "Галерея", icon: "gallery", x: 18, y: 38, rot: -5 },
   { id: "figma",   label: "Figma",   icon: "figma",   x: 32, y: 68, rot: 4, href: FIGMA_URL },
@@ -268,6 +269,8 @@ function Desktop() {
             </motion.div>
 
             <LocationWidget />
+            <PaintCanDrop />
+
 
             {items.map((item, i) => {
               const pos = positions[item.id] ?? { x: item.x, y: item.y };
@@ -357,6 +360,107 @@ function LocationWidget() {
   );
 }
 
+function PaintCanDrop() {
+  // Falls from above the sticky note, lands & tips, then a blue paint splash
+  // blooms under the note. Plays once on mount, stain stays.
+  const [phase, setPhase] = useState<"falling" | "splash" | "rest">("falling");
+  useEffect(() => {
+    const t1 = setTimeout(() => setPhase("splash"), 1100);
+    const t2 = setTimeout(() => setPhase("rest"), 2200);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, []);
+
+  return (
+    <div
+      className="absolute pointer-events-none z-[5]"
+      style={{ left: "12%", top: "calc(16px + 280px)", width: 360, height: 320 }}
+    >
+      {/* Paint splash — appears after impact */}
+      <motion.svg
+        viewBox="0 0 360 200"
+        className="absolute inset-x-0 top-[120px] w-full"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={phase !== "falling" ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+        transition={{ type: "spring", stiffness: 180, damping: 14 }}
+        style={{ filter: "drop-shadow(0 6px 10px rgba(80,130,180,0.35))" }}
+      >
+        <defs>
+          <radialGradient id="splashGrad" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stopColor="#B8DCF2" />
+            <stop offset="60%" stopColor="#7FB3D5" />
+            <stop offset="100%" stopColor="#5A8FB8" />
+          </radialGradient>
+        </defs>
+        <path
+          fill="url(#splashGrad)"
+          d="M180 30
+             C 230 28, 280 50, 295 85
+             C 322 95, 340 120, 320 140
+             C 335 165, 295 180, 260 168
+             C 245 195, 200 192, 180 170
+             C 150 195, 100 188, 95 158
+             C 60 158, 40 130, 65 110
+             C 40 90, 70 55, 110 62
+             C 120 35, 155 28, 180 30 Z"
+        />
+        {/* Droplets */}
+        <circle cx="50" cy="80" r="6" fill="#7FB3D5" />
+        <circle cx="320" cy="60" r="5" fill="#9CC4E4" />
+        <circle cx="30" cy="140" r="4" fill="#7FB3D5" />
+        <circle cx="340" cy="155" r="7" fill="#9CC4E4" />
+        <circle cx="180" cy="195" r="4" fill="#7FB3D5" />
+        {/* Highlight */}
+        <ellipse cx="150" cy="80" rx="40" ry="14" fill="#fff" opacity="0.35" />
+      </motion.svg>
+
+      {/* Paint can */}
+      <motion.svg
+        viewBox="0 0 80 100"
+        className="absolute"
+        style={{ left: "50%", marginLeft: -40, width: 80, height: 100 }}
+        initial={{ y: -560, rotate: -25, opacity: 0 }}
+        animate={
+          phase === "falling"
+            ? { y: 60, rotate: 15, opacity: 1 }
+            : phase === "splash"
+            ? { y: 50, rotate: 80, opacity: 1 }
+            : { y: 30, rotate: 95, opacity: 0 }
+        }
+        transition={
+          phase === "falling"
+            ? { duration: 1, ease: [0.4, 0, 0.7, 1] }
+            : phase === "splash"
+            ? { duration: 0.45, ease: "easeOut" }
+            : { duration: 0.8, ease: "easeIn" }
+        }
+      >
+        <defs>
+          <linearGradient id="canBody" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stopColor="#d6d9dd" />
+            <stop offset="0.5" stopColor="#f3f5f7" />
+            <stop offset="1" stopColor="#b8bdc4" />
+          </linearGradient>
+        </defs>
+        {/* Handle */}
+        <path d="M18 22 Q40 4 62 22" stroke="#7a818a" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+        {/* Can body */}
+        <rect x="12" y="22" width="56" height="62" rx="3" fill="url(#canBody)" stroke="#8a909a" strokeWidth="1" />
+        {/* Rim */}
+        <ellipse cx="40" cy="24" rx="28" ry="5" fill="#e9ebee" stroke="#8a909a" strokeWidth="1" />
+        <ellipse cx="40" cy="24" rx="24" ry="3.5" fill="#7FB3D5" />
+        {/* Label */}
+        <rect x="18" y="40" width="44" height="24" rx="2" fill="#fff" opacity="0.9" />
+        <rect x="22" y="46" width="36" height="3" fill="#7FB3D5" />
+        <rect x="22" y="52" width="26" height="2" fill="#9CC4E4" />
+        <rect x="22" y="57" width="32" height="2" fill="#9CC4E4" />
+        {/* Bottom shadow */}
+        <ellipse cx="40" cy="84" rx="28" ry="3" fill="#000" opacity="0.15" />
+      </motion.svg>
+    </div>
+  );
+}
+
+
 
 function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
   const [time, setTime] = useState("");
@@ -370,94 +474,85 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
     return () => clearInterval(id);
   }, []);
 
-  const apps: { id: WindowId; label: string; icon: string }[] = [
-    { id: "orien", label: "Crypto", icon: appCrypto },
-    { id: "fourdev", label: "4Dev", icon: app4dev },
-    { id: "debtor", label: "Должник прав", icon: appDebtor },
-    { id: "gallery", label: "EatEasy", icon: appEateasy },
-  ];
-
-  const dock: { src: string; label: string; href?: string; action?: "gallery" }[] = [
-    { src: sysIcon1, label: "Телефон", href: "tel:+79109076181" },
-    { src: sysIcon3, label: "Почта", href: "mailto:vereskunovadaria@gmail.com" },
-    { src: sysIcon2, label: "Фото", action: "gallery" },
-    { src: sysAqua, label: "Telegram", href: "https://t.me/DariaIud" },
+  const folders: { id: WindowId; label: string }[] = [
+    { id: "orien",   label: "Crypto" },
+    { id: "fourdev", label: "4Dev" },
+    { id: "debtor",  label: "Должник" },
+    { id: "gallery", label: "Галерея" },
   ];
 
   return (
-    <div className="absolute inset-0 flex flex-col">
+    <div className="absolute inset-0 flex flex-col desktop-bg overflow-hidden">
       {/* Dynamic island */}
       <div className="pointer-events-none absolute top-2 left-1/2 -translate-x-1/2 w-28 h-7 rounded-full bg-black z-[200]" />
 
       {/* Status bar */}
-      <div className="relative z-10 flex items-center justify-between px-7 pt-3 text-white text-[14px] font-semibold tabular-nums drop-shadow">
+      <div className="relative z-10 flex items-center justify-between px-7 pt-3 text-ink text-[13px] font-semibold tabular-nums">
         <span>{time}</span>
         <span className="flex items-center gap-1 text-[11px]">
           <span>•••</span>
           <span>5G</span>
-          <span className="ml-1 w-6 h-2.5 rounded-sm border border-white/80 relative">
-            <span className="absolute inset-0.5 bg-white rounded-[1px]" />
+          <span className="ml-1 w-6 h-2.5 rounded-sm border border-ink/70 relative">
+            <span className="absolute inset-0.5 bg-ink rounded-[1px]" />
           </span>
         </span>
       </div>
 
-      {/* Background photo — full cover */}
-      <img
-        src={mobileDarya}
-        alt=""
-        className="pointer-events-none absolute inset-0 w-full h-full object-cover object-center z-0 select-none"
-        draggable={false}
-      />
-
-      {/* Content area */}
-      <div className="relative z-[5] flex-1 flex flex-col px-4 pt-8 pb-4 gap-4">
-        {/* Notes widget — iOS style with yellow header */}
+      <div className="relative z-[5] flex-1 flex flex-col px-4 pt-10 pb-4 gap-5">
+        {/* Sticky note — desktop style */}
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15, duration: 0.4 }}
-          className="rounded-[22px] overflow-hidden shadow-lg bg-white/95 backdrop-blur"
-          style={{ boxShadow: "0 12px 32px rgba(0,0,0,0.22)" }}
+          initial={{ opacity: 0, y: -10, rotate: -3 }}
+          animate={{ opacity: 1, y: 0, rotate: -3 }}
+          transition={{ delay: 0.15, duration: 0.5 }}
+          className="self-start w-[88%] p-4 bg-note shadow-2xl"
+          style={{ boxShadow: "0 16px 40px rgba(0,0,0,0.20)" }}
         >
-          <div className="bg-[#FFC93D] px-4 py-2.5 flex items-center gap-2">
-            <svg viewBox="0 0 24 24" className="w-4 h-4 text-white" fill="currentColor">
-              <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" />
-            </svg>
-            <span className="text-white text-[15px] font-semibold leading-none">Заметки</span>
-          </div>
-          <div className="px-4 py-2 text-[13px] text-ink leading-snug border-b border-ink/10">
-            Привет, я&nbsp;Дарья! Проектирую сложные цифровые продукты, которые решают реальные бизнес-задачи.
-          </div>
-          <div className="px-4 py-2 text-[13px] text-ink/90 flex items-center justify-between">
-            <span>Новая заметка</span>
-            <span className="w-6 h-6 rounded-md bg-ink/5 grid place-items-center text-ink/40 text-[12px]">✎</span>
-          </div>
+          <h1 className="font-display text-[22px] leading-tight font-semibold">
+            Привет! <span className="text-coral">🌸</span>
+          </h1>
+          <p className="mt-2 text-[12px] leading-snug">
+            Меня зовут <b>Дарья</b>, я&nbsp;проектирую цифровые продукты, которые решают реальные бизнес-задачи.
+          </p>
+          <p className="mt-2 text-[12px]">
+            <a href="https://t.me/Darialud" target="_blank" rel="noreferrer" className="underline">@Darialud</a>{" "}·{" "}
+            <a href="mailto:vereskunova@gmail.com" className="underline">e-mail</a>
+          </p>
         </motion.div>
 
-        {/* "Заметки" label centered under widget */}
-        <div className="text-center text-white text-[11px] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.7)] -mt-2">
-          Заметки
-        </div>
+        {/* Location chip */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3 }}
+          className="self-end -mt-3 rounded-2xl p-3 bg-white/55 border border-white/70 backdrop-blur-xl shadow-md"
+          style={{ minWidth: 130 }}
+        >
+          <div className="flex items-center gap-1.5 text-ink/70 text-[10px] font-medium uppercase tracking-wider">
+            <span className="grid place-items-center size-4 rounded-full bg-coral/90 text-white text-[8px]">📍</span>
+            Локация
+          </div>
+          <div className="mt-1 font-display text-[18px] leading-none font-semibold text-ink">Москва</div>
+          <div className="mt-1 text-[10px] text-ink/60 tabular-nums">{time} · MSK</div>
+        </motion.div>
 
-        {/* App row — 4 in a single row */}
-        <div className="grid grid-cols-4 gap-2 w-full">
-          {apps.map((a, i) => (
+        {/* Folder grid — desktop blue folders, no emblems */}
+        <div className="grid grid-cols-2 gap-x-2 gap-y-3 w-full mt-2">
+          {folders.map((f, i) => (
             <motion.button
-              key={a.id}
+              key={f.id}
               initial={{ opacity: 0, scale: 0.7 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 + i * 0.05, type: "spring", stiffness: 220, damping: 18 }}
-              whileTap={{ scale: 0.92 }}
-              onClick={() => { playTap(); onOpen(a.id); }}
-              className="flex flex-col items-center gap-1 group"
+              transition={{ delay: 0.35 + i * 0.06, type: "spring", stiffness: 220, damping: 18 }}
+              whileTap={{ scale: 0.94 }}
+              onClick={() => { playTap(); onOpen(f.id); }}
+              className="flex flex-col items-center gap-1"
             >
-              <img
-                src={a.icon}
-                alt={a.label}
-                className="w-[60px] h-[60px] rounded-[14px] object-cover shadow-md"
-              />
-              <span className="text-white text-[11px] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.7)] leading-tight text-center max-w-[72px] truncate">
-                {a.label}
+              <div className="w-[144px] h-[128px] origin-top scale-[0.78]">
+                <IconGraphic icon="folder" color={FOLDER_BLUE} />
+              </div>
+
+              <span className="text-ink text-[12px] font-semibold leading-tight text-center">
+                {f.label}
               </span>
             </motion.button>
           ))}
@@ -466,28 +561,27 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
         <div className="flex-1" />
 
         {/* Search pill */}
-        <div className="mx-auto px-4 py-1.5 rounded-full bg-black/25 backdrop-blur-xl text-white text-[13px] flex items-center gap-2">
+        <div className="mx-auto px-4 py-1.5 rounded-full bg-white/40 backdrop-blur-xl text-ink text-[13px] flex items-center gap-2 border border-white/60">
           <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5">
             <circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" />
           </svg>
           Поиск
         </div>
 
-        {/* Dock */}
-        <div className="mt-2 rounded-[28px] bg-white/25 backdrop-blur-2xl border border-white/30 px-3 py-3 flex justify-around items-center shadow-xl">
-          {dock.map((d, i) => {
+        {/* Dock — quick contacts */}
+        <div className="mt-2 rounded-[28px] bg-white/45 backdrop-blur-2xl border border-white/60 px-3 py-3 flex justify-around items-center shadow-xl">
+          {[
+            { src: sysIcon1, label: "Телефон", href: "tel:+79109076181" },
+            { src: sysIcon3, label: "Почта", href: "mailto:vereskunovadaria@gmail.com" },
+            { src: sysIcon2, label: "Фото", action: "gallery" as const },
+            { src: sysAqua, label: "Telegram", href: "https://t.me/DariaIud" },
+          ].map((d, i) => {
             const inner = (
-              <img
-                src={d.src}
-                alt={d.label}
-                className="w-[60px] h-[60px] rounded-[14px] object-cover"
-                draggable={false}
-              />
+              <img src={d.src} alt={d.label} className="w-[56px] h-[56px] rounded-[14px] object-cover" draggable={false} />
             );
-            const common = "block";
-            if (d.action === "gallery") {
+            if ("action" in d && d.action === "gallery") {
               return (
-                <motion.button key={i} whileTap={{ scale: 0.9 }} onClick={() => { playTap(); onOpen("gallery"); }} className={common} aria-label={d.label}>
+                <motion.button key={i} whileTap={{ scale: 0.9 }} onClick={() => { playTap(); onOpen("gallery"); }} aria-label={d.label}>
                   {inner}
                 </motion.button>
               );
@@ -500,7 +594,6 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
                 target={d.href?.startsWith("http") ? "_blank" : undefined}
                 rel={d.href?.startsWith("http") ? "noreferrer" : undefined}
                 onClick={() => playTap()}
-                className={common}
                 aria-label={d.label}
               >
                 {inner}
@@ -510,11 +603,12 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
         </div>
 
         {/* Home indicator */}
-        <div className="mx-auto w-32 h-1 rounded-full bg-white/80" />
+        <div className="mx-auto w-32 h-1 rounded-full bg-ink/70" />
       </div>
     </div>
   );
 }
+
 
 function Dock({ onOpen }: { onOpen: (id: WindowId) => void }) {
   return (
@@ -673,7 +767,7 @@ function DesktopIcon({
         item.disabled ? "cursor-default opacity-90" : isDragging ? "cursor-grabbing" : "cursor-grab"
       }`}
     >
-      <IconGraphic icon={item.icon} color={item.color} emblem={item.emblem} />
+      <IconGraphic icon={item.icon} color={item.color} />
       <div className="text-center px-2 py-0.5 rounded text-ink text-[15px] leading-tight font-semibold drop-shadow-sm group-hover:bg-coral/80 group-hover:text-white transition-colors">
         {item.label}
         {item.sublabel && <div className="text-[12px] opacity-80">{item.sublabel}</div>}
@@ -682,24 +776,23 @@ function DesktopIcon({
   );
 }
 
-function IconGraphic({ icon, color, emblem }: { icon: DesktopItem["icon"]; color?: string; emblem?: string }) {
+function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: string; emblem?: string }) {
   if (icon === "folder") {
-    const base = color || "#7FB3D5";
+    const base = color || "#9CC4E4";
     return (
       <div className="relative w-36 h-32 group/folder">
-        <svg viewBox="0 0 144 128" className="w-full h-full" style={{ filter: "drop-shadow(0 12px 18px rgba(0,0,0,0.28))" }}>
+        <svg viewBox="0 0 144 128" className="w-full h-full" style={{ filter: "drop-shadow(0 6px 10px rgba(120,160,200,0.25))" }}>
           <defs>
             <linearGradient id={`fb-${base}`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor={base} stopOpacity="0.95" />
-              <stop offset="1" stopColor={base} stopOpacity="0.55" />
+              <stop offset="0" stopColor={base} stopOpacity="0.9" />
+              <stop offset="1" stopColor={base} stopOpacity="0.95" />
             </linearGradient>
             <linearGradient id={`ff-${base}`} x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" stopColor={base} />
-              <stop offset="0.55" stopColor={base} />
-              <stop offset="1" stopColor="#000" stopOpacity="0.35" />
+              <stop offset="1" stopColor={base} />
             </linearGradient>
             <linearGradient id={`gloss-${base}`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor="#ffffff" stopOpacity="0.55" />
+              <stop offset="0" stopColor="#ffffff" stopOpacity="0.5" />
               <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
             </linearGradient>
           </defs>
@@ -707,9 +800,9 @@ function IconGraphic({ icon, color, emblem }: { icon: DesktopItem["icon"]; color
           <path d="M6 22 Q6 12 16 12 L52 12 L64 22 L128 22 Q138 22 138 32 L138 44 L6 44 Z" fill={`url(#fb-${base})`} />
           {/* Inside (papers) */}
           <rect x="18" y="34" width="108" height="60" rx="3" fill="#fafaf6" opacity="0.95" />
-          <rect x="24" y="40" width="80" height="3" rx="1.5" fill="#000" opacity="0.08" />
-          <rect x="24" y="48" width="60" height="3" rx="1.5" fill="#000" opacity="0.06" />
-          {/* Front body */}
+          <rect x="24" y="40" width="80" height="3" rx="1.5" fill="#000" opacity="0.06" />
+          <rect x="24" y="48" width="60" height="3" rx="1.5" fill="#000" opacity="0.05" />
+          {/* Front body — flat, no darkening */}
           <path
             d="M6 44 L138 44 L138 108 Q138 120 126 120 L18 120 Q6 120 6 108 Z"
             fill={`url(#ff-${base})`}
@@ -719,15 +812,8 @@ function IconGraphic({ icon, color, emblem }: { icon: DesktopItem["icon"]; color
           {/* Top gloss */}
           <path d="M6 44 L138 44 L138 62 Q72 76 6 62 Z" fill={`url(#gloss-${base})`} />
           {/* Edge highlight */}
-          <path d="M6 44 L138 44" stroke="#fff" strokeOpacity="0.55" strokeWidth="1.2" />
+          <path d="M6 44 L138 44" stroke="#fff" strokeOpacity="0.6" strokeWidth="1.2" />
         </svg>
-        {emblem && (
-          <span
-            className="absolute left-1/2 -translate-x-1/2 bottom-3 grid place-items-center size-9 rounded-full bg-white/90 text-ink font-display text-[15px] font-bold shadow-md ring-1 ring-black/10 select-none pointer-events-none"
-          >
-            {emblem}
-          </span>
-        )}
       </div>
     );
   }
