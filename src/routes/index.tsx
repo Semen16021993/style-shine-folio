@@ -276,7 +276,6 @@ function Desktop() {
             </motion.div>
 
             <LocationWidget />
-            <ProductAssembly />
 
 
             {items.map((item, i) => {
