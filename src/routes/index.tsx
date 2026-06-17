@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useRef, useState, type ReactNode, type RefObject, type PointerEvent as ReactPointerEvent } from "react";
 import wallpaper from "@/assets/wallpaper.jpg";
+import desktopBgAsset from "@/assets/desktop-bg.jpg.asset.json";
 import gallery1 from "@/assets/gallery-1.jpg";
 import gallery2 from "@/assets/gallery-2.jpg";
 import gallery3 from "@/assets/gallery-3.jpg";
@@ -226,7 +227,7 @@ function Desktop() {
         className={`relative overflow-hidden font-sans text-ink select-none ${
           phoneMode
             ? "rounded-[44px] ring-[10px] ring-black shadow-[0_30px_80px_rgba(0,0,0,0.6)]"
-            : "w-full h-full desktop-bg"
+            : "w-full h-full"
         }`}
         style={
           phoneMode
@@ -237,7 +238,11 @@ function Desktop() {
                 width: "min(92vw, calc(92vh * 9 / 19.5))",
                 aspectRatio: "9 / 19.5",
               }
-            : undefined
+            : {
+                backgroundImage: `url(${desktopBgAsset.url})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }
         }
       >
         {phoneMode ? (
@@ -361,66 +366,117 @@ function LocationWidget() {
 }
 
 function PaintCanDrop() {
-  // Falls from above the sticky note, lands & tips, then a blue paint splash
-  // blooms under the note. Plays once on mount, stain stays.
-  const [phase, setPhase] = useState<"falling" | "splash" | "rest">("falling");
+  // Timeline (starts 5s after mount, all phases slowed down):
+  //   idle  → falling (can drops from above, ~2.2s)
+  //   splash (stain blooms, ~0.9s)
+  //   rest  (stain stays visible, ~2.5s)
+  //   wipe  (broom sweeps across, stain disappears, ~3.5s)
+  //   gone  (broom exits, nothing remains)
+  const [phase, setPhase] = useState<"idle" | "falling" | "splash" | "rest" | "wipe" | "gone">("idle");
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase("splash"), 1100);
-    const t2 = setTimeout(() => setPhase("rest"), 2200);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
+    const timers = [
+      setTimeout(() => setPhase("falling"), 5000),
+      setTimeout(() => setPhase("splash"),  7200),
+      setTimeout(() => setPhase("rest"),    8100),
+      setTimeout(() => setPhase("wipe"),   10600),
+      setTimeout(() => setPhase("gone"),   14200),
+    ];
+    return () => { timers.forEach(clearTimeout); };
   }, []);
+
+  const stainVisible = phase === "splash" || phase === "rest" || phase === "wipe";
 
   return (
     <div
       className="absolute pointer-events-none z-[5]"
-      style={{ left: "12%", top: "calc(16px + 280px)", width: 360, height: 320 }}
+      style={{ left: "4%", bottom: "6%", width: 380, height: 360 }}
     >
-      {/* Paint splash — appears after impact */}
+      {/* Realistic paint stain — appears after impact, wiped during 'wipe' */}
       <motion.svg
-        viewBox="0 0 360 200"
-        className="absolute inset-x-0 top-[120px] w-full"
+        viewBox="0 0 380 220"
+        className="absolute inset-x-0 bottom-0 w-full"
         initial={{ scale: 0, opacity: 0 }}
-        animate={phase !== "falling" ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
-        transition={{ type: "spring", stiffness: 180, damping: 14 }}
-        style={{ filter: "drop-shadow(0 6px 10px rgba(80,130,180,0.35))" }}
+        animate={
+          stainVisible
+            ? { scale: 1, opacity: 1 }
+            : phase === "gone"
+            ? { scale: 1, opacity: 0 }
+            : { scale: 0, opacity: 0 }
+        }
+        transition={
+          phase === "splash"
+            ? { type: "spring", stiffness: 90, damping: 16, mass: 1.2 }
+            : { duration: 0.6, ease: "easeOut" }
+        }
+        style={{ filter: "drop-shadow(0 8px 14px rgba(60,110,160,0.45))" }}
       >
         <defs>
-          <radialGradient id="splashGrad" cx="50%" cy="50%" r="60%">
-            <stop offset="0%" stopColor="#B8DCF2" />
-            <stop offset="60%" stopColor="#7FB3D5" />
-            <stop offset="100%" stopColor="#5A8FB8" />
+          <radialGradient id="stainGrad" cx="45%" cy="50%" r="65%">
+            <stop offset="0%"  stopColor="#A8D2EE" />
+            <stop offset="55%" stopColor="#6FA8D0" />
+            <stop offset="100%" stopColor="#3D6F9C" />
           </radialGradient>
+          <radialGradient id="stainHi" cx="35%" cy="35%" r="40%">
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.55" />
+            <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+          </radialGradient>
+          {/* Wipe mask: a horizontal band that sweeps right→left, erasing stain */}
+          <mask id="wipeMask">
+            <rect x="0" y="0" width="380" height="220" fill="white" />
+            <motion.rect
+              y="-20" height="260" fill="black"
+              initial={{ x: 380, width: 200 }}
+              animate={phase === "wipe" || phase === "gone" ? { x: -220 } : { x: 380 }}
+              transition={{ duration: 3.4, ease: "easeInOut" }}
+            />
+          </mask>
         </defs>
-        <path
-          fill="url(#splashGrad)"
-          d="M180 30
-             C 230 28, 280 50, 295 85
-             C 322 95, 340 120, 320 140
-             C 335 165, 295 180, 260 168
-             C 245 195, 200 192, 180 170
-             C 150 195, 100 188, 95 158
-             C 60 158, 40 130, 65 110
-             C 40 90, 70 55, 110 62
-             C 120 35, 155 28, 180 30 Z"
-        />
-        {/* Droplets */}
-        <circle cx="50" cy="80" r="6" fill="#7FB3D5" />
-        <circle cx="320" cy="60" r="5" fill="#9CC4E4" />
-        <circle cx="30" cy="140" r="4" fill="#7FB3D5" />
-        <circle cx="340" cy="155" r="7" fill="#9CC4E4" />
-        <circle cx="180" cy="195" r="4" fill="#7FB3D5" />
-        {/* Highlight */}
-        <ellipse cx="150" cy="80" rx="40" ry="14" fill="#fff" opacity="0.35" />
+        <g mask="url(#wipeMask)">
+          {/* Irregular organic blob — realistic splatter silhouette */}
+          <path
+            fill="url(#stainGrad)"
+            d="M180 38
+               C 226 30, 268 46, 286 78
+               C 308 84, 332 96, 338 122
+               C 348 148, 322 168, 296 162
+               C 316 184, 282 206, 250 196
+               C 238 214, 196 218, 178 200
+               C 156 220, 116 216, 102 192
+               C 70 200, 38 184, 44 156
+               C 18 140, 22 104, 56 96
+               C 50 70, 86 50, 116 60
+               C 128 38, 154 32, 180 38 Z"
+          />
+          {/* Inner shading for depth */}
+          <path
+            fill="#2E5680" opacity="0.22"
+            d="M150 90 C 200 80, 260 100, 270 140 C 250 170, 180 178, 130 158 C 100 140, 110 100, 150 90 Z"
+          />
+          {/* Highlight */}
+          <ellipse cx="135" cy="85" rx="55" ry="18" fill="url(#stainHi)" />
+          {/* Splatter droplets */}
+          <ellipse cx="38"  cy="80"  rx="9" ry="6"  fill="#5A8FB8" />
+          <ellipse cx="22"  cy="120" rx="5" ry="4"  fill="#6FA8D0" />
+          <ellipse cx="60"  cy="200" rx="7" ry="5"  fill="#5A8FB8" />
+          <ellipse cx="340" cy="70"  rx="6" ry="5"  fill="#6FA8D0" />
+          <ellipse cx="358" cy="118" rx="8" ry="6"  fill="#5A8FB8" />
+          <ellipse cx="310" cy="200" rx="6" ry="4"  fill="#6FA8D0" />
+          <ellipse cx="190" cy="212" rx="5" ry="3"  fill="#5A8FB8" />
+          <circle cx="14" cy="160" r="3" fill="#6FA8D0" />
+          <circle cx="370" cy="160" r="3" fill="#6FA8D0" />
+        </g>
       </motion.svg>
 
-      {/* Paint can */}
+      {/* Paint can — falls slowly, lands, tips, then sinks out */}
       <motion.svg
         viewBox="0 0 80 100"
         className="absolute"
-        style={{ left: "50%", marginLeft: -40, width: 80, height: 100 }}
-        initial={{ y: -560, rotate: -25, opacity: 0 }}
+        style={{ left: "50%", marginLeft: -40, width: 90, height: 112, bottom: 110 }}
+        initial={{ y: -600, rotate: -25, opacity: 0 }}
         animate={
-          phase === "falling"
+          phase === "idle"
+            ? { y: -600, rotate: -25, opacity: 0 }
+            : phase === "falling"
             ? { y: 60, rotate: 15, opacity: 1 }
             : phase === "splash"
             ? { y: 50, rotate: 80, opacity: 1 }
@@ -428,10 +484,10 @@ function PaintCanDrop() {
         }
         transition={
           phase === "falling"
-            ? { duration: 1, ease: [0.4, 0, 0.7, 1] }
+            ? { duration: 2.0, ease: [0.4, 0, 0.7, 1] }
             : phase === "splash"
-            ? { duration: 0.45, ease: "easeOut" }
-            : { duration: 0.8, ease: "easeIn" }
+            ? { duration: 0.85, ease: "easeOut" }
+            : { duration: 1.2, ease: "easeIn" }
         }
       >
         <defs>
@@ -441,20 +497,51 @@ function PaintCanDrop() {
             <stop offset="1" stopColor="#b8bdc4" />
           </linearGradient>
         </defs>
-        {/* Handle */}
         <path d="M18 22 Q40 4 62 22" stroke="#7a818a" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-        {/* Can body */}
         <rect x="12" y="22" width="56" height="62" rx="3" fill="url(#canBody)" stroke="#8a909a" strokeWidth="1" />
-        {/* Rim */}
         <ellipse cx="40" cy="24" rx="28" ry="5" fill="#e9ebee" stroke="#8a909a" strokeWidth="1" />
         <ellipse cx="40" cy="24" rx="24" ry="3.5" fill="#7FB3D5" />
-        {/* Label */}
         <rect x="18" y="40" width="44" height="24" rx="2" fill="#fff" opacity="0.9" />
         <rect x="22" y="46" width="36" height="3" fill="#7FB3D5" />
         <rect x="22" y="52" width="26" height="2" fill="#9CC4E4" />
         <rect x="22" y="57" width="32" height="2" fill="#9CC4E4" />
-        {/* Bottom shadow */}
         <ellipse cx="40" cy="84" rx="28" ry="3" fill="#000" opacity="0.15" />
+      </motion.svg>
+
+      {/* Broom — enters from right during 'wipe', sweeps across, exits */}
+      <motion.svg
+        viewBox="0 0 160 200"
+        className="absolute"
+        style={{ left: 0, bottom: 20, width: 200, height: 240, transformOrigin: "70% 30%" }}
+        initial={{ x: 460, y: -10, rotate: 25, opacity: 0 }}
+        animate={
+          phase === "wipe"
+            ? { x: [460, 380, -40, -180], y: [-10, 0, 0, -10], rotate: [25, 18, 18, 25], opacity: [0, 1, 1, 0] }
+            : phase === "gone"
+            ? { x: -180, opacity: 0 }
+            : { x: 460, opacity: 0 }
+        }
+        transition={{ duration: 3.5, ease: "easeInOut", times: [0, 0.12, 0.85, 1] }}
+      >
+        {/* Handle */}
+        <rect x="115" y="-10" width="9" height="150" rx="4" fill="#a87642" stroke="#6b4a26" strokeWidth="1" transform="rotate(20 120 60)" />
+        {/* Brush binding */}
+        <rect x="60" y="118" width="58" height="14" rx="3" fill="#c98a4b" stroke="#6b4a26" strokeWidth="1" transform="rotate(20 90 125)" />
+        {/* Bristles */}
+        <g transform="rotate(20 90 145)">
+          {Array.from({ length: 16 }).map((_, i) => (
+            <line
+              key={i}
+              x1={62 + i * 3.6}
+              y1="132"
+              x2={56 + i * 3.6 + (i % 2 ? 2 : -2)}
+              y2="178"
+              stroke={i % 3 === 0 ? "#d4a574" : "#e8c089"}
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          ))}
+        </g>
       </motion.svg>
     </div>
   );
