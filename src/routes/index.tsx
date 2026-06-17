@@ -186,7 +186,7 @@ const dockIconMap: Record<DockIconKey, string> = {
   in: iconIn,
 };
 
-const POS_STORAGE_KEY = "desktop-icon-positions-v3";
+const POS_STORAGE_KEY = "desktop-icon-positions-v4";
 type Pos = { x: number; y: number };
 
 function Desktop() {
