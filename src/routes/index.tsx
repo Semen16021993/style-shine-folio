@@ -1293,7 +1293,7 @@ function FourDevCase() {
 
 function OrienCase() {
   const h4 = "font-mono text-xs uppercase tracking-widest text-ink/60 mb-2 font-semibold";
-  const fullImg = "w-[calc(100%-2.5rem)] rounded-lg border border-ink/10 mx-auto block";
+  const fullImg = "w-[calc(100%-2rem)] rounded-lg border border-ink/10 mx-auto block";
   return (
     <TypoScope className="space-y-6">
 
