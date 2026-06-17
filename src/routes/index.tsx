@@ -274,7 +274,7 @@ function Desktop() {
             </motion.div>
 
             <LocationWidget />
-            <PaintCanDrop />
+            <ProductAssembly />
 
 
             {items.map((item, i) => {
