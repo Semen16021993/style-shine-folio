@@ -1361,10 +1361,6 @@ function OrienCase() {
         Визуально продукт строился вокруг спокойствия и фокуса.
       </p>
 
-      <p className="font-display text-xl md:text-2xl leading-snug text-ink/90">
-        Визуально продукт строился вокруг спокойствия и фокуса.
-      </p>
-
       <motion.img
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
