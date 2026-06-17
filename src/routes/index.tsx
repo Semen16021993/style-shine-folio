@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode, type RefObject, type PointerEvent as ReactPointerEvent } from "react";
 import wallpaper from "@/assets/wallpaper.jpg";
 import gallery1 from "@/assets/gallery-1.jpg";
 import gallery2 from "@/assets/gallery-2.jpg";
@@ -139,24 +139,29 @@ interface DesktopItem {
   sublabel?: string;
   icon: "folder" | "note" | "pdf" | "app" | "gallery" | "figma" | "photoshop";
   color?: string;
+  emblem?: string;
   x: number;
   y: number;
+  rot?: number;
   disabled?: boolean;
   href?: string;
 }
 
 const FIGMA_URL = "https://www.figma.com/design/tPwY5DNw9Q20JQzMyMVldC/Design-System-%7C-Ui-Kit?node-id=403-674&p=f&t=aq5IZpO7bMZti4sO-0";
 
+// Case folders are clustered in the upper-right "projects" cloud so the
+// hierarchy reads: «папки = кейсы», even when the rest is scattered.
 const items: DesktopItem[] = [
-  // Right column — case folders
-  { id: "orien", label: "Сryptowallet 2025-26", icon: "folder", color: "#7FB3D5", x: 82, y: 28 },
-  { id: "fourdev", label: "4Dev.tech 2023-25", icon: "folder", color: "#7FB3D5", x: 82, y: 50 },
-  { id: "debtor", label: "Должник прав 2023", icon: "folder", color: "#7FB3D5", x: 82, y: 72 },
-  // Middle column — gallery, figma, cv
-  { id: "gallery", label: "Галерея", icon: "gallery", x: 62, y: 28 },
-  { id: "figma", label: "Figma", icon: "figma", x: 62, y: 50, href: FIGMA_URL },
-  { id: "cv", label: "CV", icon: "pdf", x: 62, y: 72 },
+  // === Cluster: case folders (upper-right) ===
+  { id: "orien",   label: "Сryptowallet 2025-26", icon: "folder", color: "#7FB3D5", emblem: "₿",  x: 72, y: 24, rot: -4 },
+  { id: "fourdev", label: "4Dev.tech 2023-25",    icon: "folder", color: "#A8C9A8", emblem: "</>", x: 86, y: 32, rot: 3 },
+  { id: "debtor",  label: "Должник прав 2023",    icon: "folder", color: "#E5B97F", emblem: "⚖",  x: 78, y: 48, rot: -2 },
+  // === Scattered tools ===
+  { id: "gallery", label: "Галерея", icon: "gallery", x: 18, y: 38, rot: -5 },
+  { id: "figma",   label: "Figma",   icon: "figma",   x: 32, y: 68, rot: 4, href: FIGMA_URL },
+  { id: "cv",      label: "CV",      icon: "pdf",     x: 58, y: 78, rot: -3 },
 ];
+
 
 
 type DockIconKey = "gal" | "figma" | "ps" | "ai" | "id" | "in";
@@ -177,10 +182,20 @@ const dockIconMap: Record<DockIconKey, string> = {
   in: iconIn,
 };
 
+const POS_STORAGE_KEY = "desktop-icon-positions-v2";
+type Pos = { x: number; y: number };
+
 function Desktop() {
   const [open, setOpen] = useState<WindowId[]>([]);
   const [focus, setFocus] = useState<WindowId | null>(null);
   const [phoneMode, setPhoneMode] = useState(false);
+  const [positions, setPositions] = useState<Record<string, Pos>>(() => {
+    if (typeof window === "undefined") return {};
+    try { return JSON.parse(localStorage.getItem(POS_STORAGE_KEY) || "{}"); } catch { return {}; }
+  });
+  const [draggingId, setDraggingId] = useState<string | null>(null);
+  const desktopRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 1023px)");
     const update = () => setPhoneMode(mq.matches);
@@ -189,6 +204,10 @@ function Desktop() {
     return () => mq.removeEventListener("change", update);
   }, []);
 
+  useEffect(() => {
+    try { localStorage.setItem(POS_STORAGE_KEY, JSON.stringify(positions)); } catch {}
+  }, [positions]);
+
   const openWindow = (id: WindowId) => {
     setOpen((s) => (s.includes(id) ? s : [...s, id]));
     setFocus(id);
@@ -196,13 +215,17 @@ function Desktop() {
   const closeWindow = (id: WindowId) =>
     setOpen((s) => s.filter((i) => i !== id));
 
+  const handleMove = (id: string, p: Pos) =>
+    setPositions((prev) => ({ ...prev, [id]: p }));
+
   return (
     <div className={`fixed inset-0 overflow-hidden ${phoneMode ? "flex items-center justify-center bg-zinc-950" : "block"}`}>
       <div
+        ref={desktopRef}
         className={`relative overflow-hidden font-sans text-ink select-none ${
           phoneMode
             ? "rounded-[44px] ring-[10px] ring-black shadow-[0_30px_80px_rgba(0,0,0,0.6)]"
-            : "w-full h-full"
+            : "w-full h-full desktop-bg"
         }`}
         style={
           phoneMode
@@ -213,10 +236,7 @@ function Desktop() {
                 width: "min(92vw, calc(92vh * 9 / 19.5))",
                 aspectRatio: "9 / 19.5",
               }
-            : {
-                background:
-                  "radial-gradient(ellipse at top, #e9e4dc 0%, #d8d2c7 55%, #c8c1b4 100%)",
-              }
+            : undefined
         }
       >
         {phoneMode ? (
@@ -230,44 +250,53 @@ function Desktop() {
               initial={{ opacity: 0, y: -20, rotate: -3 }}
               animate={{ opacity: 1, y: 0, rotate: -3 }}
               transition={{ delay: 0.3, duration: 0.6 }}
-              className="absolute top-14 left-4 md:left-12 w-[280px] md:w-[340px] p-5 bg-note shadow-2xl"
+              className="absolute top-16 left-4 md:left-12 w-[320px] md:w-[400px] p-6 bg-note shadow-2xl"
               style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.25)" }}
             >
-              <h1 className="font-display text-2xl md:text-3xl leading-tight font-semibold">
+              <h1 className="font-display text-2xl md:text-[34px] leading-tight font-semibold">
                 Привет! <span className="text-coral">🌸</span>
               </h1>
-              <p className="mt-3 text-sm leading-relaxed">
+              <p className="mt-3 text-[15px] leading-relaxed">
                 Меня зовут <b>Дарья</b>, я проектирую цифровые продукты, которые решают реальные бизнес-задачи. Специализируюсь на <i>B2B/B2C</i>, SaaS, внутренних инструментах и системах автоматизации.
               </p>
-              <p className="mt-3 text-sm leading-relaxed">
+              <p className="mt-3 text-[15px] leading-relaxed">
                 Контакты:{" "}
                 <a href="https://t.me/Darialud" target="_blank" rel="noreferrer" className="underline hover:text-coral">@Darialud</a>{" "}·{" "}
                 <a href="mailto:vereskunova@gmail.com" className="underline hover:text-coral">vereskunova@gmail.com</a>
               </p>
-              <p className="mt-1 text-sm">Локация: Москва, РФ</p>
+              <p className="mt-1 text-[15px]">Локация: Москва, РФ</p>
             </motion.div>
 
-            {items.map((item, i) => (
-              <DesktopIcon
-                key={item.id}
-                item={item}
-                delay={0.5 + i * 0.05}
-                onOpen={() => {
-                  if (item.disabled) return;
-                  if (item.href) {
-                    window.open(item.href, "_blank", "noopener,noreferrer");
-                    return;
-                  }
-                  if (item.id === "cv") {
-                    window.open("https://docs.google.com/document/d/12Lyzo4MLM1DhmpTNTif1u9eAyQeliljbuUQ1dLv_KlE/edit?tab=t.0", "_blank", "noopener,noreferrer");
-                    return;
-                  }
-                  openWindow(item.id as WindowId);
-                }}
-              />
-            ))}
+            <LocationWidget />
 
-            <ZoomCall />
+            {items.map((item, i) => {
+              const pos = positions[item.id] ?? { x: item.x, y: item.y };
+              return (
+                <DesktopIcon
+                  key={item.id}
+                  item={item}
+                  position={pos}
+                  delay={0.5 + i * 0.05}
+                  containerRef={desktopRef}
+                  isDragging={draggingId === item.id}
+                  onDragStart={() => setDraggingId(item.id)}
+                  onDragEnd={() => setDraggingId(null)}
+                  onMove={handleMove}
+                  onOpen={() => {
+                    if (item.disabled) return;
+                    if (item.href) {
+                      window.open(item.href, "_blank", "noopener,noreferrer");
+                      return;
+                    }
+                    if (item.id === "cv") {
+                      window.open("https://docs.google.com/document/d/12Lyzo4MLM1DhmpTNTif1u9eAyQeliljbuUQ1dLv_KlE/edit?tab=t.0", "_blank", "noopener,noreferrer");
+                      return;
+                    }
+                    openWindow(item.id as WindowId);
+                  }}
+                />
+              );
+            })}
           </>
         )}
 
@@ -287,6 +316,47 @@ function Desktop() {
     </div>
   );
 }
+
+function LocationWidget() {
+  const [stamp, setStamp] = useState({ time: "", date: "" });
+  useEffect(() => {
+    const days = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
+    const months = ["янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"];
+    const tick = () => {
+      const d = new Date();
+      const hh = String(d.getHours()).padStart(2, "0");
+      const mm = String(d.getMinutes()).padStart(2, "0");
+      setStamp({
+        time: `${hh}:${mm}`,
+        date: `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]}`,
+      });
+    };
+    tick();
+    const id = setInterval(tick, 30 * 1000);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -10, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ delay: 0.7, type: "spring", stiffness: 200, damping: 20 }}
+      className="absolute top-14 right-6 md:right-10 w-[210px] rounded-3xl p-4 bg-white/45 border border-white/60 shadow-[0_12px_40px_rgba(0,0,0,0.12)] z-[60]"
+      style={{ backdropFilter: "blur(20px) saturate(160%)" }}
+    >
+      <div className="flex items-center gap-2 text-ink/70 text-[11px] font-medium uppercase tracking-wider">
+        <span className="grid place-items-center size-5 rounded-full bg-coral/90 text-white text-[10px]">📍</span>
+        Локация
+      </div>
+      <div className="mt-2 font-display text-[26px] leading-none font-semibold text-ink">Москва</div>
+      <div className="mt-1 text-[12px] text-ink/60">{stamp.date} · MSK · UTC+3</div>
+      <div className="mt-3 flex items-baseline justify-between">
+        <span className="tabular-nums font-display text-[28px] font-semibold text-ink leading-none">{stamp.time}</span>
+        <span className="text-[11px] text-ink/50">сейчас</span>
+      </div>
+    </motion.div>
+  );
+}
+
 
 function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
   const [time, setTime] = useState("");
@@ -487,101 +557,6 @@ function Dock({ onOpen }: { onOpen: (id: WindowId) => void }) {
   );
 }
 
-function ZoomCall() {
-  const [visible, setVisible] = useState(true);
-  const [elapsed, setElapsed] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setElapsed((s) => s + 1), 1000);
-    return () => clearInterval(id);
-  }, []);
-  const mm = String(Math.floor(elapsed / 60)).padStart(2, "0");
-  const ss = String(elapsed % 60).padStart(2, "0");
-
-  return (
-    <AnimatePresence>
-      {visible && (
-        <motion.div
-          initial={{ opacity: 0, y: 20, scale: 0.9 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 20, scale: 0.9 }}
-          transition={{ delay: 0.8, type: "spring", stiffness: 180, damping: 20 }}
-          drag
-          dragMomentum={false}
-          className="absolute bottom-32 left-6 md:left-12 w-[420px] md:w-[480px] bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl border border-white/10 z-[55] cursor-grab active:cursor-grabbing"
-          style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.5)" }}
-        >
-          {/* Header */}
-          <div className="h-7 px-3 flex items-center justify-between bg-[#2d2d2d] text-white/80 text-[11px]">
-            <div className="flex items-center gap-2">
-              <span className="size-2 rounded-full bg-red-500 animate-pulse" />
-              <span className="font-medium">Zoom Meeting · 00:{mm}:{ss}</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="size-2.5 rounded-full bg-[#febc2e]" />
-              <span className="size-2.5 rounded-full bg-[#28c840]" />
-            </div>
-          </div>
-          {/* Stage */}
-          <div className="p-1 bg-black">
-            <div
-              className="relative aspect-video rounded-md flex items-center justify-center overflow-hidden ring-2 ring-[#28c840]"
-              style={{ background: "linear-gradient(135deg, #e85d75, #e85d7599)" }}
-            >
-              <div className="size-16 rounded-full bg-white/90 grid place-items-center font-display text-3xl text-ink shadow">
-                Д
-              </div>
-              <div className="absolute bottom-1.5 left-2 text-[11px] text-white font-medium drop-shadow">
-                Дарья (вы)
-              </div>
-              <div className="absolute bottom-1.5 right-2 flex items-end gap-0.5 h-3">
-                {[0, 1, 2].map((i) => (
-                  <motion.span
-                    key={i}
-                    className="w-0.5 bg-[#28c840] rounded-full"
-                    animate={{ height: ["30%", "100%", "50%", "80%", "30%"] }}
-                    transition={{ duration: 0.9, repeat: Infinity, delay: i * 0.15 }}
-                  />
-                ))}
-              </div>
-              <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-black/40 backdrop-blur text-white text-[10px] font-medium flex items-center gap-1.5">
-                <motion.span
-                  className="size-1.5 rounded-full bg-white/80"
-                  animate={{ opacity: [0.3, 1, 0.3] }}
-                  transition={{ duration: 1.4, repeat: Infinity }}
-                />
-                Ожидание участников…
-              </div>
-            </div>
-          </div>
-          {/* Controls */}
-          <div className="h-11 px-3 flex items-center justify-center gap-2 bg-[#2d2d2d] border-t border-white/5">
-            {[
-              { icon: "🎙", bg: "bg-white/10" },
-              { icon: "💬", bg: "bg-white/10" },
-              { icon: "🖥", bg: "bg-white/10" },
-              { icon: "✋", bg: "bg-white/10" },
-            ].map((b, i) => (
-              <button
-                key={i}
-                className={`size-7 rounded-md ${b.bg} hover:bg-white/20 transition-colors grid place-items-center text-[12px]`}
-              >
-                {b.icon}
-              </button>
-            ))}
-            <button
-              onClick={() => { playTap(); setVisible(false); }}
-              className="size-7 rounded-md bg-red-500 hover:bg-red-600 transition-colors grid place-items-center text-[12px] shadow-[0_0_0_2px_rgba(239,68,68,0.35)]"
-              aria-label="Завершить звонок"
-              title="Завершить звонок"
-            >
-              📞
-            </button>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-}
 
 function MenuBar({ focused: _focused }: { focused: WindowId | null }) {
   void _focused;
@@ -620,22 +595,85 @@ function MenuBar({ focused: _focused }: { focused: WindowId | null }) {
 }
 
 function DesktopIcon({
-  item, delay, onOpen,
-}: { item: DesktopItem; delay: number; onOpen: () => void }) {
+  item, position, delay, containerRef, isDragging, onDragStart, onDragEnd, onMove, onOpen,
+}: {
+  item: DesktopItem;
+  position: Pos;
+  delay: number;
+  containerRef: RefObject<HTMLDivElement | null>;
+  isDragging: boolean;
+  onDragStart: () => void;
+  onDragEnd: () => void;
+  onMove: (id: string, p: Pos) => void;
+  onOpen: () => void;
+}) {
+  const dragRef = useRef<{ startX: number; startY: number; origX: number; origY: number; moved: boolean; pid: number } | null>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
+
+  const onPointerDown = (e: ReactPointerEvent<HTMLButtonElement>) => {
+    if (item.disabled) return;
+    if (e.button !== 0) return;
+    dragRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      origX: position.x,
+      origY: position.y,
+      moved: false,
+      pid: e.pointerId,
+    };
+    btnRef.current?.setPointerCapture(e.pointerId);
+    onDragStart();
+  };
+  const onPointerMove = (e: ReactPointerEvent<HTMLButtonElement>) => {
+    const st = dragRef.current;
+    if (!st) return;
+    const dx = e.clientX - st.startX;
+    const dy = e.clientY - st.startY;
+    if (!st.moved && Math.hypot(dx, dy) > 4) st.moved = true;
+    if (st.moved) {
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      const nx = Math.max(4, Math.min(96, st.origX + (dx / rect.width) * 100));
+      const ny = Math.max(8, Math.min(94, st.origY + (dy / rect.height) * 100));
+      onMove(item.id, { x: nx, y: ny });
+    }
+  };
+  const onPointerUp = (e: ReactPointerEvent<HTMLButtonElement>) => {
+    const st = dragRef.current;
+    dragRef.current = null;
+    try { btnRef.current?.releasePointerCapture(e.pointerId); } catch {}
+    onDragEnd();
+    if (st && !st.moved) {
+      if (!item.disabled) playTap();
+      onOpen();
+    }
+  };
+
   return (
     <motion.button
+      ref={btnRef}
       initial={{ opacity: 0, scale: 0.7 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay, type: "spring", stiffness: 200, damping: 18 }}
-      whileHover={{ scale: item.disabled ? 1 : 1.08, y: item.disabled ? 0 : -2 }}
-      whileTap={{ scale: item.disabled ? 1 : 0.94 }}
-      onDoubleClick={onOpen}
-      onClick={() => { if (!item.disabled) playTap(); onOpen(); }}
+      whileHover={item.disabled || isDragging ? undefined : { scale: 1.07, y: -3 }}
+      whileTap={item.disabled ? undefined : { scale: 0.95 }}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      onPointerCancel={onPointerUp}
       disabled={item.disabled}
-      style={{ left: `${item.x}%`, top: `${item.y}%` }}
-      className={`absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 w-36 drop-shadow-xl rounded-[22%] text-base font-normal group ${item.disabled ? "cursor-default opacity-90" : "cursor-pointer"}`}
+      style={{
+        left: `${position.x}%`,
+        top: `${position.y}%`,
+        transform: `translate(-50%, -50%) rotate(${item.rot ?? 0}deg)`,
+        zIndex: isDragging ? 80 : 10,
+        touchAction: "none",
+      }}
+      className={`absolute flex flex-col items-center gap-2 w-36 text-base font-normal group ${
+        item.disabled ? "cursor-default opacity-90" : isDragging ? "cursor-grabbing" : "cursor-grab"
+      }`}
     >
-      <IconGraphic icon={item.icon} color={item.color} />
+      <IconGraphic icon={item.icon} color={item.color} emblem={item.emblem} />
       <div className="text-center px-2 py-0.5 rounded text-ink text-[15px] leading-tight font-semibold drop-shadow-sm group-hover:bg-coral/80 group-hover:text-white transition-colors">
         {item.label}
         {item.sublabel && <div className="text-[12px] opacity-80">{item.sublabel}</div>}
@@ -644,33 +682,73 @@ function DesktopIcon({
   );
 }
 
-function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: string }) {
+function IconGraphic({ icon, color, emblem }: { icon: DesktopItem["icon"]; color?: string; emblem?: string }) {
   if (icon === "folder") {
+    const base = color || "#7FB3D5";
     return (
-      <svg viewBox="0 0 64 52" className="w-36 h-32 drop-shadow-xl">
-        <path d="M2 10 Q2 4 8 4 L22 4 L28 10 L56 10 Q62 10 62 16 L62 44 Q62 50 56 50 L8 50 Q2 50 2 44 Z" fill={color || "#7FB3D5"} stroke="rgba(0,0,0,0.15)" />
-        <path d="M2 18 L62 18" stroke="rgba(255,255,255,0.4)" />
-      </svg>
+      <div className="relative w-36 h-32 group/folder">
+        <svg viewBox="0 0 144 128" className="w-full h-full" style={{ filter: "drop-shadow(0 12px 18px rgba(0,0,0,0.28))" }}>
+          <defs>
+            <linearGradient id={`fb-${base}`} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor={base} stopOpacity="0.95" />
+              <stop offset="1" stopColor={base} stopOpacity="0.55" />
+            </linearGradient>
+            <linearGradient id={`ff-${base}`} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor={base} />
+              <stop offset="0.55" stopColor={base} />
+              <stop offset="1" stopColor="#000" stopOpacity="0.35" />
+            </linearGradient>
+            <linearGradient id={`gloss-${base}`} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor="#ffffff" stopOpacity="0.55" />
+              <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          {/* Back tab */}
+          <path d="M6 22 Q6 12 16 12 L52 12 L64 22 L128 22 Q138 22 138 32 L138 44 L6 44 Z" fill={`url(#fb-${base})`} />
+          {/* Inside (papers) */}
+          <rect x="18" y="34" width="108" height="60" rx="3" fill="#fafaf6" opacity="0.95" />
+          <rect x="24" y="40" width="80" height="3" rx="1.5" fill="#000" opacity="0.08" />
+          <rect x="24" y="48" width="60" height="3" rx="1.5" fill="#000" opacity="0.06" />
+          {/* Front body */}
+          <path
+            d="M6 44 L138 44 L138 108 Q138 120 126 120 L18 120 Q6 120 6 108 Z"
+            fill={`url(#ff-${base})`}
+            className="origin-bottom transition-transform duration-300 group-hover/folder:[transform:rotateX(8deg)_translateY(-2px)]"
+            style={{ transformOrigin: "50% 100%" }}
+          />
+          {/* Top gloss */}
+          <path d="M6 44 L138 44 L138 62 Q72 76 6 62 Z" fill={`url(#gloss-${base})`} />
+          {/* Edge highlight */}
+          <path d="M6 44 L138 44" stroke="#fff" strokeOpacity="0.55" strokeWidth="1.2" />
+        </svg>
+        {emblem && (
+          <span
+            className="absolute left-1/2 -translate-x-1/2 bottom-3 grid place-items-center size-9 rounded-full bg-white/90 text-ink font-display text-[15px] font-bold shadow-md ring-1 ring-black/10 select-none pointer-events-none"
+          >
+            {emblem}
+          </span>
+        )}
+      </div>
     );
   }
   if (icon === "gallery") {
     return (
       <div className="w-32 h-32 grid place-items-center">
-        <img src={iconPhotos} alt="" className="w-32 h-32 drop-shadow-xl rounded-[22%] object-contain" />
+        <img src={iconPhotos} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-contain" />
       </div>
     );
   }
   if (icon === "figma") {
     return (
       <div className="w-32 h-32 grid place-items-center">
-        <img src={iconFigma} alt="" className="w-32 h-32 drop-shadow-xl rounded-[22%] object-contain" />
+        <img src={iconFigma} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-contain" />
       </div>
     );
   }
   if (icon === "photoshop") {
     return (
       <div className="w-32 h-32 grid place-items-center">
-        <img src={iconPs} alt="" className="w-32 h-32 drop-shadow-xl rounded-[22%] object-contain" />
+        <img src={iconPs} alt="" className="w-28 h-28 drop-shadow-xl rounded-[22%] object-contain" />
       </div>
     );
   }
@@ -710,6 +788,7 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
     </div>
   );
 }
+
 
 function Window({ id, zIndex, onClose, onFocus }: {
   id: WindowId; zIndex: number; onClose: () => void; onFocus: () => void;
