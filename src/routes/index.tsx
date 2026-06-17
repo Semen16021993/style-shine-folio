@@ -269,6 +269,8 @@ function Desktop() {
             </motion.div>
 
             <LocationWidget />
+            <PaintCanDrop />
+
 
             {items.map((item, i) => {
               const pos = positions[item.id] ?? { x: item.x, y: item.y };
