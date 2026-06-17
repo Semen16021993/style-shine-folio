@@ -1316,14 +1316,14 @@ function OrienCase() {
       </h2>
 
       <div>
-        <h4 className={h4}>Контекст и задачи</h4>
+        <h4 className={h4}>КОНТЕКСТ И ЗАДАЧИ</h4>
         <p className="leading-relaxed text-ink/80 text-base">
           Crypto Orien.AI — мобильный криптокошелёк ранней стадии, созданный в условиях высокой конкуренции и низкого пользовательского доверия к новым Web3-продуктам. Основная аудитория — пользователи, уже знакомые с криптовалютой, но не удовлетворённые сложностью и перегруженностью существующих решений.
         </p>
       </div>
 
       <div>
-        <h4 className={h4}>Проблемы</h4>
+        <h4 className={h4}>ПРОБЛЕМЫ</h4>
         <ul className="space-y-1.5 text-sm text-ink/80">
           <li className="flex gap-2"><span className="text-coral">→</span>Пользователи останавливались на этапе создания кошелька</li>
           <li className="flex gap-2"><span className="text-coral">→</span>Страх юзеров подтверждать операции</li>
@@ -1332,8 +1332,8 @@ function OrienCase() {
       </div>
 
       <div>
-        <h4 className={h4}>Задачи</h4>
-        <ol className="space-y-1.5 text-sm list-decimal pl-5 text-ink/80">
+        <h4 className={h4}>ЗАДАЧИ</h4>
+        <ul className="space-y-1.5 text-sm text-ink/80">
           <li>Спроектировать end-to-end user flow от регистрации до первой операции.</li>
           <li>Проработать нештатные сценарии: ошибки, задержки, отклонения.</li>
           <li>Оптимизировать шаги до первой финансовой операции.</li>
@@ -1343,19 +1343,27 @@ function OrienCase() {
           <li>Создать систему токенов и переменных для тем и состояний.</li>
           <li>Заложить масштабируемый UI-kit как основу дизайн-системы.</li>
           <li>Обеспечить консистентность паттернов для роста продукта.</li>
-        </ol>
+        </ul>
       </div>
 
       <div>
-        <h4 className={h4}>Моя роль</h4>
-        <ol className="space-y-1.5 text-sm list-decimal pl-5 text-ink/80">
+        <h4 className={h4}>МОЯ РОЛЬ</h4>
+        <ul className="space-y-1.5 text-sm text-ink/80">
           <li>Провела бенчмаркинг: изучила самые популярные приложения отрасли с похожими фичами, выявила их сильные и слабые стороны;</li>
           <li>Детально разобрала путь пользователя — от регистрации до первой реальной операции с деньгами. Было важно понять не только позитивные сценарии, но и все моменты, где что-то может пойти не так.</li>
           <li>Спроектировала user flow, рассматривала разные роли, точки принятия решений, системные события и возвраты.</li>
           <li>Разработала систему статусов и состояний;</li>
           <li>Создала масштабируемый UI-кит.</li>
-        </ol>
+        </ul>
       </div>
+
+      <p className="font-display text-xl md:text-2xl leading-snug text-ink/90">
+        Визуально продукт строился вокруг спокойствия и фокуса.
+      </p>
+
+      <p className="font-display text-xl md:text-2xl leading-snug text-ink/90">
+        Визуально продукт строился вокруг спокойствия и фокуса.
+      </p>
 
       <motion.img
         initial={{ opacity: 0, y: 16 }}
@@ -1367,9 +1375,6 @@ function OrienCase() {
         className={fullImg}
       />
 
-      <p className="font-display text-xl md:text-2xl leading-snug text-ink/90">
-        Визуально продукт строился вокруг спокойствия и фокуса.
-      </p>
 
       <motion.img
         initial={{ opacity: 0, y: 16 }}
@@ -1382,7 +1387,7 @@ function OrienCase() {
       />
 
       <div>
-        <h4 className={h4}>Темы и состояния</h4>
+        <h4 className={h4}>ТЕМЫ И СОСТОЯНИЯ</h4>
         <p className="leading-relaxed text-ink/80 text-base">
           Тёмная тема стала основной — она лучше подходит для работы с финансовыми данными и длительного использования. Все экраны я сразу проектировала с расчётом на:
         </p>
@@ -1424,7 +1429,7 @@ function OrienCase() {
       />
 
       <div className="p-4 rounded-lg bg-emerald-50 border border-emerald-200">
-        <h4 className="font-mono text-xs uppercase tracking-widest text-emerald-800 mb-2">★ Результаты</h4>
+        <h4 className="font-mono text-xs uppercase tracking-widest text-emerald-800 mb-2">★ РЕЗУЛЬТАТЫ</h4>
         <ul className="space-y-1.5 text-sm text-emerald-950">
           <li className="flex gap-2"><span className="text-emerald-600">✓</span>Спроектирован end-to-end путь пользователя с прозрачными статусами операций, учитывающий ошибки, задержки и проверки.</li>
           <li className="flex gap-2"><span className="text-emerald-600">✓</span>Внедрена единая система статусов и UI-kit, готовая к масштабированию новых функций и ролей.</li>
