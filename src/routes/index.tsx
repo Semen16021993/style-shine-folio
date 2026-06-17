@@ -600,7 +600,7 @@ function DesktopIcon({
   item: DesktopItem;
   position: Pos;
   delay: number;
-  containerRef: React.RefObject<HTMLDivElement | null>;
+  containerRef: RefObject<HTMLDivElement | null>;
   isDragging: boolean;
   onDragStart: () => void;
   onDragEnd: () => void;
@@ -610,7 +610,7 @@ function DesktopIcon({
   const dragRef = useRef<{ startX: number; startY: number; origX: number; origY: number; moved: boolean; pid: number } | null>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
 
-  const onPointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
+  const onPointerDown = (e: ReactPointerEvent<HTMLButtonElement>) => {
     if (item.disabled) return;
     if (e.button !== 0) return;
     dragRef.current = {
@@ -624,7 +624,7 @@ function DesktopIcon({
     btnRef.current?.setPointerCapture(e.pointerId);
     onDragStart();
   };
-  const onPointerMove = (e: React.PointerEvent<HTMLButtonElement>) => {
+  const onPointerMove = (e: ReactPointerEvent<HTMLButtonElement>) => {
     const st = dragRef.current;
     if (!st) return;
     const dx = e.clientX - st.startX;
@@ -638,7 +638,7 @@ function DesktopIcon({
       onMove(item.id, { x: nx, y: ny });
     }
   };
-  const onPointerUp = (e: React.PointerEvent<HTMLButtonElement>) => {
+  const onPointerUp = (e: ReactPointerEvent<HTMLButtonElement>) => {
     const st = dragRef.current;
     dragRef.current = null;
     try { btnRef.current?.releasePointerCapture(e.pointerId); } catch {}
