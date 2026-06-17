@@ -795,15 +795,15 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
   }
   if (icon === "gallery") {
     return (
-      <div className="w-24 h-24 grid place-items-center">
-        <img src={iconPhotos} alt="" className="w-24 h-24 drop-shadow-xl object-contain" />
+      <div className="w-32 h-32 grid place-items-center">
+        <img src={iconPhotos} alt="" className="w-32 h-32 drop-shadow-xl object-contain" />
       </div>
     );
   }
   if (icon === "figma") {
     return (
-      <div className="w-24 h-24 grid place-items-center">
-        <img src={iconFigma} alt="" className="w-24 h-24 drop-shadow-xl object-contain" />
+      <div className="w-32 h-32 grid place-items-center">
+        <img src={iconFigma} alt="" className="w-32 h-32 drop-shadow-xl object-contain" />
       </div>
     );
   }
@@ -1293,7 +1293,7 @@ function FourDevCase() {
 
 function OrienCase() {
   const h4 = "font-mono text-xs uppercase tracking-widest text-ink/60 mb-2 font-semibold";
-  const fullImg = "w-full rounded-lg border border-ink/10";
+  const fullImg = "w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]";
   return (
     <TypoScope className="space-y-6">
 
