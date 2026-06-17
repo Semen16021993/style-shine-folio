@@ -139,24 +139,29 @@ interface DesktopItem {
   sublabel?: string;
   icon: "folder" | "note" | "pdf" | "app" | "gallery" | "figma" | "photoshop";
   color?: string;
+  emblem?: string;
   x: number;
   y: number;
+  rot?: number;
   disabled?: boolean;
   href?: string;
 }
 
 const FIGMA_URL = "https://www.figma.com/design/tPwY5DNw9Q20JQzMyMVldC/Design-System-%7C-Ui-Kit?node-id=403-674&p=f&t=aq5IZpO7bMZti4sO-0";
 
+// Case folders are clustered in the upper-right "projects" cloud so the
+// hierarchy reads: «папки = кейсы», even when the rest is scattered.
 const items: DesktopItem[] = [
-  // Right column — case folders
-  { id: "orien", label: "Сryptowallet 2025-26", icon: "folder", color: "#7FB3D5", x: 82, y: 28 },
-  { id: "fourdev", label: "4Dev.tech 2023-25", icon: "folder", color: "#7FB3D5", x: 82, y: 50 },
-  { id: "debtor", label: "Должник прав 2023", icon: "folder", color: "#7FB3D5", x: 82, y: 72 },
-  // Middle column — gallery, figma, cv
-  { id: "gallery", label: "Галерея", icon: "gallery", x: 62, y: 28 },
-  { id: "figma", label: "Figma", icon: "figma", x: 62, y: 50, href: FIGMA_URL },
-  { id: "cv", label: "CV", icon: "pdf", x: 62, y: 72 },
+  // === Cluster: case folders (upper-right) ===
+  { id: "orien",   label: "Сryptowallet 2025-26", icon: "folder", color: "#7FB3D5", emblem: "₿",  x: 72, y: 24, rot: -4 },
+  { id: "fourdev", label: "4Dev.tech 2023-25",    icon: "folder", color: "#A8C9A8", emblem: "</>", x: 86, y: 32, rot: 3 },
+  { id: "debtor",  label: "Должник прав 2023",    icon: "folder", color: "#E5B97F", emblem: "⚖",  x: 78, y: 48, rot: -2 },
+  // === Scattered tools ===
+  { id: "gallery", label: "Галерея", icon: "gallery", x: 18, y: 38, rot: -5 },
+  { id: "figma",   label: "Figma",   icon: "figma",   x: 32, y: 68, rot: 4, href: FIGMA_URL },
+  { id: "cv",      label: "CV",      icon: "pdf",     x: 58, y: 78, rot: -3 },
 ];
+
 
 
 type DockIconKey = "gal" | "figma" | "ps" | "ai" | "id" | "in";
