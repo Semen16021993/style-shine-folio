@@ -683,24 +683,23 @@ function DesktopIcon({
   );
 }
 
-function IconGraphic({ icon, color, emblem }: { icon: DesktopItem["icon"]; color?: string; emblem?: string }) {
+function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: string; emblem?: string }) {
   if (icon === "folder") {
-    const base = color || "#7FB3D5";
+    const base = color || "#9CC4E4";
     return (
       <div className="relative w-36 h-32 group/folder">
-        <svg viewBox="0 0 144 128" className="w-full h-full" style={{ filter: "drop-shadow(0 12px 18px rgba(0,0,0,0.28))" }}>
+        <svg viewBox="0 0 144 128" className="w-full h-full" style={{ filter: "drop-shadow(0 6px 10px rgba(120,160,200,0.25))" }}>
           <defs>
             <linearGradient id={`fb-${base}`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor={base} stopOpacity="0.95" />
-              <stop offset="1" stopColor={base} stopOpacity="0.55" />
+              <stop offset="0" stopColor={base} stopOpacity="0.9" />
+              <stop offset="1" stopColor={base} stopOpacity="0.95" />
             </linearGradient>
             <linearGradient id={`ff-${base}`} x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" stopColor={base} />
-              <stop offset="0.55" stopColor={base} />
-              <stop offset="1" stopColor="#000" stopOpacity="0.35" />
+              <stop offset="1" stopColor={base} />
             </linearGradient>
             <linearGradient id={`gloss-${base}`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor="#ffffff" stopOpacity="0.55" />
+              <stop offset="0" stopColor="#ffffff" stopOpacity="0.5" />
               <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
             </linearGradient>
           </defs>
@@ -708,9 +707,9 @@ function IconGraphic({ icon, color, emblem }: { icon: DesktopItem["icon"]; color
           <path d="M6 22 Q6 12 16 12 L52 12 L64 22 L128 22 Q138 22 138 32 L138 44 L6 44 Z" fill={`url(#fb-${base})`} />
           {/* Inside (papers) */}
           <rect x="18" y="34" width="108" height="60" rx="3" fill="#fafaf6" opacity="0.95" />
-          <rect x="24" y="40" width="80" height="3" rx="1.5" fill="#000" opacity="0.08" />
-          <rect x="24" y="48" width="60" height="3" rx="1.5" fill="#000" opacity="0.06" />
-          {/* Front body */}
+          <rect x="24" y="40" width="80" height="3" rx="1.5" fill="#000" opacity="0.06" />
+          <rect x="24" y="48" width="60" height="3" rx="1.5" fill="#000" opacity="0.05" />
+          {/* Front body — flat, no darkening */}
           <path
             d="M6 44 L138 44 L138 108 Q138 120 126 120 L18 120 Q6 120 6 108 Z"
             fill={`url(#ff-${base})`}
@@ -720,15 +719,8 @@ function IconGraphic({ icon, color, emblem }: { icon: DesktopItem["icon"]; color
           {/* Top gloss */}
           <path d="M6 44 L138 44 L138 62 Q72 76 6 62 Z" fill={`url(#gloss-${base})`} />
           {/* Edge highlight */}
-          <path d="M6 44 L138 44" stroke="#fff" strokeOpacity="0.55" strokeWidth="1.2" />
+          <path d="M6 44 L138 44" stroke="#fff" strokeOpacity="0.6" strokeWidth="1.2" />
         </svg>
-        {emblem && (
-          <span
-            className="absolute left-1/2 -translate-x-1/2 bottom-3 grid place-items-center size-9 rounded-full bg-white/90 text-ink font-display text-[15px] font-bold shadow-md ring-1 ring-black/10 select-none pointer-events-none"
-          >
-            {emblem}
-          </span>
-        )}
       </div>
     );
   }
