@@ -8,9 +8,11 @@ import gallery2 from "@/assets/gallery-2.jpg";
 import gallery3 from "@/assets/gallery-3.jpg";
 import gallery4 from "@/assets/gallery-4.jpg";
 import memoji from "@/assets/memoji.jpg";
-import iconPhotos from "@/assets/icon-photos.png";
+import iconPhotosAsset from "@/assets/icon-photos-new.png.asset.json";
+import iconFigmaAsset from "@/assets/icon-figma-new.png.asset.json";
 import iconGal from "@/assets/icon-gal.svg";
-import iconFigma from "@/assets/icon-figma-color.svg";
+const iconPhotos = iconPhotosAsset.url;
+const iconFigma = iconFigmaAsset.url;
 import iconPs from "@/assets/icon-ps.svg";
 import iconAi from "@/assets/icon-ai.svg";
 import iconId from "@/assets/icon-id.svg";
@@ -154,14 +156,14 @@ const FIGMA_URL = "https://www.figma.com/design/tPwY5DNw9Q20JQzMyMVldC/Design-Sy
 // hierarchy reads: «папки = кейсы», even when the rest is scattered.
 const FOLDER_BLUE = "#9CC4E4";
 const items: DesktopItem[] = [
-  // === Cluster: case folders (upper-right) ===
-  { id: "orien",   label: "Сryptowallet 2025-26", icon: "folder", color: FOLDER_BLUE, x: 78, y: 24, rot: -4 },
-  { id: "fourdev", label: "4Dev.tech 2023-25",    icon: "folder", color: FOLDER_BLUE, x: 88, y: 34, rot: 3 },
-  { id: "debtor",  label: "Должник прав 2023",    icon: "folder", color: FOLDER_BLUE, x: 80, y: 50, rot: -2 },
-  // === Scattered tools (shifted to the right side) ===
-  { id: "gallery", label: "Галерея", icon: "gallery", x: 60, y: 70, rot: -5 },
-  { id: "figma",   label: "Figma",   icon: "figma",   x: 72, y: 78, rot: 4, href: FIGMA_URL },
-  { id: "cv",      label: "CV",      icon: "pdf",     x: 85, y: 72, rot: -3 },
+  // === Case folders (center → right) ===
+  { id: "orien",   label: "Сryptowallet 2025-26", icon: "folder", color: FOLDER_BLUE, x: 54, y: 27, rot: -4 },
+  { id: "fourdev", label: "4Dev.tech 2023-25",    icon: "folder", color: FOLDER_BLUE, x: 69, y: 41, rot: 3 },
+  { id: "debtor",  label: "Должник прав 2023",    icon: "folder", color: FOLDER_BLUE, x: 86, y: 52, rot: -2 },
+  // === Tools (bottom-left cluster) ===
+  { id: "gallery", label: "Галерея", icon: "gallery", x: 13, y: 63, rot: -5 },
+  { id: "figma",   label: "Figma",   icon: "figma",   x: 26, y: 74, rot: 4, href: FIGMA_URL },
+  { id: "cv",      label: "CV",      icon: "pdf",     x: 41, y: 60, rot: -3 },
 ];
 
 
@@ -184,7 +186,7 @@ const dockIconMap: Record<DockIconKey, string> = {
   in: iconIn,
 };
 
-const POS_STORAGE_KEY = "desktop-icon-positions-v3";
+const POS_STORAGE_KEY = "desktop-icon-positions-v4";
 type Pos = { x: number; y: number };
 
 function Desktop() {
@@ -274,7 +276,6 @@ function Desktop() {
             </motion.div>
 
             <LocationWidget />
-            <ProductAssembly />
 
 
             {items.map((item, i) => {
@@ -794,15 +795,15 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
   }
   if (icon === "gallery") {
     return (
-      <div className="w-32 h-32 grid place-items-center">
-        <img src={iconPhotos} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-contain" />
+      <div className="w-24 h-24 grid place-items-center">
+        <img src={iconPhotos} alt="" className="w-24 h-24 drop-shadow-xl object-contain" />
       </div>
     );
   }
   if (icon === "figma") {
     return (
-      <div className="w-32 h-32 grid place-items-center">
-        <img src={iconFigma} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-contain" />
+      <div className="w-24 h-24 grid place-items-center">
+        <img src={iconFigma} alt="" className="w-24 h-24 drop-shadow-xl object-contain" />
       </div>
     );
   }
