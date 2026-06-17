@@ -182,10 +182,20 @@ const dockIconMap: Record<DockIconKey, string> = {
   in: iconIn,
 };
 
+const POS_STORAGE_KEY = "desktop-icon-positions-v2";
+type Pos = { x: number; y: number };
+
 function Desktop() {
   const [open, setOpen] = useState<WindowId[]>([]);
   const [focus, setFocus] = useState<WindowId | null>(null);
   const [phoneMode, setPhoneMode] = useState(false);
+  const [positions, setPositions] = useState<Record<string, Pos>>(() => {
+    if (typeof window === "undefined") return {};
+    try { return JSON.parse(localStorage.getItem(POS_STORAGE_KEY) || "{}"); } catch { return {}; }
+  });
+  const [draggingId, setDraggingId] = useState<string | null>(null);
+  const desktopRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 1023px)");
     const update = () => setPhoneMode(mq.matches);
@@ -194,6 +204,10 @@ function Desktop() {
     return () => mq.removeEventListener("change", update);
   }, []);
 
+  useEffect(() => {
+    try { localStorage.setItem(POS_STORAGE_KEY, JSON.stringify(positions)); } catch {}
+  }, [positions]);
+
   const openWindow = (id: WindowId) => {
     setOpen((s) => (s.includes(id) ? s : [...s, id]));
     setFocus(id);
@@ -201,13 +215,17 @@ function Desktop() {
   const closeWindow = (id: WindowId) =>
     setOpen((s) => s.filter((i) => i !== id));
 
+  const handleMove = (id: string, p: Pos) =>
+    setPositions((prev) => ({ ...prev, [id]: p }));
+
   return (
     <div className={`fixed inset-0 overflow-hidden ${phoneMode ? "flex items-center justify-center bg-zinc-950" : "block"}`}>
       <div
+        ref={desktopRef}
         className={`relative overflow-hidden font-sans text-ink select-none ${
           phoneMode
             ? "rounded-[44px] ring-[10px] ring-black shadow-[0_30px_80px_rgba(0,0,0,0.6)]"
-            : "w-full h-full"
+            : "w-full h-full desktop-bg"
         }`}
         style={
           phoneMode
@@ -218,10 +236,7 @@ function Desktop() {
                 width: "min(92vw, calc(92vh * 9 / 19.5))",
                 aspectRatio: "9 / 19.5",
               }
-            : {
-                background:
-                  "radial-gradient(ellipse at top, #e9e4dc 0%, #d8d2c7 55%, #c8c1b4 100%)",
-              }
+            : undefined
         }
       >
         {phoneMode ? (
@@ -235,44 +250,53 @@ function Desktop() {
               initial={{ opacity: 0, y: -20, rotate: -3 }}
               animate={{ opacity: 1, y: 0, rotate: -3 }}
               transition={{ delay: 0.3, duration: 0.6 }}
-              className="absolute top-14 left-4 md:left-12 w-[280px] md:w-[340px] p-5 bg-note shadow-2xl"
+              className="absolute top-16 left-4 md:left-12 w-[320px] md:w-[400px] p-6 bg-note shadow-2xl"
               style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.25)" }}
             >
-              <h1 className="font-display text-2xl md:text-3xl leading-tight font-semibold">
+              <h1 className="font-display text-2xl md:text-[34px] leading-tight font-semibold">
                 Привет! <span className="text-coral">🌸</span>
               </h1>
-              <p className="mt-3 text-sm leading-relaxed">
+              <p className="mt-3 text-[15px] leading-relaxed">
                 Меня зовут <b>Дарья</b>, я проектирую цифровые продукты, которые решают реальные бизнес-задачи. Специализируюсь на <i>B2B/B2C</i>, SaaS, внутренних инструментах и системах автоматизации.
               </p>
-              <p className="mt-3 text-sm leading-relaxed">
+              <p className="mt-3 text-[15px] leading-relaxed">
                 Контакты:{" "}
                 <a href="https://t.me/Darialud" target="_blank" rel="noreferrer" className="underline hover:text-coral">@Darialud</a>{" "}·{" "}
                 <a href="mailto:vereskunova@gmail.com" className="underline hover:text-coral">vereskunova@gmail.com</a>
               </p>
-              <p className="mt-1 text-sm">Локация: Москва, РФ</p>
+              <p className="mt-1 text-[15px]">Локация: Москва, РФ</p>
             </motion.div>
 
-            {items.map((item, i) => (
-              <DesktopIcon
-                key={item.id}
-                item={item}
-                delay={0.5 + i * 0.05}
-                onOpen={() => {
-                  if (item.disabled) return;
-                  if (item.href) {
-                    window.open(item.href, "_blank", "noopener,noreferrer");
-                    return;
-                  }
-                  if (item.id === "cv") {
-                    window.open("https://docs.google.com/document/d/12Lyzo4MLM1DhmpTNTif1u9eAyQeliljbuUQ1dLv_KlE/edit?tab=t.0", "_blank", "noopener,noreferrer");
-                    return;
-                  }
-                  openWindow(item.id as WindowId);
-                }}
-              />
-            ))}
+            <LocationWidget />
 
-            <ZoomCall />
+            {items.map((item, i) => {
+              const pos = positions[item.id] ?? { x: item.x, y: item.y };
+              return (
+                <DesktopIcon
+                  key={item.id}
+                  item={item}
+                  position={pos}
+                  delay={0.5 + i * 0.05}
+                  containerRef={desktopRef}
+                  isDragging={draggingId === item.id}
+                  onDragStart={() => setDraggingId(item.id)}
+                  onDragEnd={() => setDraggingId(null)}
+                  onMove={handleMove}
+                  onOpen={() => {
+                    if (item.disabled) return;
+                    if (item.href) {
+                      window.open(item.href, "_blank", "noopener,noreferrer");
+                      return;
+                    }
+                    if (item.id === "cv") {
+                      window.open("https://docs.google.com/document/d/12Lyzo4MLM1DhmpTNTif1u9eAyQeliljbuUQ1dLv_KlE/edit?tab=t.0", "_blank", "noopener,noreferrer");
+                      return;
+                    }
+                    openWindow(item.id as WindowId);
+                  }}
+                />
+              );
+            })}
           </>
         )}
 
@@ -292,6 +316,47 @@ function Desktop() {
     </div>
   );
 }
+
+function LocationWidget() {
+  const [stamp, setStamp] = useState({ time: "", date: "" });
+  useEffect(() => {
+    const days = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
+    const months = ["янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"];
+    const tick = () => {
+      const d = new Date();
+      const hh = String(d.getHours()).padStart(2, "0");
+      const mm = String(d.getMinutes()).padStart(2, "0");
+      setStamp({
+        time: `${hh}:${mm}`,
+        date: `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]}`,
+      });
+    };
+    tick();
+    const id = setInterval(tick, 30 * 1000);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -10, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ delay: 0.7, type: "spring", stiffness: 200, damping: 20 }}
+      className="absolute top-14 right-6 md:right-10 w-[210px] rounded-3xl p-4 bg-white/45 border border-white/60 shadow-[0_12px_40px_rgba(0,0,0,0.12)] z-[60]"
+      style={{ backdropFilter: "blur(20px) saturate(160%)" }}
+    >
+      <div className="flex items-center gap-2 text-ink/70 text-[11px] font-medium uppercase tracking-wider">
+        <span className="grid place-items-center size-5 rounded-full bg-coral/90 text-white text-[10px]">📍</span>
+        Локация
+      </div>
+      <div className="mt-2 font-display text-[26px] leading-none font-semibold text-ink">Москва</div>
+      <div className="mt-1 text-[12px] text-ink/60">{stamp.date} · MSK · UTC+3</div>
+      <div className="mt-3 flex items-baseline justify-between">
+        <span className="tabular-nums font-display text-[28px] font-semibold text-ink leading-none">{stamp.time}</span>
+        <span className="text-[11px] text-ink/50">сейчас</span>
+      </div>
+    </motion.div>
+  );
+}
+
 
 function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
   const [time, setTime] = useState("");
