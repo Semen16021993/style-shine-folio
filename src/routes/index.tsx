@@ -595,22 +595,85 @@ function MenuBar({ focused: _focused }: { focused: WindowId | null }) {
 }
 
 function DesktopIcon({
-  item, delay, onOpen,
-}: { item: DesktopItem; delay: number; onOpen: () => void }) {
+  item, position, delay, containerRef, isDragging, onDragStart, onDragEnd, onMove, onOpen,
+}: {
+  item: DesktopItem;
+  position: Pos;
+  delay: number;
+  containerRef: React.RefObject<HTMLDivElement | null>;
+  isDragging: boolean;
+  onDragStart: () => void;
+  onDragEnd: () => void;
+  onMove: (id: string, p: Pos) => void;
+  onOpen: () => void;
+}) {
+  const dragRef = useRef<{ startX: number; startY: number; origX: number; origY: number; moved: boolean; pid: number } | null>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
+
+  const onPointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (item.disabled) return;
+    if (e.button !== 0) return;
+    dragRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      origX: position.x,
+      origY: position.y,
+      moved: false,
+      pid: e.pointerId,
+    };
+    btnRef.current?.setPointerCapture(e.pointerId);
+    onDragStart();
+  };
+  const onPointerMove = (e: React.PointerEvent<HTMLButtonElement>) => {
+    const st = dragRef.current;
+    if (!st) return;
+    const dx = e.clientX - st.startX;
+    const dy = e.clientY - st.startY;
+    if (!st.moved && Math.hypot(dx, dy) > 4) st.moved = true;
+    if (st.moved) {
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      const nx = Math.max(4, Math.min(96, st.origX + (dx / rect.width) * 100));
+      const ny = Math.max(8, Math.min(94, st.origY + (dy / rect.height) * 100));
+      onMove(item.id, { x: nx, y: ny });
+    }
+  };
+  const onPointerUp = (e: React.PointerEvent<HTMLButtonElement>) => {
+    const st = dragRef.current;
+    dragRef.current = null;
+    try { btnRef.current?.releasePointerCapture(e.pointerId); } catch {}
+    onDragEnd();
+    if (st && !st.moved) {
+      if (!item.disabled) playTap();
+      onOpen();
+    }
+  };
+
   return (
     <motion.button
+      ref={btnRef}
       initial={{ opacity: 0, scale: 0.7 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay, type: "spring", stiffness: 200, damping: 18 }}
-      whileHover={{ scale: item.disabled ? 1 : 1.08, y: item.disabled ? 0 : -2 }}
-      whileTap={{ scale: item.disabled ? 1 : 0.94 }}
-      onDoubleClick={onOpen}
-      onClick={() => { if (!item.disabled) playTap(); onOpen(); }}
+      whileHover={item.disabled || isDragging ? undefined : { scale: 1.07, y: -3 }}
+      whileTap={item.disabled ? undefined : { scale: 0.95 }}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      onPointerCancel={onPointerUp}
       disabled={item.disabled}
-      style={{ left: `${item.x}%`, top: `${item.y}%` }}
-      className={`absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 w-36 drop-shadow-xl rounded-[22%] text-base font-normal group ${item.disabled ? "cursor-default opacity-90" : "cursor-pointer"}`}
+      style={{
+        left: `${position.x}%`,
+        top: `${position.y}%`,
+        transform: `translate(-50%, -50%) rotate(${item.rot ?? 0}deg)`,
+        zIndex: isDragging ? 80 : 10,
+        touchAction: "none",
+      }}
+      className={`absolute flex flex-col items-center gap-2 w-36 text-base font-normal group ${
+        item.disabled ? "cursor-default opacity-90" : isDragging ? "cursor-grabbing" : "cursor-grab"
+      }`}
     >
-      <IconGraphic icon={item.icon} color={item.color} />
+      <IconGraphic icon={item.icon} color={item.color} emblem={item.emblem} />
       <div className="text-center px-2 py-0.5 rounded text-ink text-[15px] leading-tight font-semibold drop-shadow-sm group-hover:bg-coral/80 group-hover:text-white transition-colors">
         {item.label}
         {item.sublabel && <div className="text-[12px] opacity-80">{item.sublabel}</div>}
@@ -619,33 +682,73 @@ function DesktopIcon({
   );
 }
 
-function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: string }) {
+function IconGraphic({ icon, color, emblem }: { icon: DesktopItem["icon"]; color?: string; emblem?: string }) {
   if (icon === "folder") {
+    const base = color || "#7FB3D5";
     return (
-      <svg viewBox="0 0 64 52" className="w-36 h-32 drop-shadow-xl">
-        <path d="M2 10 Q2 4 8 4 L22 4 L28 10 L56 10 Q62 10 62 16 L62 44 Q62 50 56 50 L8 50 Q2 50 2 44 Z" fill={color || "#7FB3D5"} stroke="rgba(0,0,0,0.15)" />
-        <path d="M2 18 L62 18" stroke="rgba(255,255,255,0.4)" />
-      </svg>
+      <div className="relative w-36 h-32 group/folder">
+        <svg viewBox="0 0 144 128" className="w-full h-full" style={{ filter: "drop-shadow(0 12px 18px rgba(0,0,0,0.28))" }}>
+          <defs>
+            <linearGradient id={`fb-${base}`} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor={base} stopOpacity="0.95" />
+              <stop offset="1" stopColor={base} stopOpacity="0.55" />
+            </linearGradient>
+            <linearGradient id={`ff-${base}`} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor={base} />
+              <stop offset="0.55" stopColor={base} />
+              <stop offset="1" stopColor="#000" stopOpacity="0.35" />
+            </linearGradient>
+            <linearGradient id={`gloss-${base}`} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor="#ffffff" stopOpacity="0.55" />
+              <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          {/* Back tab */}
+          <path d="M6 22 Q6 12 16 12 L52 12 L64 22 L128 22 Q138 22 138 32 L138 44 L6 44 Z" fill={`url(#fb-${base})`} />
+          {/* Inside (papers) */}
+          <rect x="18" y="34" width="108" height="60" rx="3" fill="#fafaf6" opacity="0.95" />
+          <rect x="24" y="40" width="80" height="3" rx="1.5" fill="#000" opacity="0.08" />
+          <rect x="24" y="48" width="60" height="3" rx="1.5" fill="#000" opacity="0.06" />
+          {/* Front body */}
+          <path
+            d="M6 44 L138 44 L138 108 Q138 120 126 120 L18 120 Q6 120 6 108 Z"
+            fill={`url(#ff-${base})`}
+            className="origin-bottom transition-transform duration-300 group-hover/folder:[transform:rotateX(8deg)_translateY(-2px)]"
+            style={{ transformOrigin: "50% 100%" }}
+          />
+          {/* Top gloss */}
+          <path d="M6 44 L138 44 L138 62 Q72 76 6 62 Z" fill={`url(#gloss-${base})`} />
+          {/* Edge highlight */}
+          <path d="M6 44 L138 44" stroke="#fff" strokeOpacity="0.55" strokeWidth="1.2" />
+        </svg>
+        {emblem && (
+          <span
+            className="absolute left-1/2 -translate-x-1/2 bottom-3 grid place-items-center size-9 rounded-full bg-white/90 text-ink font-display text-[15px] font-bold shadow-md ring-1 ring-black/10 select-none pointer-events-none"
+          >
+            {emblem}
+          </span>
+        )}
+      </div>
     );
   }
   if (icon === "gallery") {
     return (
       <div className="w-32 h-32 grid place-items-center">
-        <img src={iconPhotos} alt="" className="w-32 h-32 drop-shadow-xl rounded-[22%] object-contain" />
+        <img src={iconPhotos} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-contain" />
       </div>
     );
   }
   if (icon === "figma") {
     return (
       <div className="w-32 h-32 grid place-items-center">
-        <img src={iconFigma} alt="" className="w-32 h-32 drop-shadow-xl rounded-[22%] object-contain" />
+        <img src={iconFigma} alt="" className="w-24 h-24 drop-shadow-xl rounded-[22%] object-contain" />
       </div>
     );
   }
   if (icon === "photoshop") {
     return (
       <div className="w-32 h-32 grid place-items-center">
-        <img src={iconPs} alt="" className="w-32 h-32 drop-shadow-xl rounded-[22%] object-contain" />
+        <img src={iconPs} alt="" className="w-28 h-28 drop-shadow-xl rounded-[22%] object-contain" />
       </div>
     );
   }
@@ -685,6 +788,7 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
     </div>
   );
 }
+
 
 function Window({ id, zIndex, onClose, onFocus }: {
   id: WindowId; zIndex: number; onClose: () => void; onFocus: () => void;
