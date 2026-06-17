@@ -360,6 +360,107 @@ function LocationWidget() {
   );
 }
 
+function PaintCanDrop() {
+  // Falls from above the sticky note, lands & tips, then a blue paint splash
+  // blooms under the note. Plays once on mount, stain stays.
+  const [phase, setPhase] = useState<"falling" | "splash" | "rest">("falling");
+  useEffect(() => {
+    const t1 = setTimeout(() => setPhase("splash"), 1100);
+    const t2 = setTimeout(() => setPhase("rest"), 2200);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, []);
+
+  return (
+    <div
+      className="absolute pointer-events-none z-[5]"
+      style={{ left: "12%", top: "calc(16px + 280px)", width: 360, height: 320 }}
+    >
+      {/* Paint splash — appears after impact */}
+      <motion.svg
+        viewBox="0 0 360 200"
+        className="absolute inset-x-0 top-[120px] w-full"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={phase !== "falling" ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+        transition={{ type: "spring", stiffness: 180, damping: 14 }}
+        style={{ filter: "drop-shadow(0 6px 10px rgba(80,130,180,0.35))" }}
+      >
+        <defs>
+          <radialGradient id="splashGrad" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stopColor="#B8DCF2" />
+            <stop offset="60%" stopColor="#7FB3D5" />
+            <stop offset="100%" stopColor="#5A8FB8" />
+          </radialGradient>
+        </defs>
+        <path
+          fill="url(#splashGrad)"
+          d="M180 30
+             C 230 28, 280 50, 295 85
+             C 322 95, 340 120, 320 140
+             C 335 165, 295 180, 260 168
+             C 245 195, 200 192, 180 170
+             C 150 195, 100 188, 95 158
+             C 60 158, 40 130, 65 110
+             C 40 90, 70 55, 110 62
+             C 120 35, 155 28, 180 30 Z"
+        />
+        {/* Droplets */}
+        <circle cx="50" cy="80" r="6" fill="#7FB3D5" />
+        <circle cx="320" cy="60" r="5" fill="#9CC4E4" />
+        <circle cx="30" cy="140" r="4" fill="#7FB3D5" />
+        <circle cx="340" cy="155" r="7" fill="#9CC4E4" />
+        <circle cx="180" cy="195" r="4" fill="#7FB3D5" />
+        {/* Highlight */}
+        <ellipse cx="150" cy="80" rx="40" ry="14" fill="#fff" opacity="0.35" />
+      </motion.svg>
+
+      {/* Paint can */}
+      <motion.svg
+        viewBox="0 0 80 100"
+        className="absolute"
+        style={{ left: "50%", marginLeft: -40, width: 80, height: 100 }}
+        initial={{ y: -560, rotate: -25, opacity: 0 }}
+        animate={
+          phase === "falling"
+            ? { y: 60, rotate: 15, opacity: 1 }
+            : phase === "splash"
+            ? { y: 50, rotate: 80, opacity: 1 }
+            : { y: 30, rotate: 95, opacity: 0 }
+        }
+        transition={
+          phase === "falling"
+            ? { duration: 1, ease: [0.4, 0, 0.7, 1] }
+            : phase === "splash"
+            ? { duration: 0.45, ease: "easeOut" }
+            : { duration: 0.8, ease: "easeIn" }
+        }
+      >
+        <defs>
+          <linearGradient id="canBody" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stopColor="#d6d9dd" />
+            <stop offset="0.5" stopColor="#f3f5f7" />
+            <stop offset="1" stopColor="#b8bdc4" />
+          </linearGradient>
+        </defs>
+        {/* Handle */}
+        <path d="M18 22 Q40 4 62 22" stroke="#7a818a" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+        {/* Can body */}
+        <rect x="12" y="22" width="56" height="62" rx="3" fill="url(#canBody)" stroke="#8a909a" strokeWidth="1" />
+        {/* Rim */}
+        <ellipse cx="40" cy="24" rx="28" ry="5" fill="#e9ebee" stroke="#8a909a" strokeWidth="1" />
+        <ellipse cx="40" cy="24" rx="24" ry="3.5" fill="#7FB3D5" />
+        {/* Label */}
+        <rect x="18" y="40" width="44" height="24" rx="2" fill="#fff" opacity="0.9" />
+        <rect x="22" y="46" width="36" height="3" fill="#7FB3D5" />
+        <rect x="22" y="52" width="26" height="2" fill="#9CC4E4" />
+        <rect x="22" y="57" width="32" height="2" fill="#9CC4E4" />
+        {/* Bottom shadow */}
+        <ellipse cx="40" cy="84" rx="28" ry="3" fill="#000" opacity="0.15" />
+      </motion.svg>
+    </div>
+  );
+}
+
+
 
 function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
   const [time, setTime] = useState("");
