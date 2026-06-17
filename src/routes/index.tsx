@@ -674,7 +674,7 @@ function DesktopIcon({
         item.disabled ? "cursor-default opacity-90" : isDragging ? "cursor-grabbing" : "cursor-grab"
       }`}
     >
-      <IconGraphic icon={item.icon} color={item.color} emblem={item.emblem} />
+      <IconGraphic icon={item.icon} color={item.color} />
       <div className="text-center px-2 py-0.5 rounded text-ink text-[15px] leading-tight font-semibold drop-shadow-sm group-hover:bg-coral/80 group-hover:text-white transition-colors">
         {item.label}
         {item.sublabel && <div className="text-[12px] opacity-80">{item.sublabel}</div>}
