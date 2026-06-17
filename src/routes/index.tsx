@@ -795,15 +795,15 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
   }
   if (icon === "gallery") {
     return (
-      <div className="w-24 h-24 grid place-items-center">
-        <img src={iconPhotos} alt="" className="w-24 h-24 drop-shadow-xl object-contain" />
+      <div className="w-32 h-32 grid place-items-center">
+        <img src={iconPhotos} alt="" className="w-32 h-32 drop-shadow-xl object-contain" />
       </div>
     );
   }
   if (icon === "figma") {
     return (
-      <div className="w-24 h-24 grid place-items-center">
-        <img src={iconFigma} alt="" className="w-24 h-24 drop-shadow-xl object-contain" />
+      <div className="w-32 h-32 grid place-items-center">
+        <img src={iconFigma} alt="" className="w-32 h-32 drop-shadow-xl object-contain" />
       </div>
     );
   }
