@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<title>Дарья Верескунова — Portfolio (Figma export)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Caveat:wght@400;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#1f2330;
+    --coral:#ff5b5b;
+    --note:#fff6c0;
+    --folder:#9cc4e4;
+    --bg-1:#fce5d6;
+    --bg-2:#d8e6f5;
+    --bg-3:#e7d6f0;
+    --bg-4:#fff1d6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#1b1b1f;font-family:'Inter',sans-serif;color:var(--ink)}
+  body{display:flex;flex-direction:column;align-items:center;gap:60px;padding:60px 20px}
+  .label{color:#fff;opacity:.6;font-size:13px;letter-spacing:.04em;text-transform:uppercase;align-self:center}
+
+  /* ===== Desktop artboard ===== */
+  .desktop{
+    position:relative;
+    width:1440px;height:900px;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 18% 22%, var(--bg-1) 0%, transparent 45%),
+      radial-gradient(circle at 82% 18%, var(--bg-2) 0%, transparent 50%),
+      radial-gradient(circle at 78% 82%, var(--bg-3) 0%, transparent 48%),
+      radial-gradient(circle at 22% 78%, var(--bg-4) 0%, transparent 45%),
+      linear-gradient(135deg, #f7e8d9 0%, #e3dff0 50%, #d9e8f4 100%);
+    font-family:'Inter',sans-serif;
+  }
+
+  /* macOS menu bar */
+  .menubar{
+    position:absolute;top:0;left:0;right:0;height:32px;
+    background:rgba(255,255,255,.5);backdrop-filter:blur(20px);
+    border-bottom:1px solid rgba(255,255,255,.4);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 18px;font-size:12px;
+  }
+  .menubar .left{display:flex;align-items:center;gap:10px}
+  .menubar .memoji{width:22px;height:22px;border-radius:50%;background:#f1c6b3;
+    background-image:url('assets/memoji.jpg');background-size:cover}
+  .menubar b{font-weight:600}
+  .menubar .dot{opacity:.4;margin:0 6px}
+
+  /* Sticky note */
+  .note{
+    position:absolute;top:72px;left:54px;width:400px;padding:26px;
+    background:var(--note);
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+    transform:rotate(-3deg);
+  }
+  .note h1{font-family:'Fraunces',serif;font-size:34px;font-weight:600;line-height:1.1}
+  .note h1 .em{color:var(--coral)}
+  .note p{margin-top:12px;font-size:15px;line-height:1.55}
+  .note a{color:inherit;text-decoration:underline}
+  .note a:hover{color:var(--coral)}
+
+  /* Location widget */
+  .loc{
+    position:absolute;top:54px;right:40px;width:210px;
+    border-radius:24px;padding:16px;
+    background:rgba(255,255,255,.45);
+    border:1px solid rgba(255,255,255,.6);
+    box-shadow:0 12px 40px rgba(0,0,0,.12);
+    backdrop-filter:blur(20px) saturate(160%);
+  }
+  .loc .row{display:flex;align-items:center;gap:8px;color:rgba(31,35,48,.7);
+    font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em}
+  .loc .pin{display:grid;place-items:center;width:20px;height:20px;
+    border-radius:50%;background:rgba(255,91,91,.9);color:#fff;font-size:10px}
+  .loc .city{margin-top:8px;font-family:'Fraunces',serif;font-size:26px;font-weight:600;line-height:1}
+  .loc .meta{margin-top:4px;font-size:12px;color:rgba(31,35,48,.6)}
+  .loc .time{margin-top:12px;display:flex;align-items:baseline;justify-content:space-between}
+  .loc .time b{font-family:'Fraunces',serif;font-size:28px;font-weight:600;line-height:1}
+  .loc .time span{font-size:11px;color:rgba(31,35,48,.5)}
+
+  /* Product assembly (static final state) */
+  .assembly{position:absolute;left:56px;top:420px;width:220px;height:220px}
+  .assembly .halo{position:absolute;inset:-30px;border-radius:32px;
+    background:radial-gradient(circle at 50% 50%, rgba(255,255,255,.55), transparent 65%)}
+  .assembly .piece{position:absolute;border-radius:14px;
+    box-shadow:0 8px 24px rgba(60,80,110,.18)}
+  .p1{left:0;top:0;width:110px;height:110px;background:#9cc4e4}
+  .p2{left:110px;top:0;width:110px;height:110px;background:#f5b7a3}
+  .p3{left:0;top:110px;width:110px;height:110px;background:#e8d5a8}
+  .p4{left:110px;top:110px;width:110px;height:110px;background:#b8d4c2}
+  .p5{left:70px;top:70px;width:80px;height:80px;background:#2b2b2b;border-radius:12px}
+
+  /* Desktop icon (button) */
+  .icon{position:absolute;display:flex;flex-direction:column;align-items:center;gap:8px;width:144px}
+  .icon .caption{font-size:15px;font-weight:600;color:var(--ink);text-align:center;padding:2px 8px;line-height:1.2}
+
+  /* Folder SVG container */
+  .folder{width:144px;height:128px}
+  .img-icon{width:96px;height:96px;border-radius:22%;
+    box-shadow:0 10px 24px rgba(0,0,0,.18);object-fit:contain}
+  .pdf{
+    width:112px;height:128px;background:#fff;border-radius:6px;position:relative;
+    box-shadow:0 12px 28px rgba(0,0,0,.2);overflow:hidden;
+  }
+  .pdf .corner{position:absolute;top:0;right:0;width:32px;height:32px;
+    background:rgba(31,35,48,.1);clip-path:polygon(0 0,100% 100%,100% 0)}
+  .pdf .lines{position:absolute;left:12px;right:12px;top:40px;display:flex;
+    flex-direction:column;gap:8px}
+  .pdf .lines i{display:block;height:2px;background:rgba(31,35,48,.22)}
+  .pdf .lines i:nth-child(1){background:rgba(31,35,48,.3);width:100%}
+  .pdf .lines i:nth-child(2){width:83%}
+  .pdf .lines i:nth-child(3){width:100%}
+  .pdf .lines i:nth-child(4){width:66%}
+  .pdf .lines i:nth-child(5){width:100%}
+  .pdf .lines i:nth-child(6){width:65%}
+  .pdf .tag{position:absolute;bottom:6px;left:0;right:0;text-align:center;
+    font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--coral)}
+
+  /* ===== Mobile artboard ===== */
+  .mobile{
+    position:relative;
+    width:390px;height:844px;
+    overflow:hidden;border-radius:44px;
+    background:
+      radial-gradient(circle at 18% 22%, var(--bg-1) 0%, transparent 45%),
+      radial-gradient(circle at 82% 18%, var(--bg-2) 0%, transparent 50%),
+      radial-gradient(circle at 78% 82%, var(--bg-3) 0%, transparent 48%),
+      radial-gradient(circle at 22% 78%, var(--bg-4) 0%, transparent 45%),
+      linear-gradient(135deg, #f7e8d9 0%, #e3dff0 50%, #d9e8f4 100%);
+    box-shadow:0 30px 80px rgba(0,0,0,.5);
+    border:10px solid #000;
+  }
+  .mobile .island{position:absolute;top:10px;left:50%;transform:translateX(-50%);
+    width:112px;height:28px;border-radius:999px;background:#000;z-index:20}
+  .mobile .status{position:absolute;top:14px;left:28px;right:28px;
+    display:flex;justify-content:space-between;font-size:13px;font-weight:600}
+  .mobile .content{position:absolute;inset:50px 16px 16px;display:flex;flex-direction:column;gap:18px}
+  .mnote{width:88%;padding:16px;background:var(--note);transform:rotate(-3deg);
+    box-shadow:0 16px 40px rgba(0,0,0,.20)}
+  .mnote h1{font-family:'Fraunces',serif;font-size:22px;font-weight:600}
+  .mnote h1 .em{color:var(--coral)}
+  .mnote p{margin-top:8px;font-size:12px;line-height:1.4}
+  .mloc{align-self:flex-end;margin-top:-12px;border-radius:16px;padding:12px;
+    background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.7);
+    backdrop-filter:blur(16px);min-width:130px;box-shadow:0 6px 16px rgba(0,0,0,.1)}
+  .mloc .row{display:flex;align-items:center;gap:6px;font-size:10px;text-transform:uppercase;
+    letter-spacing:.06em;color:rgba(31,35,48,.7);font-weight:500}
+  .mloc .pin{display:grid;place-items:center;width:16px;height:16px;border-radius:50%;
+    background:rgba(255,91,91,.9);color:#fff;font-size:8px}
+  .mloc .city{font-family:'Fraunces',serif;font-size:18px;font-weight:600;margin-top:4px;line-height:1}
+  .mloc .meta{font-size:10px;color:rgba(31,35,48,.6);margin-top:4px}
+  .mgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+  .mgrid .item{display:flex;flex-direction:column;align-items:center;gap:4px}
+  .mgrid .folder{transform:scale(.78);transform-origin:top center}
+  .mgrid .item span{font-size:12px;font-weight:600;color:var(--ink)}
+  .search{align-self:center;padding:6px 16px;border-radius:999px;
+    background:rgba(255,255,255,.4);backdrop-filter:blur(16px);
+    border:1px solid rgba(255,255,255,.6);font-size:13px;display:flex;align-items:center;gap:8px}
+  .dock{margin-top:auto;border-radius:28px;padding:12px;background:rgba(255,255,255,.45);
+    border:1px solid rgba(255,255,255,.6);backdrop-filter:blur(20px);
+    display:flex;justify-content:space-around;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+  .dock .d{width:56px;height:56px;border-radius:14px;display:grid;place-items:center;
+    color:#fff;font-size:11px;font-weight:600;text-align:center;line-height:1.1}
+  .d1{background:linear-gradient(135deg,#4cd964,#2bb24a)}
+  .d2{background:linear-gradient(135deg,#a0a0a0,#5a5a5a)}
+  .d3{background:linear-gradient(135deg,#ffb3c1,#ff5b5b)}
+  .d4{background:linear-gradient(135deg,#5ac8fa,#0a84ff)}
+  .home-bar{margin:8px auto 0;width:128px;height:4px;border-radius:999px;
+    background:rgba(31,35,48,.7)}
+</style>
+</head>
+<body>
+
+<div class="label">Desktop · 1440 × 900</div>
+
+<!-- ==================== DESKTOP ==================== -->
+<div class="desktop">
+
+  <!-- menu bar -->
+  <div class="menubar">
+    <div class="left">
+      <div class="memoji"></div>
+      <span><span>Дарья Верескунова</span><span class="dot">·</span><b>Product designer</b></span>
+    </div>
+    <div><b>Ср, 17 июня 14:24</b></div>
+  </div>
+
+  <!-- sticky note -->
+  <div class="note">
+    <h1>Привет! <span class="em">🌸</span></h1>
+    <p>Меня зовут <b>Дарья</b>, я&nbsp;проектирую цифровые продукты, которые решают реальные бизнес-задачи. Специализируюсь на <i>B2B/B2C</i>, SaaS, внутренних инструментах и&nbsp;системах автоматизации.</p>
+    <p>Контакты: <a href="https://t.me/Darialud">@Darialud</a> · <a href="mailto:vereskunova@gmail.com">vereskunova@gmail.com</a></p>
+    <p>Локация: Москва, РФ</p>
+  </div>
+
+  <!-- location widget -->
+  <div class="loc">
+    <div class="row"><span class="pin">📍</span>Локация</div>
+    <div class="city">Москва</div>
+    <div class="meta">Ср, 17 июн · MSK · UTC+3</div>
+    <div class="time"><b>14:24</b><span>сейчас</span></div>
+  </div>
+
+  <!-- product assembly (final state) -->
+  <div class="assembly">
+    <div class="halo"></div>
+    <div class="piece p1"></div>
+    <div class="piece p2"></div>
+    <div class="piece p3"></div>
+    <div class="piece p4"></div>
+    <div class="piece p5"></div>
+  </div>
+
+  <!-- icons (positions in % from top-left, mirroring app layout) -->
+  <!-- Cryptowallet folder  78% / 24% -->
+  <div class="icon" style="left:1123px;top:216px;transform:translate(-50%,-50%) rotate(-4deg)">
+    <svg class="folder" viewBox="0 0 144 128">
+      <path d="M6 22 Q6 12 16 12 L52 12 L64 22 L128 22 Q138 22 138 32 L138 44 L6 44 Z" fill="#9cc4e4"/>
+      <rect x="18" y="34" width="108" height="60" rx="3" fill="#fafaf6" opacity=".95"/>
+      <rect x="24" y="40" width="80" height="3" rx="1.5" fill="#000" opacity=".06"/>
+      <rect x="24" y="48" width="60" height="3" rx="1.5" fill="#000" opacity=".05"/>
+      <path d="M6 44 L138 44 L138 108 Q138 120 126 120 L18 120 Q6 120 6 108 Z" fill="#9cc4e4"/>
+      <path d="M6 44 L138 44 L138 62 Q72 76 6 62 Z" fill="#ffffff" opacity=".25"/>
+    </svg>
+    <div class="caption">Сryptowallet 2025-26</div>
+  </div>
+
+  <!-- 4Dev folder 88% / 34% -->
+  <div class="icon" style="left:1267px;top:306px;transform:translate(-50%,-50%) rotate(3deg)">
+    <svg class="folder" viewBox="0 0 144 128">
+      <path d="M6 22 Q6 12 16 12 L52 12 L64 22 L128 22 Q138 22 138 32 L138 44 L6 44 Z" fill="#9cc4e4"/>
+      <rect x="18" y="34" width="108" height="60" rx="3" fill="#fafaf6" opacity=".95"/>
+      <rect x="24" y="40" width="80" height="3" rx="1.5" fill="#000" opacity=".06"/>
+      <rect x="24" y="48" width="60" height="3" rx="1.5" fill="#000" opacity=".05"/>
+      <path d="M6 44 L138 44 L138 108 Q138 120 126 120 L18 120 Q6 120 6 108 Z" fill="#9cc4e4"/>
+      <path d="M6 44 L138 44 L138 62 Q72 76 6 62 Z" fill="#ffffff" opacity=".25"/>
+    </svg>
+    <div class="caption">4Dev.tech 2023-25</div>
+  </div>
+
+  <!-- Должник folder 80% / 50% -->
+  <div class="icon" style="left:1152px;top:450px;transform:translate(-50%,-50%) rotate(-2deg)">
+    <svg class="folder" viewBox="0 0 144 128">
+      <path d="M6 22 Q6 12 16 12 L52 12 L64 22 L128 22 Q138 22 138 32 L138 44 L6 44 Z" fill="#9cc4e4"/>
+      <rect x="18" y="34" width="108" height="60" rx="3" fill="#fafaf6" opacity=".95"/>
+      <rect x="24" y="40" width="80" height="3" rx="1.5" fill="#000" opacity=".06"/>
+      <rect x="24" y="48" width="60" height="3" rx="1.5" fill="#000" opacity=".05"/>
+      <path d="M6 44 L138 44 L138 108 Q138 120 126 120 L18 120 Q6 120 6 108 Z" fill="#9cc4e4"/>
+      <path d="M6 44 L138 44 L138 62 Q72 76 6 62 Z" fill="#ffffff" opacity=".25"/>
+    </svg>
+    <div class="caption">Должник прав 2023</div>
+  </div>
+
+  <!-- Галерея 60% / 70% -->
+  <div class="icon" style="left:864px;top:630px;transform:translate(-50%,-50%) rotate(-5deg)">
+    <img class="img-icon" src="assets/icon-photos.png" alt="Галерея" />
+    <div class="caption">Галерея</div>
+  </div>
+
+  <!-- Figma 72% / 78% -->
+  <div class="icon" style="left:1037px;top:702px;transform:translate(-50%,-50%) rotate(4deg)">
+    <img class="img-icon" src="assets/icon-figma-color.svg" alt="Figma" />
+    <div class="caption">Figma</div>
+  </div>
+
+  <!-- CV pdf 85% / 72% -->
+  <div class="icon" style="left:1224px;top:648px;transform:translate(-50%,-50%) rotate(-3deg)">
+    <div class="pdf">
+      <div class="corner"></div>
+      <div class="lines"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="tag">DOC</div>
+    </div>
+    <div class="caption">CV</div>
+  </div>
+
+</div>
+
+<div class="label">Mobile · 390 × 844</div>
+
+<!-- ==================== MOBILE ==================== -->
+<div class="mobile">
+  <div class="island"></div>
+  <div class="status"><span>14:24</span><span>5G ▮▮</span></div>
+
+  <div class="content">
+    <div class="mnote">
+      <h1>Привет! <span class="em">🌸</span></h1>
+      <p>Меня зовут <b>Дарья</b>, я&nbsp;проектирую цифровые продукты, которые решают реальные бизнес-задачи.</p>
+      <p style="margin-top:6px"><a href="https://t.me/Darialud">@Darialud</a> · <a href="mailto:vereskunova@gmail.com">e-mail</a></p>
+    </div>
+
+    <div class="mloc">
+      <div class="row"><span class="pin">📍</span>Локация</div>
+      <div class="city">Москва</div>
+      <div class="meta">14:24 · MSK</div>
+    </div>
+
+    <div class="mgrid">
+      <div class="item">
+        <svg class="folder" viewBox="0 0 144 128">
+          <path d="M6 22 Q6 12 16 12 L52 12 L64 22 L128 22 Q138 22 138 32 L138 44 L6 44 Z" fill="#9cc4e4"/>
+          <path d="M6 44 L138 44 L138 108 Q138 120 126 120 L18 120 Q6 120 6 108 Z" fill="#9cc4e4"/>
+          <path d="M6 44 L138 44 L138 62 Q72 76 6 62 Z" fill="#ffffff" opacity=".25"/>
+        </svg>
+        <span>Crypto</span>
+      </div>
+      <div class="item">
+        <svg class="folder" viewBox="0 0 144 128">
+          <path d="M6 22 Q6 12 16 12 L52 12 L64 22 L128 22 Q138 22 138 32 L138 44 L6 44 Z" fill="#9cc4e4"/>
+          <path d="M6 44 L138 44 L138 108 Q138 120 126 120 L18 120 Q6 120 6 108 Z" fill="#9cc4e4"/>
+          <path d="M6 44 L138 44 L138 62 Q72 76 6 62 Z" fill="#ffffff" opacity=".25"/>
+        </svg>
+        <span>4Dev</span>
+      </div>
+      <div class="item">
+        <svg class="folder" viewBox="0 0 144 128">
+          <path d="M6 22 Q6 12 16 12 L52 12 L64 22 L128 22 Q138 22 138 32 L138 44 L6 44 Z" fill="#9cc4e4"/>
+          <path d="M6 44 L138 44 L138 108 Q138 120 126 120 L18 120 Q6 120 6 108 Z" fill="#9cc4e4"/>
+          <path d="M6 44 L138 44 L138 62 Q72 76 6 62 Z" fill="#ffffff" opacity=".25"/>
+        </svg>
+        <span>Должник</span>
+      </div>
+      <div class="item">
+        <svg class="folder" viewBox="0 0 144 128">
+          <path d="M6 22 Q6 12 16 12 L52 12 L64 22 L128 22 Q138 22 138 32 L138 44 L6 44 Z" fill="#9cc4e4"/>
+          <path d="M6 44 L138 44 L138 108 Q138 120 126 120 L18 120 Q6 120 6 108 Z" fill="#9cc4e4"/>
+          <path d="M6 44 L138 44 L138 62 Q72 76 6 62 Z" fill="#ffffff" opacity=".25"/>
+        </svg>
+        <span>Галерея</span>
+      </div>
+    </div>
+
+    <div class="search">🔍 Поиск</div>
+
+    <div class="dock">
+      <div class="d d1">тел</div>
+      <div class="d d2">mail</div>
+      <div class="d d3">фото</div>
+      <div class="d d4">TG</div>
+    </div>
+
+    <div class="home-bar"></div>
+  </div>
+</div>
+
+</body>
+</html>
