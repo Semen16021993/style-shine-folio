@@ -474,94 +474,84 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
     return () => clearInterval(id);
   }, []);
 
-  const apps: { id: WindowId; label: string; icon: string }[] = [
-    { id: "orien", label: "Crypto", icon: appCrypto },
-    { id: "fourdev", label: "4Dev", icon: app4dev },
-    { id: "debtor", label: "Должник прав", icon: appDebtor },
-    { id: "gallery", label: "EatEasy", icon: appEateasy },
-  ];
-
-  const dock: { src: string; label: string; href?: string; action?: "gallery" }[] = [
-    { src: sysIcon1, label: "Телефон", href: "tel:+79109076181" },
-    { src: sysIcon3, label: "Почта", href: "mailto:vereskunovadaria@gmail.com" },
-    { src: sysIcon2, label: "Фото", action: "gallery" },
-    { src: sysAqua, label: "Telegram", href: "https://t.me/DariaIud" },
+  const folders: { id: WindowId; label: string }[] = [
+    { id: "orien",   label: "Crypto" },
+    { id: "fourdev", label: "4Dev" },
+    { id: "debtor",  label: "Должник" },
+    { id: "gallery", label: "Галерея" },
   ];
 
   return (
-    <div className="absolute inset-0 flex flex-col">
+    <div className="absolute inset-0 flex flex-col desktop-bg overflow-hidden">
       {/* Dynamic island */}
       <div className="pointer-events-none absolute top-2 left-1/2 -translate-x-1/2 w-28 h-7 rounded-full bg-black z-[200]" />
 
       {/* Status bar */}
-      <div className="relative z-10 flex items-center justify-between px-7 pt-3 text-white text-[14px] font-semibold tabular-nums drop-shadow">
+      <div className="relative z-10 flex items-center justify-between px-7 pt-3 text-ink text-[13px] font-semibold tabular-nums">
         <span>{time}</span>
         <span className="flex items-center gap-1 text-[11px]">
           <span>•••</span>
           <span>5G</span>
-          <span className="ml-1 w-6 h-2.5 rounded-sm border border-white/80 relative">
-            <span className="absolute inset-0.5 bg-white rounded-[1px]" />
+          <span className="ml-1 w-6 h-2.5 rounded-sm border border-ink/70 relative">
+            <span className="absolute inset-0.5 bg-ink rounded-[1px]" />
           </span>
         </span>
       </div>
 
-      {/* Background photo — full cover */}
-      <img
-        src={mobileDarya}
-        alt=""
-        className="pointer-events-none absolute inset-0 w-full h-full object-cover object-center z-0 select-none"
-        draggable={false}
-      />
-
-      {/* Content area */}
-      <div className="relative z-[5] flex-1 flex flex-col px-4 pt-8 pb-4 gap-4">
-        {/* Notes widget — iOS style with yellow header */}
+      <div className="relative z-[5] flex-1 flex flex-col px-4 pt-10 pb-4 gap-5">
+        {/* Sticky note — desktop style */}
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15, duration: 0.4 }}
-          className="rounded-[22px] overflow-hidden shadow-lg bg-white/95 backdrop-blur"
-          style={{ boxShadow: "0 12px 32px rgba(0,0,0,0.22)" }}
+          initial={{ opacity: 0, y: -10, rotate: -3 }}
+          animate={{ opacity: 1, y: 0, rotate: -3 }}
+          transition={{ delay: 0.15, duration: 0.5 }}
+          className="self-start w-[88%] p-4 bg-note shadow-2xl"
+          style={{ boxShadow: "0 16px 40px rgba(0,0,0,0.20)" }}
         >
-          <div className="bg-[#FFC93D] px-4 py-2.5 flex items-center gap-2">
-            <svg viewBox="0 0 24 24" className="w-4 h-4 text-white" fill="currentColor">
-              <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" />
-            </svg>
-            <span className="text-white text-[15px] font-semibold leading-none">Заметки</span>
-          </div>
-          <div className="px-4 py-2 text-[13px] text-ink leading-snug border-b border-ink/10">
-            Привет, я&nbsp;Дарья! Проектирую сложные цифровые продукты, которые решают реальные бизнес-задачи.
-          </div>
-          <div className="px-4 py-2 text-[13px] text-ink/90 flex items-center justify-between">
-            <span>Новая заметка</span>
-            <span className="w-6 h-6 rounded-md bg-ink/5 grid place-items-center text-ink/40 text-[12px]">✎</span>
-          </div>
+          <h1 className="font-display text-[22px] leading-tight font-semibold">
+            Привет! <span className="text-coral">🌸</span>
+          </h1>
+          <p className="mt-2 text-[12px] leading-snug">
+            Меня зовут <b>Дарья</b>, я&nbsp;проектирую цифровые продукты, которые решают реальные бизнес-задачи.
+          </p>
+          <p className="mt-2 text-[12px]">
+            <a href="https://t.me/Darialud" target="_blank" rel="noreferrer" className="underline">@Darialud</a>{" "}·{" "}
+            <a href="mailto:vereskunova@gmail.com" className="underline">e-mail</a>
+          </p>
         </motion.div>
 
-        {/* "Заметки" label centered under widget */}
-        <div className="text-center text-white text-[11px] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.7)] -mt-2">
-          Заметки
-        </div>
+        {/* Location chip */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3 }}
+          className="self-end -mt-3 rounded-2xl p-3 bg-white/55 border border-white/70 backdrop-blur-xl shadow-md"
+          style={{ minWidth: 130 }}
+        >
+          <div className="flex items-center gap-1.5 text-ink/70 text-[10px] font-medium uppercase tracking-wider">
+            <span className="grid place-items-center size-4 rounded-full bg-coral/90 text-white text-[8px]">📍</span>
+            Локация
+          </div>
+          <div className="mt-1 font-display text-[18px] leading-none font-semibold text-ink">Москва</div>
+          <div className="mt-1 text-[10px] text-ink/60 tabular-nums">{time} · MSK</div>
+        </motion.div>
 
-        {/* App row — 4 in a single row */}
-        <div className="grid grid-cols-4 gap-2 w-full">
-          {apps.map((a, i) => (
+        {/* Folder grid — desktop blue folders, no emblems */}
+        <div className="grid grid-cols-2 gap-x-2 gap-y-3 w-full mt-2">
+          {folders.map((f, i) => (
             <motion.button
-              key={a.id}
+              key={f.id}
               initial={{ opacity: 0, scale: 0.7 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 + i * 0.05, type: "spring", stiffness: 220, damping: 18 }}
-              whileTap={{ scale: 0.92 }}
-              onClick={() => { playTap(); onOpen(a.id); }}
-              className="flex flex-col items-center gap-1 group"
+              transition={{ delay: 0.35 + i * 0.06, type: "spring", stiffness: 220, damping: 18 }}
+              whileTap={{ scale: 0.94 }}
+              onClick={() => { playTap(); onOpen(f.id); }}
+              className="flex flex-col items-center gap-1"
             >
-              <img
-                src={a.icon}
-                alt={a.label}
-                className="w-[60px] h-[60px] rounded-[14px] object-cover shadow-md"
-              />
-              <span className="text-white text-[11px] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.7)] leading-tight text-center max-w-[72px] truncate">
-                {a.label}
+              <div className="w-[110px] h-[88px]">
+                <IconGraphic icon="folder" color={FOLDER_BLUE} />
+              </div>
+              <span className="text-ink text-[12px] font-semibold leading-tight text-center">
+                {f.label}
               </span>
             </motion.button>
           ))}
@@ -570,28 +560,27 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
         <div className="flex-1" />
 
         {/* Search pill */}
-        <div className="mx-auto px-4 py-1.5 rounded-full bg-black/25 backdrop-blur-xl text-white text-[13px] flex items-center gap-2">
+        <div className="mx-auto px-4 py-1.5 rounded-full bg-white/40 backdrop-blur-xl text-ink text-[13px] flex items-center gap-2 border border-white/60">
           <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5">
             <circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" />
           </svg>
           Поиск
         </div>
 
-        {/* Dock */}
-        <div className="mt-2 rounded-[28px] bg-white/25 backdrop-blur-2xl border border-white/30 px-3 py-3 flex justify-around items-center shadow-xl">
-          {dock.map((d, i) => {
+        {/* Dock — quick contacts */}
+        <div className="mt-2 rounded-[28px] bg-white/45 backdrop-blur-2xl border border-white/60 px-3 py-3 flex justify-around items-center shadow-xl">
+          {[
+            { src: sysIcon1, label: "Телефон", href: "tel:+79109076181" },
+            { src: sysIcon3, label: "Почта", href: "mailto:vereskunovadaria@gmail.com" },
+            { src: sysIcon2, label: "Фото", action: "gallery" as const },
+            { src: sysAqua, label: "Telegram", href: "https://t.me/DariaIud" },
+          ].map((d, i) => {
             const inner = (
-              <img
-                src={d.src}
-                alt={d.label}
-                className="w-[60px] h-[60px] rounded-[14px] object-cover"
-                draggable={false}
-              />
+              <img src={d.src} alt={d.label} className="w-[56px] h-[56px] rounded-[14px] object-cover" draggable={false} />
             );
-            const common = "block";
-            if (d.action === "gallery") {
+            if ("action" in d && d.action === "gallery") {
               return (
-                <motion.button key={i} whileTap={{ scale: 0.9 }} onClick={() => { playTap(); onOpen("gallery"); }} className={common} aria-label={d.label}>
+                <motion.button key={i} whileTap={{ scale: 0.9 }} onClick={() => { playTap(); onOpen("gallery"); }} aria-label={d.label}>
                   {inner}
                 </motion.button>
               );
@@ -604,7 +593,6 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
                 target={d.href?.startsWith("http") ? "_blank" : undefined}
                 rel={d.href?.startsWith("http") ? "noreferrer" : undefined}
                 onClick={() => playTap()}
-                className={common}
                 aria-label={d.label}
               >
                 {inner}
@@ -614,11 +602,12 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
         </div>
 
         {/* Home indicator */}
-        <div className="mx-auto w-32 h-1 rounded-full bg-white/80" />
+        <div className="mx-auto w-32 h-1 rounded-full bg-ink/70" />
       </div>
     </div>
   );
 }
+
 
 function Dock({ onOpen }: { onOpen: (id: WindowId) => void }) {
   return (
