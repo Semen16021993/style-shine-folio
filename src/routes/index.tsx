@@ -900,6 +900,8 @@ function DesktopIcon({
 function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: string; emblem?: string }) {
   if (icon === "folder") {
     const base = color || "#9CC4E4";
+    // SVG fragment ids can't contain "#" — strip it so url(#fb-XXXXXX) parses correctly
+    const slug = base.replace(/[^a-zA-Z0-9]/g, "");
     return (
       <div className="relative w-36 h-32 group/folder">
         <svg
@@ -908,21 +910,21 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
           style={{ filter: "drop-shadow(0 6px 10px rgba(120,160,200,0.25))" }}
         >
           <defs>
-            <linearGradient id={`fb-${base}`} x1="0" y1="0" x2="0" y2="1">
+            <linearGradient id={`fb-${slug}`} x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" stopColor={base} stopOpacity="0.9" />
               <stop offset="1" stopColor={base} stopOpacity="0.95" />
             </linearGradient>
-            <linearGradient id={`ff-${base}`} x1="0" y1="0" x2="0" y2="1">
+            <linearGradient id={`ff-${slug}`} x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" stopColor={base} />
               <stop offset="1" stopColor={base} />
             </linearGradient>
-            <linearGradient id={`gloss-${base}`} x1="0" y1="0" x2="0" y2="1">
+            <linearGradient id={`gloss-${slug}`} x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" stopColor="#ffffff" stopOpacity="0.5" />
               <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
             </linearGradient>
           </defs>
           {/* Back tab */}
-          <path d="M6 22 Q6 12 16 12 L52 12 L64 22 L128 22 Q138 22 138 32 L138 44 L6 44 Z" fill={`url(#fb-${base})`} />
+          <path d="M6 22 Q6 12 16 12 L52 12 L64 22 L128 22 Q138 22 138 32 L138 44 L6 44 Z" fill={`url(#fb-${slug})`} />
           {/* Inside (papers) */}
           <rect x="18" y="34" width="108" height="60" rx="3" fill="#fafaf6" opacity="0.95" />
           <rect x="24" y="40" width="80" height="3" rx="1.5" fill="#000" opacity="0.06" />
@@ -930,12 +932,12 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
           {/* Front body — flat, no darkening */}
           <path
             d="M6 44 L138 44 L138 108 Q138 120 126 120 L18 120 Q6 120 6 108 Z"
-            fill={`url(#ff-${base})`}
+            fill={`url(#ff-${slug})`}
             className="origin-bottom transition-transform duration-300 group-hover/folder:[transform:rotateX(8deg)_translateY(-2px)]"
             style={{ transformOrigin: "50% 100%" }}
           />
           {/* Top gloss */}
-          <path d="M6 44 L138 44 L138 62 Q72 76 6 62 Z" fill={`url(#gloss-${base})`} />
+          <path d="M6 44 L138 44 L138 62 Q72 76 6 62 Z" fill={`url(#gloss-${slug})`} />
           {/* Edge highlight */}
           <path d="M6 44 L138 44" stroke="#fff" strokeOpacity="0.6" strokeWidth="1.2" />
         </svg>
