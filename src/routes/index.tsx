@@ -1383,14 +1383,16 @@ function FourDevCase() {
   return (
     <TypoScope className="space-y-6">
       {/* Cover image first */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="rounded-lg overflow-hidden border border-ink/10 bg-ink/5"
-      >
-        <img src={caseFourdev} alt="Дашборд продаж 4DEV" loading="lazy" className="w-full h-auto block" />
-      </motion.div>
+      <div className="px-[20px]">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="rounded-lg overflow-hidden border border-ink/10 bg-ink/5"
+        >
+          <img src={caseFourdev} alt="Дашборд продаж 4DEV" loading="lazy" className="w-full h-auto block" />
+        </motion.div>
+      </div>
 
       {/* Tag row — unified with other cases */}
       <div className="flex flex-wrap gap-2 text-xs font-mono">
@@ -1418,15 +1420,17 @@ function FourDevCase() {
       </div>
 
       {/* Page 2 — клиенты + donut */}
-      <motion.img
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        src={fourdev2}
-        alt="Реестр клиентов и аналитика"
-        loading="lazy"
-        className={fullImg}
-      />
+      <div className="px-[20px]">
+        <motion.img
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          src={fourdev2}
+          alt="Реестр клиентов и аналитика"
+          loading="lazy"
+          className={fullImg}
+        />
+      </div>
 
       {/* Анализ текущего продукта */}
       <div>
@@ -1461,15 +1465,17 @@ function FourDevCase() {
 
       {/* Page 3 — Карточная система */}
       <figure className="space-y-2">
-        <motion.img
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          src={fourdev3}
-          alt="Карточная система управления гарантийными заявками"
-          loading="lazy"
-          className={fullImg}
-        />
+        <div className="px-[20px]">
+          <motion.img
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            src={fourdev3}
+            alt="Карточная система управления гарантийными заявками"
+            loading="lazy"
+            className={fullImg}
+          />
+        </div>
         <figcaption className={cap}>1. Карточная система управления гарантийными заявками</figcaption>
       </figure>
 
@@ -1513,15 +1519,17 @@ function FourDevCase() {
 
       {/* Page 4 — Шахматка */}
       <figure className="space-y-2">
-        <motion.img
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          src={fourdev4}
-          alt="Шахматка выбора квартир"
-          loading="lazy"
-          className={fullImg}
-        />
+        <div className="px-[20px]">
+          <motion.img
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            src={fourdev4}
+            alt="Шахматка выбора квартир"
+            loading="lazy"
+            className={fullImg}
+          />
+        </div>
         <figcaption className={cap}>2. Шахматка как основная модель выбора квартиры</figcaption>
       </figure>
 
@@ -1594,7 +1602,7 @@ function OrienCase() {
   const fullImg = "w-full rounded-lg border border-ink/10 block";
   return (
     <TypoScope className="space-y-6">
-      <div className="px-[5px]">
+      <div className="px-[20px]">
         <motion.img
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -1808,14 +1816,16 @@ function CaseStudy({
   return (
     <TypoScope className="space-y-6">
       {cover && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="rounded-lg overflow-hidden border border-ink/10 bg-ink/5"
-        >
-          <img src={cover} alt={lead} loading="lazy" className="w-full h-auto block" />
-        </motion.div>
+        <div className="px-[20px]">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="rounded-lg overflow-hidden border border-ink/10 bg-ink/5"
+          >
+            <img src={cover} alt={lead} loading="lazy" className="w-full h-auto block" />
+          </motion.div>
+        </div>
       )}
       <div className="flex flex-wrap gap-2 text-xs font-mono">
         <span className="px-2 py-1 rounded bg-coral/15 text-coral">{tag}</span>
@@ -1832,15 +1842,17 @@ function CaseStudy({
 
       {image && (
         <figure className="space-y-2">
-          <motion.img
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            src={image}
-            alt={imageCaption || ""}
-            loading="lazy"
-            className="w-full rounded-lg border border-ink/10"
-          />
+          <div className="px-[20px]">
+            <motion.img
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              src={image}
+              alt={imageCaption || ""}
+              loading="lazy"
+              className="w-full rounded-lg border border-ink/10"
+            />
+          </div>
           {imageCaption && (
             <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-center text-sm">
               {imageCaption}
@@ -1879,15 +1891,17 @@ function CaseStudy({
         <div className="space-y-3">
           {gallery.map((g, i) => (
             <figure key={i} className="space-y-2">
-              <motion.img
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                src={g.src}
-                alt={g.cap}
-                loading="lazy"
-                className="w-full rounded-lg border border-ink/10"
-              />
+              <div className="px-[20px]">
+                <motion.img
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  src={g.src}
+                  alt={g.cap}
+                  loading="lazy"
+                  className="w-full rounded-lg border border-ink/10"
+                />
+              </div>
               <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-center text-sm">
                 {g.cap}
               </figcaption>
