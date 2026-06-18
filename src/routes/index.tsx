@@ -1142,7 +1142,7 @@ interface GalleryItem { src: string; cap: string }
 function FourDevCase() {
   const cap = "text-ink/60 font-medium text-gray-500 font-sans text-center text-sm";
   const h4 = "font-mono text-xs uppercase tracking-widest text-ink/60 mb-2 font-semibold";
-  const fullImg = "w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]";
+  const fullImg = "w-full rounded-lg border border-ink/10";
 
   return (
     <TypoScope className="space-y-6">
@@ -1152,7 +1152,7 @@ function FourDevCase() {
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="rounded-lg overflow-hidden border border-ink/10 bg-ink/5 -mx-2 md:-mx-4"
+        className="rounded-lg overflow-hidden border border-ink/10 bg-ink/5"
       >
         <img src={caseFourdev} alt="Дашборд продаж 4DEV" loading="lazy" className="w-full h-auto block" />
       </motion.div>
@@ -1482,7 +1482,7 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="rounded-lg overflow-hidden border border-ink/10 bg-ink/5 -mx-2 md:-mx-4"
+          className="rounded-lg overflow-hidden border border-ink/10 bg-ink/5"
         >
           <img src={cover} alt={lead} loading="lazy" className="w-full h-auto block" />
         </motion.div>
@@ -1509,7 +1509,7 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
             src={image}
             alt={imageCaption || ""}
             loading="lazy"
-            className="w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]"
+            className="w-full rounded-lg border border-ink/10"
           />
           {imageCaption && <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-center text-sm">{imageCaption}</figcaption>}
         </figure>
@@ -1542,7 +1542,7 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
                 src={g.src}
                 alt={g.cap}
                 loading="lazy"
-                className="w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]"
+                className="w-full rounded-lg border border-ink/10"
               />
               <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-center text-sm">{g.cap}</figcaption>
             </figure>
