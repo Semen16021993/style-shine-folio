@@ -1,6 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
-import { useEffect, useRef, useState, type ReactNode, type RefObject, type PointerEvent as ReactPointerEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+  type RefObject,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import wallpaper from "@/assets/wallpaper.jpg";
 import desktopBgAsset from "@/assets/desktop-bg.jpg.asset.json";
 import gallery1 from "@/assets/gallery/photo-1.jpg.asset.json";
@@ -67,7 +74,7 @@ function playTap() {
     toneOsc.frequency.exponentialRampToValueAtTime(380, now + 0.07);
     toneGain.gain.setValueAtTime(0.0001, now);
     toneGain.gain.exponentialRampToValueAtTime(0.14, now + 0.003);
-    toneGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.10);
+    toneGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.1);
     toneOsc.connect(toneGain).connect(ctx.destination);
     toneOsc.start(now);
     toneOsc.stop(now + 0.11);
@@ -90,9 +97,52 @@ function playTap() {
 // Typography: prevent dangling short prepositions/conjunctions ("висящие предлоги")
 // by joining them to the next word with a non-breaking space.
 const SHORT_WORDS = new Set([
-  "в","и","а","у","о","с","к","я",
-  "на","по","до","из","от","не","но","со","во","об","за","то","та","те","же","бы","ли","мы","ты","вы",
-  "или","для","при","что","как","без","под","над","перед","через","про","ещё","уже","это","эти","том","там","тут",
+  "в",
+  "и",
+  "а",
+  "у",
+  "о",
+  "с",
+  "к",
+  "я",
+  "на",
+  "по",
+  "до",
+  "из",
+  "от",
+  "не",
+  "но",
+  "со",
+  "во",
+  "об",
+  "за",
+  "то",
+  "та",
+  "те",
+  "же",
+  "бы",
+  "ли",
+  "мы",
+  "ты",
+  "вы",
+  "или",
+  "для",
+  "при",
+  "что",
+  "как",
+  "без",
+  "под",
+  "над",
+  "перед",
+  "через",
+  "про",
+  "ещё",
+  "уже",
+  "это",
+  "эти",
+  "том",
+  "там",
+  "тут",
 ]);
 function nbsp(input: string): string {
   return input.replace(/(^|[\s(«"])([A-Za-zА-Яа-яЁё]{1,5}) (?=[A-Za-zА-Яа-яЁё0-9])/g, (m, pre, w) => {
@@ -101,7 +151,15 @@ function nbsp(input: string): string {
 }
 
 // Wraps a subtree and post-processes its text nodes to remove hanging prepositions.
-function TypoScope({ children, as: As = "div", className }: { children: ReactNode; as?: "div" | "span"; className?: string }) {
+function TypoScope({
+  children,
+  as: As = "div",
+  className,
+}: {
+  children: ReactNode;
+  as?: "div" | "span";
+  className?: string;
+}) {
   const ref = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const root = ref.current;
@@ -118,9 +176,12 @@ function TypoScope({ children, as: As = "div", className }: { children: ReactNod
       if (fixed !== t.nodeValue) t.nodeValue = fixed;
     }
   });
-  return <As ref={ref as never} className={className}>{children}</As>;
+  return (
+    <As ref={ref as never} className={className}>
+      {children}
+    </As>
+  );
 }
-
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -128,8 +189,7 @@ export const Route = createFileRoute("/")({
       { title: "Дарья Верескунова — Продуктовый дизайнер" },
       {
         name: "description",
-        content:
-          "Портфолио продуктового дизайнера. B2B/B2C, SaaS, дизайн-системы, мобильные приложения.",
+        content: "Портфолио продуктового дизайнера. B2B/B2C, SaaS, дизайн-системы, мобильные приложения.",
       },
     ],
   }),
@@ -152,26 +212,31 @@ interface DesktopItem {
   href?: string;
 }
 
-const FIGMA_URL = "https://www.figma.com/design/tPwY5DNw9Q20JQzMyMVldC/Design-System-%7C-Ui-Kit?node-id=403-674&p=f&t=aq5IZpO7bMZti4sO-0";
+const FIGMA_URL =
+  "https://www.figma.com/design/tPwY5DNw9Q20JQzMyMVldC/Design-System-%7C-Ui-Kit?node-id=403-674&p=f&t=aq5IZpO7bMZti4sO-0";
 
 // Case folders are clustered in the upper-right "projects" cloud so the
 // hierarchy reads: «папки = кейсы», even when the rest is scattered.
 const FOLDER_BLUE = "#9CC4E4";
 const items: DesktopItem[] = [
   // === Case folders (center → right) ===
-  { id: "orien",   label: "Сryptowallet 2025-26", icon: "folder", color: FOLDER_BLUE, x: 54, y: 27, rot: -4 },
-  { id: "fourdev", label: "4Dev.tech 2023-25",    icon: "folder", color: FOLDER_BLUE, x: 69, y: 41, rot: 3 },
-  { id: "debtor",  label: "Должник прав 2023",    icon: "folder", color: FOLDER_BLUE, x: 86, y: 52, rot: -2 },
+  { id: "orien", label: "Сryptowallet 2025-26", icon: "folder", color: FOLDER_BLUE, x: 54, y: 27, rot: -4 },
+  { id: "fourdev", label: "4Dev.tech 2023-25", icon: "folder", color: FOLDER_BLUE, x: 69, y: 41, rot: 3 },
+  { id: "debtor", label: "Должник прав 2023", icon: "folder", color: FOLDER_BLUE, x: 86, y: 52, rot: -2 },
   // === Tools (bottom-left cluster) ===
   { id: "gallery", label: "Галерея", icon: "gallery", x: 13, y: 63, rot: -5 },
-  { id: "figma",   label: "Figma",   icon: "figma",   x: 26, y: 74, rot: 4, href: FIGMA_URL },
-  { id: "cv",      label: "CV",      icon: "pdf",     x: 41, y: 60, rot: -3 },
+  { id: "figma", label: "Figma", icon: "figma", x: 26, y: 74, rot: 4, href: FIGMA_URL },
+  { id: "cv", label: "CV", icon: "pdf", x: 41, y: 60, rot: -3 },
 ];
 
-
-
 type DockIconKey = "gal" | "figma" | "ps" | "ai" | "id" | "in";
-const dockItems: { id: DockIconKey | "gallery"; label: string; icon: DockIconKey; disabled?: boolean; href?: string }[] = [
+const dockItems: {
+  id: DockIconKey | "gallery";
+  label: string;
+  icon: DockIconKey;
+  disabled?: boolean;
+  href?: string;
+}[] = [
   { id: "gallery", label: "Галерея", icon: "gal" },
   { id: "figma", label: "Figma", icon: "figma", href: FIGMA_URL },
   { id: "ps", label: "Adobe Photoshop", icon: "ps", disabled: true },
@@ -197,7 +262,11 @@ function Desktop() {
   const [phoneMode, setPhoneMode] = useState(false);
   const [positions, setPositions] = useState<Record<string, Pos>>(() => {
     if (typeof window === "undefined") return {};
-    try { return JSON.parse(localStorage.getItem(POS_STORAGE_KEY) || "{}"); } catch { return {}; }
+    try {
+      return JSON.parse(localStorage.getItem(POS_STORAGE_KEY) || "{}");
+    } catch {
+      return {};
+    }
   });
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const desktopRef = useRef<HTMLDivElement | null>(null);
@@ -211,27 +280,25 @@ function Desktop() {
   }, []);
 
   useEffect(() => {
-    try { localStorage.setItem(POS_STORAGE_KEY, JSON.stringify(positions)); } catch {}
+    try {
+      localStorage.setItem(POS_STORAGE_KEY, JSON.stringify(positions));
+    } catch {}
   }, [positions]);
 
   const openWindow = (id: WindowId) => {
     setOpen((s) => (s.includes(id) ? s : [...s, id]));
     setFocus(id);
   };
-  const closeWindow = (id: WindowId) =>
-    setOpen((s) => s.filter((i) => i !== id));
+  const closeWindow = (id: WindowId) => setOpen((s) => s.filter((i) => i !== id));
 
-  const handleMove = (id: string, p: Pos) =>
-    setPositions((prev) => ({ ...prev, [id]: p }));
+  const handleMove = (id: string, p: Pos) => setPositions((prev) => ({ ...prev, [id]: p }));
 
   return (
     <div className={`fixed inset-0 overflow-hidden ${phoneMode ? "block" : "block"}`}>
       <div
         ref={desktopRef}
         className={`relative overflow-hidden font-sans text-ink select-none ${
-          phoneMode
-            ? "w-full h-full"
-            : "w-full h-full"
+          phoneMode ? "w-full h-full" : "w-full h-full"
         }`}
         style={
           phoneMode
@@ -280,18 +347,23 @@ function Desktop() {
                 Привет! <span className="text-coral">🌸</span>
               </h1>
               <p className="mt-3 text-[15px] leading-relaxed">
-                Меня зовут <b>Дарья</b>, я проектирую цифровые продукты, которые решают реальные бизнес-задачи. Специализируюсь на <i>B2B/B2C</i>, SaaS, внутренних инструментах и системах автоматизации.
+                Меня зовут <b>Дарья</b>, я проектирую цифровые продукты, которые решают реальные бизнес-задачи.
+                Специализируюсь на <i>B2B/B2C</i>, SaaS, внутренних инструментах и системах автоматизации.
               </p>
               <p className="mt-3 text-[15px] leading-relaxed">
                 Контакты:{" "}
-                <a href="https://t.me/Darialud" target="_blank" rel="noreferrer" className="underline hover:text-coral">@Darialud</a>{" "}·{" "}
-                <a href="mailto:vereskunova@gmail.com" className="underline hover:text-coral">vereskunova@gmail.com</a>
+                <a href="https://t.me/Darialud" target="_blank" rel="noreferrer" className="underline hover:text-coral">
+                  @Darialud
+                </a>{" "}
+                ·{" "}
+                <a href="mailto:vereskunova@gmail.com" className="underline hover:text-coral">
+                  vereskunova@gmail.com
+                </a>
               </p>
               <p className="mt-1 text-[15px]">Локация: Москва, РФ</p>
             </motion.div>
 
             <LocationWidget />
-
 
             {items.map((item, i) => {
               const pos = positions[item.id] ?? { x: item.x, y: item.y };
@@ -313,7 +385,11 @@ function Desktop() {
                       return;
                     }
                     if (item.id === "cv") {
-                      window.open("https://docs.google.com/document/d/12Lyzo4MLM1DhmpTNTif1u9eAyQeliljbuUQ1dLv_KlE/edit?tab=t.0", "_blank", "noopener,noreferrer");
+                      window.open(
+                        "https://docs.google.com/document/d/12Lyzo4MLM1DhmpTNTif1u9eAyQeliljbuUQ1dLv_KlE/edit?tab=t.0",
+                        "_blank",
+                        "noopener,noreferrer",
+                      );
                       return;
                     }
                     openWindow(item.id as WindowId);
@@ -406,25 +482,21 @@ function ProductAssembly() {
   const SIZE = 220;
   const pieces = [
     // [from x, from y, fromRotate, finalX, finalY, w, h, color, radius]
-    { fx: -260, fy: -120, fr: -35, x: 0,   y: 0,   w: 110, h: 110, color: "#9CC4E4", r: 14 },
-    { fx:  300, fy: -160, fr:  40, x: 110, y: 0,   w: 110, h: 110, color: "#F5B7A3", r: 14 },
-    { fx: -300, fy:  180, fr:  25, x: 0,   y: 110, w: 110, h: 110, color: "#E8D5A8", r: 14 },
-    { fx:  280, fy:  200, fr: -28, x: 110, y: 110, w: 110, h: 110, color: "#B8D4C2", r: 14 },
+    { fx: -260, fy: -120, fr: -35, x: 0, y: 0, w: 110, h: 110, color: "#9CC4E4", r: 14 },
+    { fx: 300, fy: -160, fr: 40, x: 110, y: 0, w: 110, h: 110, color: "#F5B7A3", r: 14 },
+    { fx: -300, fy: 180, fr: 25, x: 0, y: 110, w: 110, h: 110, color: "#E8D5A8", r: 14 },
+    { fx: 280, fy: 200, fr: -28, x: 110, y: 110, w: 110, h: 110, color: "#B8D4C2", r: 14 },
     // Accent: small centered square overlapping the seam
-    { fx:    0, fy: -260, fr: 180, x: 70,  y: 70,  w: 80,  h: 80,  color: "#2B2B2B", r: 12 },
+    { fx: 0, fy: -260, fr: 180, x: 70, y: 70, w: 80, h: 80, color: "#2B2B2B", r: 12 },
   ];
 
   return (
-    <div
-      className="absolute pointer-events-none z-[5]"
-      style={{ left: 56, top: 420, width: SIZE, height: SIZE }}
-    >
+    <div className="absolute pointer-events-none z-[5]" style={{ left: 56, top: 420, width: SIZE, height: SIZE }}>
       {/* Soft halo that appears once pieces unite */}
       <motion.div
         className="absolute inset-0 rounded-3xl"
         style={{
-          background:
-            "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 65%)",
+          background: "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 65%)",
         }}
         initial={{ opacity: 0, scale: 0.6 }}
         animate={{ opacity: [0, 0, 0.9, 0.7, 0.9, 0.7], scale: [0.6, 0.6, 1, 1, 1, 1] }}
@@ -464,8 +536,6 @@ function ProductAssembly() {
   );
 }
 
-
-
 function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
   const [time, setTime] = useState("");
   useEffect(() => {
@@ -480,14 +550,18 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
 
   type MobileFolder =
     | { id: WindowId; label: string; href?: undefined; iconKind?: undefined }
-    | { id: string;   label: string; href: string; iconKind?: "figma" };
+    | { id: string; label: string; href: string; iconKind?: "figma" };
   const folders: MobileFolder[] = [
-    { id: "orien",   label: "Crypto" },
+    { id: "orien", label: "Crypto" },
     { id: "fourdev", label: "4Dev" },
-    { id: "debtor",  label: "Должник" },
+    { id: "debtor", label: "Должник" },
     { id: "gallery", label: "Галерея" },
-    { id: "figma",   label: "Figma", href: FIGMA_URL, iconKind: "figma" },
-    { id: "cv",      label: "CV",    href: "https://docs.google.com/document/d/12Lyzo4MLM1DhmpTNTif1u9eAyQeliljbuUQ1dLv_KlE/edit?tab=t.0" },
+    { id: "figma", label: "Figma", href: FIGMA_URL, iconKind: "figma" },
+    {
+      id: "cv",
+      label: "CV",
+      href: "https://docs.google.com/document/d/12Lyzo4MLM1DhmpTNTif1u9eAyQeliljbuUQ1dLv_KlE/edit?tab=t.0",
+    },
   ];
 
   return (
@@ -508,8 +582,13 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
             Меня зовут <b>Дарья</b>, я&nbsp;проектирую цифровые продукты, которые решают реальные бизнес-задачи.
           </p>
           <p className="mt-2 text-[12px]">
-            <a href="https://t.me/Darialud" target="_blank" rel="noreferrer" className="underline">@Darialud</a>{" "}·{" "}
-            <a href="mailto:vereskunova@gmail.com" className="underline">e-mail</a>
+            <a href="https://t.me/Darialud" target="_blank" rel="noreferrer" className="underline">
+              @Darialud
+            </a>{" "}
+            ·{" "}
+            <a href="mailto:vereskunova@gmail.com" className="underline">
+              e-mail
+            </a>
           </p>
         </motion.div>
 
@@ -560,9 +639,7 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
                 )}
               </div>
 
-              <span className="text-ink text-[12px] font-semibold leading-tight text-center">
-                {f.label}
-              </span>
+              <span className="text-ink text-[12px] font-semibold leading-tight text-center">{f.label}</span>
             </motion.button>
           ))}
         </div>
@@ -572,7 +649,8 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
         {/* Search pill */}
         <div className="mx-auto px-4 py-1.5 rounded-full bg-white/40 backdrop-blur-xl text-ink text-[13px] flex items-center gap-2 border border-white/60">
           <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" />
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-3.5-3.5" />
           </svg>
           Поиск
         </div>
@@ -586,11 +664,24 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
             { src: sysAqua, label: "Telegram", href: "https://t.me/DariaIud" },
           ].map((d, i) => {
             const inner = (
-              <img src={d.src} alt={d.label} className="w-[56px] h-[56px] rounded-[14px] object-cover" draggable={false} />
+              <img
+                src={d.src}
+                alt={d.label}
+                className="w-[56px] h-[56px] rounded-[14px] object-cover"
+                draggable={false}
+              />
             );
             if ("action" in d && d.action === "gallery") {
               return (
-                <motion.button key={i} whileTap={{ scale: 0.9 }} onClick={() => { playTap(); onOpen("gallery"); }} aria-label={d.label}>
+                <motion.button
+                  key={i}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => {
+                    playTap();
+                    onOpen("gallery");
+                  }}
+                  aria-label={d.label}
+                >
                   {inner}
                 </motion.button>
               );
@@ -617,7 +708,6 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
     </div>
   );
 }
-
 
 function Dock({ onOpen }: { onOpen: (id: WindowId) => void }) {
   return (
@@ -646,11 +736,7 @@ function Dock({ onOpen }: { onOpen: (id: WindowId) => void }) {
           className="relative size-12 flex items-center justify-center group"
           title={it.label}
         >
-          <img
-            src={dockIconMap[it.icon]}
-            alt={it.label}
-            className="w-11 h-11 rounded-[22%] object-cover drop-shadow"
-          />
+          <img src={dockIconMap[it.icon]} alt={it.label} className="w-11 h-11 rounded-[22%] object-cover drop-shadow" />
           <span className="absolute -top-8 px-2 py-1 rounded bg-black/75 text-white text-[11px] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             {it.label}
           </span>
@@ -660,15 +746,24 @@ function Dock({ onOpen }: { onOpen: (id: WindowId) => void }) {
   );
 }
 
-
 function MenuBar({ focused: _focused }: { focused: WindowId | null }) {
   void _focused;
   const [stamp, setStamp] = useState("");
   useEffect(() => {
     const days = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
     const months = [
-      "января", "февраля", "марта", "апреля", "мая", "июня",
-      "июля", "августа", "сентября", "октября", "ноября", "декабря",
+      "января",
+      "февраля",
+      "марта",
+      "апреля",
+      "мая",
+      "июня",
+      "июля",
+      "августа",
+      "сентября",
+      "октября",
+      "ноября",
+      "декабря",
     ];
     const tick = () => {
       const d = new Date();
@@ -698,7 +793,15 @@ function MenuBar({ focused: _focused }: { focused: WindowId | null }) {
 }
 
 function DesktopIcon({
-  item, position, delay, containerRef, isDragging, onDragStart, onDragEnd, onMove, onOpen,
+  item,
+  position,
+  delay,
+  containerRef,
+  isDragging,
+  onDragStart,
+  onDragEnd,
+  onMove,
+  onOpen,
 }: {
   item: DesktopItem;
   position: Pos;
@@ -710,7 +813,14 @@ function DesktopIcon({
   onMove: (id: string, p: Pos) => void;
   onOpen: () => void;
 }) {
-  const dragRef = useRef<{ startX: number; startY: number; origX: number; origY: number; moved: boolean; pid: number } | null>(null);
+  const dragRef = useRef<{
+    startX: number;
+    startY: number;
+    origX: number;
+    origY: number;
+    moved: boolean;
+    pid: number;
+  } | null>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
 
   const onPointerDown = (e: ReactPointerEvent<HTMLButtonElement>) => {
@@ -744,7 +854,9 @@ function DesktopIcon({
   const onPointerUp = (e: ReactPointerEvent<HTMLButtonElement>) => {
     const st = dragRef.current;
     dragRef.current = null;
-    try { btnRef.current?.releasePointerCapture(e.pointerId); } catch {}
+    try {
+      btnRef.current?.releasePointerCapture(e.pointerId);
+    } catch {}
     onDragEnd();
     if (st && !st.moved) {
       if (!item.disabled) playTap();
@@ -790,7 +902,11 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
     const base = color || "#9CC4E4";
     return (
       <div className="relative w-36 h-32 group/folder">
-        <svg viewBox="0 0 144 128" className="w-full h-full" style={{ filter: "drop-shadow(0 6px 10px rgba(120,160,200,0.25))" }}>
+        <svg
+          viewBox="0 0 144 128"
+          className="w-full h-full"
+          style={{ filter: "drop-shadow(0 6px 10px rgba(120,160,200,0.25))" }}
+        >
           <defs>
             <linearGradient id={`fb-${base}`} x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" stopColor={base} stopOpacity="0.9" />
@@ -863,7 +979,10 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
   if (icon === "pdf") {
     return (
       <div className="w-28 h-32 bg-white shadow-xl rounded-md relative drop-shadow-xl overflow-hidden">
-        <div className="absolute top-0 right-0 w-8 h-8 bg-ink/10" style={{ clipPath: "polygon(0 0, 100% 100%, 100% 0)" }} />
+        <div
+          className="absolute top-0 right-0 w-8 h-8 bg-ink/10"
+          style={{ clipPath: "polygon(0 0, 100% 100%, 100% 0)" }}
+        />
         <div className="absolute inset-x-3 top-10 space-y-2">
           <div className="h-[2px] bg-ink/30 w-full" />
           <div className="h-[2px] bg-ink/20 w-5/6" />
@@ -872,21 +991,32 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
           <div className="h-[2px] bg-ink/20 w-full" />
           <div className="h-[2px] bg-ink/20 w-4/6" />
         </div>
-        <div className="absolute bottom-2 inset-x-0 text-center text-[11px] font-bold tracking-wider text-coral">DOC</div>
+        <div className="absolute bottom-2 inset-x-0 text-center text-[11px] font-bold tracking-wider text-coral">
+          DOC
+        </div>
       </div>
     );
   }
   return (
-    <div className="w-24 h-24 rounded-2xl shadow-xl grid place-items-center text-4xl drop-shadow-xl"
-      style={{ background: color || "linear-gradient(135deg, var(--coral), #f4a261)" }}>
+    <div
+      className="w-24 h-24 rounded-2xl shadow-xl grid place-items-center text-4xl drop-shadow-xl"
+      style={{ background: color || "linear-gradient(135deg, var(--coral), #f4a261)" }}
+    >
       ✨
     </div>
   );
 }
 
-
-function Window({ id, zIndex, onClose, onFocus }: {
-  id: WindowId; zIndex: number; onClose: () => void; onFocus: () => void;
+function Window({
+  id,
+  zIndex,
+  onClose,
+  onFocus,
+}: {
+  id: WindowId;
+  zIndex: number;
+  onClose: () => void;
+  onFocus: () => void;
 }) {
   const config = windowConfig[id];
   const [isMobile, setIsMobile] = useState(false);
@@ -910,16 +1040,19 @@ function Window({ id, zIndex, onClose, onFocus }: {
         className="absolute inset-0 bg-white flex flex-col"
       >
         <div className="h-14 px-3 pt-3 flex items-center gap-2 border-b border-ink/10">
-          <button onClick={onClose} className="flex items-center gap-1 text-[15px] text-[#007aff] font-medium px-2 py-1 -ml-2 active:opacity-60">
-            <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m15 6-6 6 6 6"/></svg>
+          <button
+            onClick={onClose}
+            className="flex items-center gap-1 text-[15px] text-[#007aff] font-medium px-2 py-1 -ml-2 active:opacity-60"
+          >
+            <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="m15 6-6 6 6 6" />
+            </svg>
             Назад
           </button>
           <div className="flex-1 text-center text-[14px] font-semibold text-ink truncate px-2">{config.title}</div>
           <div className="w-14" />
         </div>
-        <div className="flex-1 overflow-y-auto overscroll-contain p-5 pb-10">
-          {config.body}
-        </div>
+        <div className="flex-1 overflow-y-auto overscroll-contain p-5 pb-10">{config.body}</div>
       </motion.div>
     );
   }
@@ -944,9 +1077,7 @@ function Window({ id, zIndex, onClose, onFocus }: {
         <div className="flex-1 text-center text-xs font-medium text-ink/70">{config.title}</div>
         <div className="w-12" />
       </div>
-      <div className="overflow-y-auto max-h-[calc(82vh-2.25rem)] p-6 md:p-8">
-        {config.body}
-      </div>
+      <div className="overflow-y-auto max-h-[calc(82vh-2.25rem)] p-6 md:p-8">{config.body}</div>
     </motion.div>
   );
 }
@@ -957,10 +1088,28 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
     body: (
       <div className="font-mono text-sm space-y-3 leading-relaxed">
         <p className="font-display text-2xl not-italic">Привет! Меня зовут Дарья.</p>
-        <p>Я проектирую цифровые продукты, которые решают реальные бизнес-задачи. Специализируюсь на <span className="bg-note px-1">B2B/B2C, SaaS</span>, внутренних инструментах и системах автоматизации.</p>
-        <p>За моими плечами — успешный опыт работы как в продуктовых стартапах (быстрая итеративность), так и в агентствах.</p>
-        <p>В своей работе активно использую AI-инструменты: <i>Monterey.ai, Lovable, Whimsical AI, NotebookLM</i>.</p>
-        <p className="text-ink/60">— <a className="underline hover:text-coral" href="mailto:vereskunova@gmail.com">vereskunova@gmail.com</a> · <a className="underline hover:text-coral" href="https://t.me/Darialud">@Darialud</a> · Москва, РФ</p>
+        <p>
+          Я проектирую цифровые продукты, которые решают реальные бизнес-задачи. Специализируюсь на{" "}
+          <span className="bg-note px-1">B2B/B2C, SaaS</span>, внутренних инструментах и системах автоматизации.
+        </p>
+        <p>
+          За моими плечами — успешный опыт работы как в продуктовых стартапах (быстрая итеративность), так и в
+          агентствах.
+        </p>
+        <p>
+          В своей работе активно использую AI-инструменты: <i>Monterey.ai, Lovable, Whimsical AI, NotebookLM</i>.
+        </p>
+        <p className="text-ink/60">
+          —{" "}
+          <a className="underline hover:text-coral" href="mailto:vereskunova@gmail.com">
+            vereskunova@gmail.com
+          </a>{" "}
+          ·{" "}
+          <a className="underline hover:text-coral" href="https://t.me/Darialud">
+            @Darialud
+          </a>{" "}
+          · Москва, РФ
+        </p>
       </div>
     ),
   },
@@ -974,79 +1123,117 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
   },
   debtor: {
     title: "Должник прав 2023 — Mobile App",
-      body: <CaseStudy
-      cover={caseDebtor}
-      tag="Юридическое мобильное приложение · part-time"
-      period="2023"
-      lead="Должник прав — цифровой юрист в кармане. Мобильное приложение для клиентов в сложной финансовой ситуации; работа строится через персональных менеджеров."
-      sections={[
-        {
-          h: "Контекст",
-          p: "Компания оказывает юридическую помощь людям с долговой нагрузкой. \n\nБизнес-модель двухэтапная: \n1) пользователь оплачивает тариф; \n2) после оплаты открывается дело и начинается сопровождение. \n\nКлючевая точка роста — конверсия в оплату и дальнейшее удержание клиента в процессе сопровождения.\n",
-        },
-        {
-          h: "Задачи",
-          p: "Через дизайн повлиять на ключевые бизнес-метрики: увеличить Conv. to Pay и Completion Rate анкеты, снизить число обращений к менеджерам по статусам и документам, повысить ощущение контроля и прозрачности у клиента, упростить работу персональных менеджеров.",
-        },
-        {
-          h: "Анкета как «скрытый обязательный шаг»",
-          p: "Для запуска сопровождения требовалось заполнение подробной анкеты. Раньше она открывалась после регистрации и частично — уже в коммуникации с менеджером: пользователи откладывали её, возникали уточняющие звонки, оплаченное дело стартовало медленнее, росла нагрузка на менеджеров. Гипотеза: если встроить анкету в онбординг, объяснить ценность, разбить на этапы, добавить progress bar и автосохранение — пользователи будут чаще доводить её до конца, а Time to Case Start сократится.",
-        },
-      ]}
-      image={debtor3}
-      imageCaption="Ключевые экраны, с которыми чаще всего взаимодействует пользователь"
-      problems={[
-        "Пользователи не всегда понимали статус своего дела",
-        "Анкеты заполнялись не с первого раза, к ним часто возвращались",
-        "До 40% первичных звонков менеджеру были связаны с заполнением анкеты",
-        "Менеджеры тратили много времени на телефонные консультации и уточнения",
-        "Оплата — критичная бизнес-точка — не была достаточно прозрачной",
-        "Бизнес терял конверсию в оплату, скорость онбординга и операционную эффективность",
-      ]}
-      did={[
-        "Провела анализ бизнес-процессов",
-        "Участвовала в подготовке UX-исследования",
-        "Разработала пользовательские сценарии",
-        "Спроектировала структуру приложения",
-        "Продумала логику оплаты и анкеты",
-        "Сформировала прототипы ключевых экранов",
-        "Участвовала в анализе результатов тестирования",
-      ]}
-      gallery={[
-        { src: debtor2, cap: "Фактически анкета была «скрытым обязательным шагом», который откладывался пользователями, вызывал большое количество уточняющих звонков, замедлял запуск оплаченного дела и увеличивал нагрузку на менеджеров." },
-        { src: debtor4, cap: "Проблемы → Гипотезы → Реализация: обязательный шаг онбординга, прогресс-бар, подсказки внутри формы, автосохранение данных" },
-      ]}
-      results={[
-        "Conversion to Payment: +8 п.п. (с 41% до 49%) — за счёт упрощённого экрана оплаты и прозрачного статуса счёта",
-        "Completion Rate анкеты: +22% (с 55% до 67%) — разбивка на этапы, progress bar, сохранение промежуточных данных",
-        "Среднее время прохождения анкеты: −18%",
-        "Количество входящих обращений на клиента: −27% — прозрачные этапы в «Моё дело», встроенные комментарии, структурированная загрузка документов",
-        "Time to Case Start: −24% — быстрее оплата, выше completion анкеты, меньше ручных уточнений",
-      ]}
-    />,
+    body: (
+      <CaseStudy
+        cover={caseDebtor}
+        tag="Юридическое мобильное приложение · part-time"
+        period="2023"
+        lead="Должник прав — цифровой юрист в кармане. Мобильное приложение для клиентов в сложной финансовой ситуации; работа строится через персональных менеджеров."
+        sections={[
+          {
+            h: "Контекст",
+            p: "Компания оказывает юридическую помощь людям с долговой нагрузкой. \n\nБизнес-модель двухэтапная: \n1) пользователь оплачивает тариф; \n2) после оплаты открывается дело и начинается сопровождение. \n\nКлючевая точка роста — конверсия в оплату и дальнейшее удержание клиента в процессе сопровождения.\n",
+          },
+          {
+            h: "Задачи",
+            p: "Через дизайн повлиять на ключевые бизнес-метрики: увеличить Conv. to Pay и Completion Rate анкеты, снизить число обращений к менеджерам по статусам и документам, повысить ощущение контроля и прозрачности у клиента, упростить работу персональных менеджеров.",
+          },
+          {
+            h: "Анкета как «скрытый обязательный шаг»",
+            p: "Для запуска сопровождения требовалось заполнение подробной анкеты. Раньше она открывалась после регистрации и частично — уже в коммуникации с менеджером: пользователи откладывали её, возникали уточняющие звонки, оплаченное дело стартовало медленнее, росла нагрузка на менеджеров. Гипотеза: если встроить анкету в онбординг, объяснить ценность, разбить на этапы, добавить progress bar и автосохранение — пользователи будут чаще доводить её до конца, а Time to Case Start сократится.",
+          },
+        ]}
+        image={debtor3}
+        imageCaption="Ключевые экраны, с которыми чаще всего взаимодействует пользователь"
+        problems={[
+          "Пользователи не всегда понимали статус своего дела",
+          "Анкеты заполнялись не с первого раза, к ним часто возвращались",
+          "До 40% первичных звонков менеджеру были связаны с заполнением анкеты",
+          "Менеджеры тратили много времени на телефонные консультации и уточнения",
+          "Оплата — критичная бизнес-точка — не была достаточно прозрачной",
+          "Бизнес терял конверсию в оплату, скорость онбординга и операционную эффективность",
+        ]}
+        did={[
+          "Провела анализ бизнес-процессов",
+          "Участвовала в подготовке UX-исследования",
+          "Разработала пользовательские сценарии",
+          "Спроектировала структуру приложения",
+          "Продумала логику оплаты и анкеты",
+          "Сформировала прототипы ключевых экранов",
+          "Участвовала в анализе результатов тестирования",
+        ]}
+        gallery={[
+          {
+            src: debtor2,
+            cap: "Фактически анкета была «скрытым обязательным шагом», который откладывался пользователями, вызывал большое количество уточняющих звонков, замедлял запуск оплаченного дела и увеличивал нагрузку на менеджеров.",
+          },
+          {
+            src: debtor4,
+            cap: "Проблемы → Гипотезы → Реализация: обязательный шаг онбординга, прогресс-бар, подсказки внутри формы, автосохранение данных",
+          },
+        ]}
+        results={[
+          "Conversion to Payment: +8 п.п. (с 41% до 49%) — за счёт упрощённого экрана оплаты и прозрачного статуса счёта",
+          "Completion Rate анкеты: +22% (с 55% до 67%) — разбивка на этапы, progress bar, сохранение промежуточных данных",
+          "Среднее время прохождения анкеты: −18%",
+          "Количество входящих обращений на клиента: −27% — прозрачные этапы в «Моё дело», встроенные комментарии, структурированная загрузка документов",
+          "Time to Case Start: −24% — быстрее оплата, выше completion анкеты, меньше ручных уточнений",
+        ]}
+      />
+    ),
   },
   skills: {
     title: "Skills.app",
     body: (
       <div className="space-y-6">
         {Object.entries({
-          "UX-исследования и продукт": ["CustDev", "Глубинные интервью", "JTBD", "CJM", "User Flow", "Юзабилити-тестирование", "Метрики", "MVP", "User Story Mapping", "Продуктовое мышление"],
-          "Дизайн и инструменты": ["Figma", "Auto layout", "Компоненты", "Токены", "Прототипирование", "Дизайн-системы", "Atomic Design", "Miro", "HTML/CSS"],
+          "UX-исследования и продукт": [
+            "CustDev",
+            "Глубинные интервью",
+            "JTBD",
+            "CJM",
+            "User Flow",
+            "Юзабилити-тестирование",
+            "Метрики",
+            "MVP",
+            "User Story Mapping",
+            "Продуктовое мышление",
+          ],
+          "Дизайн и инструменты": [
+            "Figma",
+            "Auto layout",
+            "Компоненты",
+            "Токены",
+            "Прототипирование",
+            "Дизайн-системы",
+            "Atomic Design",
+            "Miro",
+            "HTML/CSS",
+          ],
           "Процессы и коммуникация": ["Agile", "Design Review", "Аргументация решений", "Кросс-функциональная работа"],
         }).map(([group, list]) => (
           <div key={group}>
             <h3 className="font-mono text-xs uppercase tracking-widest text-ink/60 mb-3">{group}</h3>
             <div className="flex flex-wrap gap-2">
               {list.map((s) => (
-                <span key={s} className="px-3 py-1.5 rounded-full bg-ink/5 border border-ink/10 text-sm hover:bg-coral hover:text-white hover:border-coral transition-colors cursor-default">{s}</span>
+                <span
+                  key={s}
+                  className="px-3 py-1.5 rounded-full bg-ink/5 border border-ink/10 text-sm hover:bg-coral hover:text-white hover:border-coral transition-colors cursor-default"
+                >
+                  {s}
+                </span>
               ))}
             </div>
           </div>
         ))}
         <div className="pt-4 border-t border-ink/10">
           <h3 className="font-mono text-xs uppercase tracking-widest text-ink/60 mb-3">Образование</h3>
-          <p className="text-sm">Bang Bang Education — <span className="italic">Арт-дирекшн цифрового продукта</span></p>
-          <p className="text-sm">СГУ им. Н.Г. Чернышевского — <span className="italic">Магистр, филология и журналистика</span></p>
+          <p className="text-sm">
+            Bang Bang Education — <span className="italic">Арт-дирекшн цифрового продукта</span>
+          </p>
+          <p className="text-sm">
+            СГУ им. Н.Г. Чернышевского — <span className="italic">Магистр, филология и журналистика</span>
+          </p>
         </div>
       </div>
     ),
@@ -1063,8 +1250,14 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
             { l: "Telegram", v: "@Darialud", h: "https://t.me/Darialud" },
             { l: "Локация", v: "Москва, РФ", h: "#" },
           ].map((c) => (
-            <a key={c.l} href={c.h} className="flex items-center justify-between p-4 rounded-lg border border-ink/10 hover:bg-ink hover:text-paper hover:border-ink transition-all group">
-              <span className="font-mono text-xs uppercase tracking-widest opacity-60 group-hover:opacity-100">{c.l}</span>
+            <a
+              key={c.l}
+              href={c.h}
+              className="flex items-center justify-between p-4 rounded-lg border border-ink/10 hover:bg-ink hover:text-paper hover:border-ink transition-all group"
+            >
+              <span className="font-mono text-xs uppercase tracking-widest opacity-60 group-hover:opacity-100">
+                {c.l}
+              </span>
               <span className="font-medium">{c.v} →</span>
             </a>
           ))}
@@ -1082,14 +1275,25 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
             <div className="text-ink/60 mt-1">Продуктовый дизайнер · Москва</div>
           </div>
           <div className="space-y-2 text-ink/80">
-            <p><b>Опыт:</b> 4DEV.tech · Crypto Orien.AI · Должник прав</p>
-            <p><b>Стек:</b> Figma · Дизайн-системы · UX-исследования · Прототипирование</p>
-            <p><b>Email:</b> vereskunova@gmail.com</p>
-            <p><b>TG:</b> @Darialud</p>
+            <p>
+              <b>Опыт:</b> 4DEV.tech · Crypto Orien.AI · Должник прав
+            </p>
+            <p>
+              <b>Стек:</b> Figma · Дизайн-системы · UX-исследования · Прототипирование
+            </p>
+            <p>
+              <b>Email:</b> vereskunova@gmail.com
+            </p>
+            <p>
+              <b>TG:</b> @Darialud
+            </p>
             <p className="pt-2 italic">Полный CV доступен по запросу.</p>
           </div>
         </div>
-        <a href="mailto:vereskunova@gmail.com?subject=CV request" className="block text-center py-3 rounded-lg bg-ink text-paper hover:bg-coral transition-colors">
+        <a
+          href="mailto:vereskunova@gmail.com?subject=CV request"
+          className="block text-center py-3 rounded-lg bg-ink text-paper hover:bg-coral transition-colors"
+        >
           Запросить полный PDF →
         </a>
       </div>
@@ -1106,7 +1310,10 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
             <p className="text-[13px] text-ink/50 mt-0.5">6 фото · 2025</p>
           </div>
           <div className="size-9 rounded-full bg-white/80 backdrop-blur grid place-items-center text-ink/70 shadow-sm">
-            <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="7" />
+              <path d="m20 20-3.5-3.5" />
+            </svg>
           </div>
         </div>
         {/* Squircle grid */}
@@ -1129,16 +1336,26 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
               className="relative overflow-hidden rounded-[22px] aspect-square cursor-pointer group"
               style={{ boxShadow: "0 1px 2px rgba(0,0,0,0.06)" }}
             >
-              <img src={p.src} alt={p.cap} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <img
+                src={p.src}
+                alt={p.cap}
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
               <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <figcaption className="absolute bottom-2 left-3 text-white text-[12px] font-medium opacity-0 group-hover:opacity-100 transition-opacity drop-shadow">{p.cap}</figcaption>
+              <figcaption className="absolute bottom-2 left-3 text-white text-[12px] font-medium opacity-0 group-hover:opacity-100 transition-opacity drop-shadow">
+                {p.cap}
+              </figcaption>
             </motion.figure>
           ))}
         </div>
         {/* iOS tab bar */}
         <div className="mx-3 mb-3 rounded-2xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-sm px-2 py-2 flex justify-around text-[10px] text-ink/60">
-          {["Библиотека","Для вас","Альбомы","Поиск"].map((t,i) => (
-            <div key={t} className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl ${i===0?"text-coral":""}`}>
+          {["Библиотека", "Для вас", "Альбомы", "Поиск"].map((t, i) => (
+            <div
+              key={t}
+              className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl ${i === 0 ? "text-coral" : ""}`}
+            >
               <div className="w-4 h-4 rounded-sm bg-current opacity-70" />
               <span>{t}</span>
             </div>
@@ -1149,8 +1366,14 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
   },
 };
 
-interface CaseSection { h: string; p: string }
-interface GalleryItem { src: string; cap: string }
+interface CaseSection {
+  h: string;
+  p: string;
+}
+interface GalleryItem {
+  src: string;
+  cap: string;
+}
 
 function FourDevCase() {
   const cap = "text-ink/60 font-medium text-gray-500 font-sans text-center text-sm";
@@ -1159,7 +1382,6 @@ function FourDevCase() {
 
   return (
     <TypoScope className="space-y-6">
-
       {/* Cover image first */}
       <motion.div
         initial={{ opacity: 0, scale: 0.98 }}
@@ -1184,10 +1406,14 @@ function FourDevCase() {
       <div>
         <h4 className={h4}>Контекст и задачи</h4>
         <p className="leading-relaxed text-ink/80 text-base">
-          4DEV — это IT-экосистема для автоматизации девелопмента, которая помогает застройщикам, банкам и ритейлерам управлять продажами недвижимости. Платформа уже интегрирована с 35 внешними сервисами и насчитывает 65 клиентов по всей России, экономя им свыше 1 млн рублей на автоматизации.
+          4DEV — это IT-экосистема для автоматизации девелопмента, которая помогает застройщикам, банкам и ритейлерам
+          управлять продажами недвижимости. Платформа уже интегрирована с 35 внешними сервисами и насчитывает 65
+          клиентов по всей России, экономя им свыше 1 млн рублей на автоматизации.
         </p>
         <p className="mt-3 text-sm leading-relaxed italic text-ink/70 border-l-2 border-coral pl-3">
-          Продукт работает в сложной правовой среде: любая сделка с недвижимостью требует проверок со стороны банков и Росреестра, что создаёт естественные паузы и риски срывов. Именно в этих точках возникает напряжение у пользователей — как у профессиональных менеджеров отдела продаж, так и у конечных клиентов-покупателей.
+          Продукт работает в сложной правовой среде: любая сделка с недвижимостью требует проверок со стороны банков и
+          Росреестра, что создаёт естественные паузы и риски срывов. Именно в этих точках возникает напряжение у
+          пользователей — как у профессиональных менеджеров отдела продаж, так и у конечных клиентов-покупателей.
         </p>
       </div>
 
@@ -1250,20 +1476,38 @@ function FourDevCase() {
       <div>
         <h4 className={h4}>Ключевые решения</h4>
         <ul className="space-y-1.5 text-sm text-ink/80">
-          <li className="flex gap-2"><span className="text-coral">→</span>Цветной статус как основной якорь</li>
-          <li className="flex gap-2"><span className="text-coral">→</span>Показ только операционно важных данных</li>
-          <li className="flex gap-2"><span className="text-coral">→</span>Быстрые действия внутри карточки</li>
-          <li className="flex gap-2"><span className="text-coral">→</span>Сортировка и фильтрация без перестройки интерфейса</li>
+          <li className="flex gap-2">
+            <span className="text-coral">→</span>Цветной статус как основной якорь
+          </li>
+          <li className="flex gap-2">
+            <span className="text-coral">→</span>Показ только операционно важных данных
+          </li>
+          <li className="flex gap-2">
+            <span className="text-coral">→</span>Быстрые действия внутри карточки
+          </li>
+          <li className="flex gap-2">
+            <span className="text-coral">→</span>Сортировка и фильтрация без перестройки интерфейса
+          </li>
         </ul>
       </div>
 
       <div className="p-4 rounded-lg bg-emerald-50 border border-emerald-200">
         <h4 className="font-mono text-xs uppercase tracking-widest text-emerald-800 mb-2">★ Результат</h4>
         <ul className="space-y-1.5 text-sm text-emerald-950">
-          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Просроченные заявки сократились на <b>11%</b></li>
-          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Среднее время реакции снизилось с 3,2 дней до <b>1,9 дней</b></li>
-          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Руководители тратят на контроль статусов на <b>15% меньше времени</b></li>
-          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Удовлетворённость внутренних пользователей выросла с 6,5 до <b>8,4/10</b></li>
+          <li className="flex gap-2">
+            <span className="text-emerald-600">✓</span>Просроченные заявки сократились на <b>11%</b>
+          </li>
+          <li className="flex gap-2">
+            <span className="text-emerald-600">✓</span>Среднее время реакции снизилось с 3,2 дней до <b>1,9 дней</b>
+          </li>
+          <li className="flex gap-2">
+            <span className="text-emerald-600">✓</span>Руководители тратят на контроль статусов на{" "}
+            <b>15% меньше времени</b>
+          </li>
+          <li className="flex gap-2">
+            <span className="text-emerald-600">✓</span>Удовлетворённость внутренних пользователей выросла с 6,5 до{" "}
+            <b>8,4/10</b>
+          </li>
         </ul>
       </div>
 
@@ -1286,20 +1530,36 @@ function FourDevCase() {
       <div>
         <h4 className={h4}>Ключевые решения</h4>
         <ul className="space-y-1.5 text-sm text-ink/80">
-          <li className="flex gap-2"><span className="text-coral">→</span>Цветовая система статусов</li>
-          <li className="flex gap-2"><span className="text-coral">→</span>Фильтрация до взаимодействия (площадь, комнаты)</li>
-          <li className="flex gap-2"><span className="text-coral">→</span>Модальное окно без потери контекста</li>
-          <li className="flex gap-2"><span className="text-coral">→</span>Акцент на цене, статусе и площади</li>
+          <li className="flex gap-2">
+            <span className="text-coral">→</span>Цветовая система статусов
+          </li>
+          <li className="flex gap-2">
+            <span className="text-coral">→</span>Фильтрация до взаимодействия (площадь, комнаты)
+          </li>
+          <li className="flex gap-2">
+            <span className="text-coral">→</span>Модальное окно без потери контекста
+          </li>
+          <li className="flex gap-2">
+            <span className="text-coral">→</span>Акцент на цене, статусе и площади
+          </li>
         </ul>
       </div>
 
       <div className="p-4 rounded-lg bg-emerald-50 border border-emerald-200">
         <h4 className="font-mono text-xs uppercase tracking-widest text-emerald-800 mb-2">★ Результат</h4>
         <ul className="space-y-1.5 text-sm text-emerald-950">
-          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Время подбора сократилось с 7–10 минут до <b>4 минут</b></li>
-          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Ошибки при бронировании снизились с 12% до <b>5,5%</b></li>
-          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Количество кликов до бронирования уменьшилось на <b>6%</b></li>
-          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Увеличение скорости обработки лида на <b>15%</b></li>
+          <li className="flex gap-2">
+            <span className="text-emerald-600">✓</span>Время подбора сократилось с 7–10 минут до <b>4 минут</b>
+          </li>
+          <li className="flex gap-2">
+            <span className="text-emerald-600">✓</span>Ошибки при бронировании снизились с 12% до <b>5,5%</b>
+          </li>
+          <li className="flex gap-2">
+            <span className="text-emerald-600">✓</span>Количество кликов до бронирования уменьшилось на <b>6%</b>
+          </li>
+          <li className="flex gap-2">
+            <span className="text-emerald-600">✓</span>Увеличение скорости обработки лида на <b>15%</b>
+          </li>
         </ul>
       </div>
 
@@ -1307,20 +1567,25 @@ function FourDevCase() {
       <div className="space-y-3 pt-2 border-t border-ink/10">
         <h3 className="font-display text-2xl">Вывод</h3>
         <p className="leading-relaxed text-ink/80 text-base">
-          После внедрения система стала основным рабочим инструментом для отделов продаж и эксплуатации. Время подбора квартиры сократилось более чем в два раза — с 7–10 минут до 4 минут, что напрямую повлияло на скорость обработки входящих лидов и позволило увеличить операционную эффективность отдела на 15%.
+          После внедрения система стала основным рабочим инструментом для отделов продаж и эксплуатации. Время подбора
+          квартиры сократилось более чем в два раза — с 7–10 минут до 4 минут, что напрямую повлияло на скорость
+          обработки входящих лидов и позволило увеличить операционную эффективность отдела на 15%.
         </p>
         <p className="leading-relaxed text-ink/80 text-base">
-          Количество ошибок при бронировании снизилось с 12% до 5,5%, что уменьшило внутренние потери времени и снизило нагрузку на административные процессы. В блоке гарантийных заявок просрочки сократились на 11%, а среднее время реакции уменьшилось почти вдвое — с 3,2 до 1,9 дней.
+          Количество ошибок при бронировании снизилось с 12% до 5,5%, что уменьшило внутренние потери времени и снизило
+          нагрузку на административные процессы. В блоке гарантийных заявок просрочки сократились на 11%, а среднее
+          время реакции уменьшилось почти вдвое — с 3,2 до 1,9 дней.
         </p>
         <p className="leading-relaxed text-ink/80 text-base">
-          Для руководителей система стала инструментом прозрачного контроля: время на мониторинг статусов сократилось на 45%, а субъективная оценка удобства работы выросла с 6,8 до 8,4 из 10.
+          Для руководителей система стала инструментом прозрачного контроля: время на мониторинг статусов сократилось на
+          45%, а субъективная оценка удобства работы выросла с 6,8 до 8,4 из 10.
         </p>
         <p className="leading-relaxed text-ink/80 text-base">
-          Интерфейс начал влиять на ключевые бизнес-метрики: скорость операций, количество ошибок, нагрузку на административные процессы и удовлетворённость пользователей.
+          Интерфейс начал влиять на ключевые бизнес-метрики: скорость операций, количество ошибок, нагрузку на
+          административные процессы и удовлетворённость пользователей.
         </p>
       </div>
     </TypoScope>
-
   );
 }
 
@@ -1329,8 +1594,7 @@ function OrienCase() {
   const fullImg = "w-full rounded-lg border border-ink/10 block";
   return (
     <TypoScope className="space-y-6">
-
-      <div className="px-[20px]">
+      <div className="px-[12px]">
         <motion.img
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -1353,16 +1617,24 @@ function OrienCase() {
       <div>
         <h4 className={h4}>КОНТЕКСТ И ЗАДАЧИ</h4>
         <p className="leading-relaxed text-ink/80 text-base">
-          Crypto Orien.AI — мобильный криптокошелёк ранней стадии, созданный в условиях высокой конкуренции и низкого пользовательского доверия к новым Web3-продуктам. Основная аудитория — пользователи, уже знакомые с криптовалютой, но не удовлетворённые сложностью и перегруженностью существующих решений.
+          Crypto Orien.AI — мобильный криптокошелёк ранней стадии, созданный в условиях высокой конкуренции и низкого
+          пользовательского доверия к новым Web3-продуктам. Основная аудитория — пользователи, уже знакомые с
+          криптовалютой, но не удовлетворённые сложностью и перегруженностью существующих решений.
         </p>
       </div>
 
       <div>
         <h4 className={h4}>ПРОБЛЕМЫ</h4>
         <ul className="space-y-1.5 text-sm text-ink/80">
-          <li className="flex gap-2"><span className="text-coral">→</span>Пользователи останавливались на этапе создания кошелька</li>
-          <li className="flex gap-2"><span className="text-coral">→</span>Страх юзеров подтверждать операции</li>
-          <li className="flex gap-2"><span className="text-coral">→</span>Мало пользователей доходили до целевых действий</li>
+          <li className="flex gap-2">
+            <span className="text-coral">→</span>Пользователи останавливались на этапе создания кошелька
+          </li>
+          <li className="flex gap-2">
+            <span className="text-coral">→</span>Страх юзеров подтверждать операции
+          </li>
+          <li className="flex gap-2">
+            <span className="text-coral">→</span>Мало пользователей доходили до целевых действий
+          </li>
         </ul>
       </div>
 
@@ -1384,9 +1656,17 @@ function OrienCase() {
       <div>
         <h4 className={h4}>МОЯ РОЛЬ</h4>
         <ul className="space-y-1.5 text-sm text-ink/80">
-          <li>Провела бенчмаркинг: изучила самые популярные приложения отрасли с похожими фичами, выявила их сильные и слабые стороны;</li>
-          <li>Детально разобрала путь пользователя — от регистрации до первой реальной операции с деньгами. Было важно понять не только позитивные сценарии, но и все моменты, где что-то может пойти не так.</li>
-          <li>Спроектировала user flow, рассматривала разные роли, точки принятия решений, системные события и возвраты.</li>
+          <li>
+            Провела бенчмаркинг: изучила самые популярные приложения отрасли с похожими фичами, выявила их сильные и
+            слабые стороны;
+          </li>
+          <li>
+            Детально разобрала путь пользователя — от регистрации до первой реальной операции с деньгами. Было важно
+            понять не только позитивные сценарии, но и все моменты, где что-то может пойти не так.
+          </li>
+          <li>
+            Спроектировала user flow, рассматривала разные роли, точки принятия решений, системные события и возвраты.
+          </li>
           <li>Разработала систему статусов и состояний;</li>
           <li>Создала масштабируемый UI-кит.</li>
         </ul>
@@ -1408,7 +1688,6 @@ function OrienCase() {
         />
       </div>
 
-
       <div className="px-[20px]">
         <motion.img
           initial={{ opacity: 0, y: 16 }}
@@ -1424,12 +1703,19 @@ function OrienCase() {
       <div>
         <h4 className={h4}>ТЕМЫ И СОСТОЯНИЯ</h4>
         <p className="leading-relaxed text-ink/80 text-base">
-          Тёмная тема стала основной — она лучше подходит для работы с финансовыми данными и длительного использования. Все экраны я сразу проектировала с расчётом на:
+          Тёмная тема стала основной — она лучше подходит для работы с финансовыми данными и длительного использования.
+          Все экраны я сразу проектировала с расчётом на:
         </p>
         <ul className="mt-2 space-y-1.5 text-sm text-ink/80">
-          <li className="flex gap-2"><span className="text-coral">→</span>перевод цветов и состояний в дизайн-токены;</li>
-          <li className="flex gap-2"><span className="text-coral">→</span>использование variables для тем;</li>
-          <li className="flex gap-2"><span className="text-coral">→</span>дальнейшее масштабирование в дизайн-систему.</li>
+          <li className="flex gap-2">
+            <span className="text-coral">→</span>перевод цветов и состояний в дизайн-токены;
+          </li>
+          <li className="flex gap-2">
+            <span className="text-coral">→</span>использование variables для тем;
+          </li>
+          <li className="flex gap-2">
+            <span className="text-coral">→</span>дальнейшее масштабирование в дизайн-систему.
+          </li>
         </ul>
       </div>
 
@@ -1472,21 +1758,41 @@ function OrienCase() {
       <div className="p-4 rounded-lg bg-emerald-50 border border-emerald-200">
         <h4 className="font-mono text-xs uppercase tracking-widest text-emerald-800 mb-2">★ РЕЗУЛЬТАТЫ</h4>
         <ul className="space-y-1.5 text-sm text-emerald-950">
-          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Спроектирован end-to-end путь пользователя с прозрачными статусами операций, учитывающий ошибки, задержки и проверки.</li>
-          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Внедрена единая система статусов и UI-kit, готовая к масштабированию новых функций и ролей.</li>
-          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Интерфейс снижает неопределённость и когнитивную нагрузку, повышая доверие к финансовым операциям.</li>
-          <li className="flex gap-2"><span className="text-emerald-600">✓</span>Подготовлена архитектура для последующего роста конверсии и уменьшения drop-off при запуске продукта с нуля.</li>
+          <li className="flex gap-2">
+            <span className="text-emerald-600">✓</span>Спроектирован end-to-end путь пользователя с прозрачными
+            статусами операций, учитывающий ошибки, задержки и проверки.
+          </li>
+          <li className="flex gap-2">
+            <span className="text-emerald-600">✓</span>Внедрена единая система статусов и UI-kit, готовая к
+            масштабированию новых функций и ролей.
+          </li>
+          <li className="flex gap-2">
+            <span className="text-emerald-600">✓</span>Интерфейс снижает неопределённость и когнитивную нагрузку,
+            повышая доверие к финансовым операциям.
+          </li>
+          <li className="flex gap-2">
+            <span className="text-emerald-600">✓</span>Подготовлена архитектура для последующего роста конверсии и
+            уменьшения drop-off при запуске продукта с нуля.
+          </li>
         </ul>
       </div>
     </TypoScope>
-
   );
 }
 
-
-
-
-function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaption, problems, did, gallery = [], results }: {
+function CaseStudy({
+  cover,
+  tag,
+  period,
+  lead,
+  sections = [],
+  image,
+  imageCaption,
+  problems,
+  did,
+  gallery = [],
+  results,
+}: {
   cover?: string;
   tag: string;
   period: string;
@@ -1501,7 +1807,6 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
 }) {
   return (
     <TypoScope className="space-y-6">
-
       {cover && (
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
@@ -1536,7 +1841,11 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
             loading="lazy"
             className="w-full rounded-lg border border-ink/10"
           />
-          {imageCaption && <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-center text-sm">{imageCaption}</figcaption>}
+          {imageCaption && (
+            <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-center text-sm">
+              {imageCaption}
+            </figcaption>
+          )}
         </figure>
       )}
 
@@ -1544,7 +1853,12 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
         <div className="p-4 rounded-lg bg-note/60 border-l-4 border-coral">
           <h4 className="font-mono text-xs uppercase tracking-widest text-ink/70 mb-2">⚠️ Проблемы</h4>
           <ul className="space-y-1.5 text-sm">
-            {problems.map((p, i) => <li key={i} className="flex gap-2"><span className="text-ink/40">·</span>{p}</li>)}
+            {problems.map((p, i) => (
+              <li key={i} className="flex gap-2">
+                <span className="text-ink/40">·</span>
+                {p}
+              </li>
+            ))}
           </ul>
         </div>
       )}
@@ -1552,7 +1866,12 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
       <div>
         <h4 className="font-mono text-xs uppercase tracking-widest text-ink/60 mb-2">Моя роль</h4>
         <ul className="space-y-1.5 text-sm">
-          {did.map((d, i) => <li key={i} className="flex gap-2"><span className="text-coral">→</span>{d}</li>)}
+          {did.map((d, i) => (
+            <li key={i} className="flex gap-2">
+              <span className="text-coral">→</span>
+              {d}
+            </li>
+          ))}
         </ul>
       </div>
 
@@ -1569,7 +1888,9 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
                 loading="lazy"
                 className="w-full rounded-lg border border-ink/10"
               />
-              <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-center text-sm">{g.cap}</figcaption>
+              <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-center text-sm">
+                {g.cap}
+              </figcaption>
             </figure>
           ))}
         </div>
@@ -1578,10 +1899,14 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
       <div className="p-4 rounded-lg bg-emerald-50 border border-emerald-200">
         <h4 className="font-mono text-xs uppercase tracking-widest text-emerald-800 mb-2">★ Результат</h4>
         <ul className="space-y-1.5 text-sm text-emerald-950">
-          {results.map((r, i) => <li key={i} className="flex gap-2"><span className="text-emerald-600">✓</span>{r}</li>)}
+          {results.map((r, i) => (
+            <li key={i} className="flex gap-2">
+              <span className="text-emerald-600">✓</span>
+              {r}
+            </li>
+          ))}
         </ul>
       </div>
     </TypoScope>
-
   );
 }
