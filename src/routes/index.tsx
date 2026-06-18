@@ -388,31 +388,27 @@ function Desktop() {
         )}
       </div>
 
-      {/* Desktop windows overlay layer */}
-      {!phoneMode && (
-        <>
-          {open.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              className="fixed inset-0 bg-black/20 backdrop-blur-[2px] z-[290] pointer-events-none"
-            />
-          )}
-          <AnimatePresence>
-            {open.map((id, i) => (
-              <Window
-                key={id}
-                id={id}
-                zIndex={300 + i + (focus === id ? 20 : 0)}
-                onClose={() => closeWindow(id)}
-                onFocus={() => setFocus(id)}
-              />
-            ))}
-          </AnimatePresence>
-        </>
+      {/* Windows overlay layer — fixed on top of everything, both mobile & desktop */}
+      {!phoneMode && open.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          className="fixed inset-0 bg-black/20 backdrop-blur-[2px] z-[290] pointer-events-none"
+        />
       )}
+      <AnimatePresence>
+        {open.map((id, i) => (
+          <Window
+            key={id}
+            id={id}
+            zIndex={(phoneMode ? 400 : 300) + i + (focus === id ? 20 : 0)}
+            onClose={() => closeWindow(id)}
+            onFocus={() => setFocus(id)}
+          />
+        ))}
+      </AnimatePresence>
     </div>
   );
 }
