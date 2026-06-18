@@ -597,15 +597,15 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3 }}
-          className="self-end -mt-3 rounded-2xl p-3 bg-white/55 border border-white/70 backdrop-blur-xl shadow-md"
+          className="self-end -mt-3 rounded-2xl p-3 bg-white/85 border border-white/80 backdrop-blur-xl shadow-md"
           style={{ minWidth: 130 }}
         >
-          <div className="flex items-center gap-1.5 text-ink/70 text-[10px] font-medium uppercase tracking-wider">
-            <span className="grid place-items-center size-4 rounded-full bg-coral/90 text-white text-[8px]">📍</span>
+          <div className="flex items-center gap-1.5 text-ink/80 text-[10px] font-semibold uppercase tracking-wider">
+            <span className="grid place-items-center size-4 rounded-full bg-coral text-white text-[8px]">📍</span>
             Локация
           </div>
           <div className="mt-1 font-display text-[18px] leading-none font-semibold text-ink">Москва</div>
-          <div className="mt-1 text-[10px] text-ink/60 tabular-nums">{time} · MSK</div>
+          <div className="mt-1 text-[10px] text-ink/70 tabular-nums">{time} · MSK</div>
         </motion.div>
 
         {/* Folder grid — desktop blue folders, no emblems */}
