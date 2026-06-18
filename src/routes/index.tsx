@@ -1326,19 +1326,21 @@ function FourDevCase() {
 
 function OrienCase() {
   const h4 = "font-mono text-xs uppercase tracking-widest text-ink/60 mb-2 font-semibold";
-  const fullImg = "w-[calc(100%-2rem)] rounded-lg border border-ink/10 mx-auto block";
+  const fullImg = "w-full rounded-lg border border-ink/10 block";
   return (
     <TypoScope className="space-y-6">
 
-      <motion.img
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        src={cryptoCover}
-        alt="Crypto Orien.AI — обложка"
-        loading="lazy"
-        className={fullImg}
-      />
+      <div className="px-[20px]">
+        <motion.img
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          src={cryptoCover}
+          alt="Crypto Orien.AI — обложка"
+          loading="lazy"
+          className={fullImg}
+        />
+      </div>
 
       <div className="flex flex-wrap gap-2 text-xs font-mono">
         <span className="px-2 py-1 rounded bg-coral/15 text-coral">Криптокошелёк · part-time</span>
@@ -1394,26 +1396,30 @@ function OrienCase() {
         Визуально продукт строился вокруг спокойствия и фокуса.
       </p>
 
-      <motion.img
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        src={cryptoBM}
-        alt="Бенчмаркинг hot wallets"
-        loading="lazy"
-        className={fullImg}
-      />
+      <div className="px-[20px]">
+        <motion.img
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          src={cryptoBM}
+          alt="Бенчмаркинг hot wallets"
+          loading="lazy"
+          className={fullImg}
+        />
+      </div>
 
 
-      <motion.img
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        src={cryptoMaket}
-        alt="Ключевые экраны приложения"
-        loading="lazy"
-        className={fullImg}
-      />
+      <div className="px-[20px]">
+        <motion.img
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          src={cryptoMaket}
+          alt="Ключевые экраны приложения"
+          loading="lazy"
+          className={fullImg}
+        />
+      </div>
 
       <div>
         <h4 className={h4}>ТЕМЫ И СОСТОЯНИЯ</h4>
@@ -1427,35 +1433,41 @@ function OrienCase() {
         </ul>
       </div>
 
-      <motion.img
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        src={cryptoThemes}
-        alt="Светлая и тёмная темы"
-        loading="lazy"
-        className={fullImg}
-      />
+      <div className="px-[20px]">
+        <motion.img
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          src={cryptoThemes}
+          alt="Светлая и тёмная темы"
+          loading="lazy"
+          className={fullImg}
+        />
+      </div>
 
-      <motion.img
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        src={cryptoColors}
-        alt="Дизайн-токены и примитивы"
-        loading="lazy"
-        className={fullImg}
-      />
+      <div className="px-[20px]">
+        <motion.img
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          src={cryptoColors}
+          alt="Дизайн-токены и примитивы"
+          loading="lazy"
+          className={fullImg}
+        />
+      </div>
 
-      <motion.img
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        src={cryptoDetails}
-        alt="Детали интерфейса"
-        loading="lazy"
-        className={fullImg}
-      />
+      <div className="px-[20px]">
+        <motion.img
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          src={cryptoDetails}
+          alt="Детали интерфейса"
+          loading="lazy"
+          className={fullImg}
+        />
+      </div>
 
       <div className="p-4 rounded-lg bg-emerald-50 border border-emerald-200">
         <h4 className="font-mono text-xs uppercase tracking-widest text-emerald-800 mb-2">★ РЕЗУЛЬТАТЫ</h4>
