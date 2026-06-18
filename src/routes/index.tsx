@@ -225,12 +225,12 @@ function Desktop() {
     setPositions((prev) => ({ ...prev, [id]: p }));
 
   return (
-    <div className={`fixed inset-0 overflow-hidden ${phoneMode ? "flex items-center justify-center bg-zinc-950" : "block"}`}>
+    <div className={`fixed inset-0 overflow-hidden ${phoneMode ? "block" : "block"}`}>
       <div
         ref={desktopRef}
         className={`relative overflow-hidden font-sans text-ink select-none ${
           phoneMode
-            ? "rounded-[44px] ring-[10px] ring-black shadow-[0_30px_80px_rgba(0,0,0,0.6)]"
+            ? "w-full h-full"
             : "w-full h-full"
         }`}
         style={
@@ -239,8 +239,8 @@ function Desktop() {
                 backgroundImage: `url(${wallpaper})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
-                width: "min(92vw, calc(92vh * 9 / 19.5))",
-                aspectRatio: "9 / 19.5",
+                width: "100%",
+                height: "100%",
               }
             : {
                 backgroundImage: `url(${desktopBgAsset.url})`,
