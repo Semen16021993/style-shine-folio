@@ -248,7 +248,20 @@ function Desktop() {
         }
       >
         {phoneMode ? (
-          <MobileHome onOpen={openWindow} />
+          <>
+            <MobileHome onOpen={openWindow} />
+            <AnimatePresence>
+              {open.map((id, i) => (
+                <Window
+                  key={id}
+                  id={id}
+                  zIndex={70 + i + (focus === id ? 20 : 0)}
+                  onClose={() => closeWindow(id)}
+                  onFocus={() => setFocus(id)}
+                />
+              ))}
+            </AnimatePresence>
+          </>
         ) : (
           <>
             <MenuBar focused={focus} />
