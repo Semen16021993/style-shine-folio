@@ -959,8 +959,16 @@ function IconGraphic({
     );
   }
   if (icon === "pdf") {
+    const pdfStyle = size ? { width: (size * 28) / 36, height: (size * 32) / 36 } : undefined;
     return (
-      <div className="w-28 h-32 bg-white shadow-xl rounded-md relative drop-shadow-xl overflow-hidden">
+      <div
+        className={
+          size
+            ? "bg-white shadow-xl rounded-md relative drop-shadow-xl overflow-hidden"
+            : "w-28 h-32 bg-white shadow-xl rounded-md relative drop-shadow-xl overflow-hidden"
+        }
+        style={pdfStyle}
+      >
         <div
           className="absolute top-0 right-0 w-8 h-8 bg-ink/10"
           style={{ clipPath: "polygon(0 0, 100% 100%, 100% 0)" }}
