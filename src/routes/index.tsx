@@ -317,20 +317,7 @@ function Desktop() {
         }
       >
         {phoneMode ? (
-          <>
-            <MobileHome onOpen={openWindow} />
-            <AnimatePresence>
-              {open.map((id, i) => (
-                <Window
-                  key={id}
-                  id={id}
-                  zIndex={70 + i + (focus === id ? 20 : 0)}
-                  onClose={() => closeWindow(id)}
-                  onFocus={() => setFocus(id)}
-                />
-              ))}
-            </AnimatePresence>
-          </>
+          <MobileHome onOpen={openWindow} />
         ) : (
           <>
             <MenuBar focused={focus} />
@@ -401,31 +388,27 @@ function Desktop() {
         )}
       </div>
 
-      {/* Desktop windows overlay layer */}
-      {!phoneMode && (
-        <>
-          {open.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              className="fixed inset-0 bg-black/20 backdrop-blur-[2px] z-[290] pointer-events-none"
-            />
-          )}
-          <AnimatePresence>
-            {open.map((id, i) => (
-              <Window
-                key={id}
-                id={id}
-                zIndex={300 + i + (focus === id ? 20 : 0)}
-                onClose={() => closeWindow(id)}
-                onFocus={() => setFocus(id)}
-              />
-            ))}
-          </AnimatePresence>
-        </>
+      {/* Windows overlay layer — fixed on top of everything, both mobile & desktop */}
+      {!phoneMode && open.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          className="fixed inset-0 bg-black/20 backdrop-blur-[2px] z-[290] pointer-events-none"
+        />
       )}
+      <AnimatePresence>
+        {open.map((id, i) => (
+          <Window
+            key={id}
+            id={id}
+            zIndex={(phoneMode ? 400 : 300) + i + (focus === id ? 20 : 0)}
+            onClose={() => closeWindow(id)}
+            onFocus={() => setFocus(id)}
+          />
+        ))}
+      </AnimatePresence>
     </div>
   );
 }
@@ -578,10 +561,10 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
           <h1 className="font-display text-[20px] leading-tight font-semibold">
             Привет! <span className="text-coral">🌸</span>
           </h1>
-          <p className="mt-1.5 text-[12px] leading-snug">
+          <p className="mt-2 text-[16px] leading-snug">
             Меня зовут <b>Дарья</b>, я&nbsp;проектирую цифровые продукты, которые решают реальные бизнес-задачи.
           </p>
-          <p className="mt-1.5 text-[12px]">
+          <p className="mt-2 text-[16px] leading-snug">
             <a href="https://t.me/Darialud" target="_blank" rel="noreferrer" className="underline">
               @Darialud
             </a>{" "}
@@ -627,15 +610,15 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
               }}
               className="flex flex-col items-center gap-0.5"
             >
-              <div className="w-[100px] h-[88px] grid place-items-center">
+              <div className="w-[110px] h-[80px] grid place-items-center overflow-visible">
                 {f.iconKind === "figma" ? (
-                  <img src={iconFigma} alt="" className="w-[80px] h-[80px] object-contain drop-shadow-xl" />
+                  <img src={iconFigma} alt="" className="w-[72px] h-[72px] object-contain drop-shadow-xl" />
                 ) : f.id === "gallery" ? (
-                  <img src={iconPhotos} alt="" className="w-[80px] h-[80px] object-contain drop-shadow-xl" />
+                  <img src={iconPhotos} alt="" className="w-[72px] h-[72px] object-contain drop-shadow-xl" />
                 ) : f.id === "cv" ? (
-                  <div className="scale-[0.62] origin-center"><IconGraphic icon="pdf" /></div>
+                  <IconGraphic icon="pdf" size={72} />
                 ) : (
-                  <div className="scale-[0.62] origin-center"><IconGraphic icon="folder" color={FOLDER_BLUE} /></div>
+                  <IconGraphic icon="folder" color={FOLDER_BLUE} size={88} />
                 )}
               </div>
 
@@ -660,7 +643,6 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
           {[
             { src: sysIcon1, label: "Телефон", href: "tel:+79109076181" },
             { src: sysIcon3, label: "Почта", href: "mailto:vereskunovadaria@gmail.com" },
-            { src: sysIcon2, label: "Фото", action: "gallery" as const },
             { src: sysAqua, label: "Telegram", href: "https://t.me/DariaIud" },
           ].map((d, i) => {
             const inner = (
@@ -671,21 +653,6 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
                 draggable={false}
               />
             );
-            if ("action" in d && d.action === "gallery") {
-              return (
-                <motion.button
-                  key={i}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => {
-                    playTap();
-                    onOpen("gallery");
-                  }}
-                  aria-label={d.label}
-                >
-                  {inner}
-                </motion.button>
-              );
-            }
             return (
               <motion.a
                 key={i}
@@ -897,13 +864,26 @@ function DesktopIcon({
   );
 }
 
-function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: string; emblem?: string }) {
+function IconGraphic({
+  icon,
+  color,
+  size,
+}: {
+  icon: DesktopItem["icon"];
+  color?: string;
+  emblem?: string;
+  size?: number;
+}) {
+  const sizeStyle = size ? { width: size, height: (size * 128) / 144 } : undefined;
   if (icon === "folder") {
     const base = color || "#9CC4E4";
     // SVG fragment ids can't contain "#" — strip it so url(#fb-XXXXXX) parses correctly
     const slug = base.replace(/[^a-zA-Z0-9]/g, "");
     return (
-      <div className="relative w-36 h-32 group/folder">
+      <div
+        className={size ? "relative group/folder" : "relative w-36 h-32 group/folder"}
+        style={sizeStyle}
+      >
         <svg
           viewBox="0 0 144 128"
           className="w-full h-full"
@@ -979,8 +959,16 @@ function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: strin
     );
   }
   if (icon === "pdf") {
+    const pdfStyle = size ? { width: (size * 28) / 36, height: (size * 32) / 36 } : undefined;
     return (
-      <div className="w-28 h-32 bg-white shadow-xl rounded-md relative drop-shadow-xl overflow-hidden">
+      <div
+        className={
+          size
+            ? "bg-white shadow-xl rounded-md relative drop-shadow-xl overflow-hidden"
+            : "w-28 h-32 bg-white shadow-xl rounded-md relative drop-shadow-xl overflow-hidden"
+        }
+        style={pdfStyle}
+      >
         <div
           className="absolute top-0 right-0 w-8 h-8 bg-ink/10"
           style={{ clipPath: "polygon(0 0, 100% 100%, 100% 0)" }}
@@ -1039,7 +1027,7 @@ function Window({
         transition={{ type: "spring", stiffness: 320, damping: 34 }}
         onMouseDown={onFocus}
         style={{ zIndex }}
-        className="absolute inset-0 bg-white flex flex-col"
+        className="fixed inset-0 bg-white flex flex-col"
       >
         <div className="h-14 px-3 pt-3 flex items-center gap-2 border-b border-ink/10">
           <button
