@@ -610,15 +610,15 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
               }}
               className="flex flex-col items-center gap-0.5"
             >
-              <div className="w-[100px] h-[88px] grid place-items-center">
+              <div className="w-[110px] h-[80px] grid place-items-center overflow-visible">
                 {f.iconKind === "figma" ? (
-                  <img src={iconFigma} alt="" className="w-[80px] h-[80px] object-contain drop-shadow-xl" />
+                  <img src={iconFigma} alt="" className="w-[72px] h-[72px] object-contain drop-shadow-xl" />
                 ) : f.id === "gallery" ? (
-                  <img src={iconPhotos} alt="" className="w-[80px] h-[80px] object-contain drop-shadow-xl" />
+                  <img src={iconPhotos} alt="" className="w-[72px] h-[72px] object-contain drop-shadow-xl" />
                 ) : f.id === "cv" ? (
-                  <div className="scale-[0.62] origin-center"><IconGraphic icon="pdf" /></div>
+                  <IconGraphic icon="pdf" size={72} />
                 ) : (
-                  <div className="scale-[0.62] origin-center"><IconGraphic icon="folder" color={FOLDER_BLUE} /></div>
+                  <IconGraphic icon="folder" color={FOLDER_BLUE} size={88} />
                 )}
               </div>
 
