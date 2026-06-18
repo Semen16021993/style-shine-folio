@@ -1594,7 +1594,7 @@ function OrienCase() {
   const fullImg = "w-full rounded-lg border border-ink/10 block";
   return (
     <TypoScope className="space-y-6">
-      <div className="px-[12px]">
+      <div className="px-[5px]">
         <motion.img
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
