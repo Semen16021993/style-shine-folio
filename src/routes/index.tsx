@@ -592,10 +592,11 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
         </motion.div>
 
         {/* Folder grid — desktop blue folders, no emblems */}
-        <div className="grid grid-cols-3 gap-x-1 gap-y-1 w-full mt-1">
+        <div className="relative z-[10] grid grid-cols-3 gap-x-1 gap-y-1 w-full mt-1">
           {folders.map((f, i) => (
             <motion.button
               key={f.id}
+              type="button"
               initial={{ opacity: 0, scale: 0.7 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.35 + i * 0.06, type: "spring", stiffness: 220, damping: 18 }}
@@ -608,13 +609,14 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
                 }
                 onOpen(f.id as WindowId);
               }}
-              className="flex flex-col items-center gap-0.5"
+              style={{ touchAction: "manipulation", WebkitTapHighlightColor: "transparent" }}
+              className="relative z-[10] flex flex-col items-center gap-0.5 cursor-pointer select-none"
             >
-              <div className="w-[110px] h-[80px] grid place-items-center overflow-visible">
+              <div className="w-[110px] h-[80px] grid place-items-center overflow-visible pointer-events-none">
                 {f.iconKind === "figma" ? (
-                  <img src={iconFigma} alt="" className="w-[72px] h-[72px] object-contain drop-shadow-xl" />
+                  <img src={iconFigma} alt="" className="w-[72px] h-[72px] object-contain drop-shadow-xl" draggable={false} />
                 ) : f.id === "gallery" ? (
-                  <img src={iconPhotos} alt="" className="w-[72px] h-[72px] object-contain drop-shadow-xl" />
+                  <img src={iconPhotos} alt="" className="w-[72px] h-[72px] object-contain drop-shadow-xl" draggable={false} />
                 ) : f.id === "cv" ? (
                   <IconGraphic icon="pdf" size={72} />
                 ) : (
@@ -622,7 +624,7 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
                 )}
               </div>
 
-              <span className="text-ink text-[11px] font-semibold leading-tight text-center">{f.label}</span>
+              <span className="text-ink text-[11px] font-semibold leading-tight text-center pointer-events-none">{f.label}</span>
             </motion.button>
           ))}
         </div>
