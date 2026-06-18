@@ -643,7 +643,6 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
           {[
             { src: sysIcon1, label: "Телефон", href: "tel:+79109076181" },
             { src: sysIcon3, label: "Почта", href: "mailto:vereskunovadaria@gmail.com" },
-            { src: sysIcon2, label: "Фото", action: "gallery" as const },
             { src: sysAqua, label: "Telegram", href: "https://t.me/DariaIud" },
           ].map((d, i) => {
             const inner = (
@@ -654,21 +653,6 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
                 draggable={false}
               />
             );
-            if ("action" in d && d.action === "gallery") {
-              return (
-                <motion.button
-                  key={i}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => {
-                    playTap();
-                    onOpen("gallery");
-                  }}
-                  aria-label={d.label}
-                >
-                  {inner}
-                </motion.button>
-              );
-            }
             return (
               <motion.a
                 key={i}
