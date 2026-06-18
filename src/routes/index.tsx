@@ -450,11 +450,16 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
     return () => clearInterval(id);
   }, []);
 
-  const folders: { id: WindowId; label: string }[] = [
+  type MobileFolder =
+    | { id: WindowId; label: string; href?: undefined; iconKind?: undefined }
+    | { id: string;   label: string; href: string; iconKind?: "figma" };
+  const folders: MobileFolder[] = [
     { id: "orien",   label: "Crypto" },
     { id: "fourdev", label: "4Dev" },
     { id: "debtor",  label: "Должник" },
     { id: "gallery", label: "Галерея" },
+    { id: "figma",   label: "Figma", href: FIGMA_URL, iconKind: "figma" },
+    { id: "cv",      label: "CV",    href: "https://docs.google.com/document/d/12Lyzo4MLM1DhmpTNTif1u9eAyQeliljbuUQ1dLv_KlE/edit?tab=t.0" },
   ];
 
   return (
