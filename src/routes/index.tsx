@@ -561,10 +561,10 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
           <h1 className="font-display text-[20px] leading-tight font-semibold">
             Привет! <span className="text-coral">🌸</span>
           </h1>
-          <p className="mt-1.5 text-[12px] leading-snug">
+          <p className="mt-2 text-[16px] leading-snug">
             Меня зовут <b>Дарья</b>, я&nbsp;проектирую цифровые продукты, которые решают реальные бизнес-задачи.
           </p>
-          <p className="mt-1.5 text-[12px]">
+          <p className="mt-2 text-[16px] leading-snug">
             <a href="https://t.me/Darialud" target="_blank" rel="noreferrer" className="underline">
               @Darialud
             </a>{" "}
