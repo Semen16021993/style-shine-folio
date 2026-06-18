@@ -225,12 +225,12 @@ function Desktop() {
     setPositions((prev) => ({ ...prev, [id]: p }));
 
   return (
-    <div className={`fixed inset-0 overflow-hidden ${phoneMode ? "flex items-center justify-center bg-zinc-950" : "block"}`}>
+    <div className={`fixed inset-0 overflow-hidden ${phoneMode ? "block" : "block"}`}>
       <div
         ref={desktopRef}
         className={`relative overflow-hidden font-sans text-ink select-none ${
           phoneMode
-            ? "rounded-[44px] ring-[10px] ring-black shadow-[0_30px_80px_rgba(0,0,0,0.6)]"
+            ? "w-full h-full"
             : "w-full h-full"
         }`}
         style={
@@ -239,8 +239,8 @@ function Desktop() {
                 backgroundImage: `url(${wallpaper})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
-                width: "min(92vw, calc(92vh * 9 / 19.5))",
-                aspectRatio: "9 / 19.5",
+                width: "100%",
+                height: "100%",
               }
             : {
                 backgroundImage: `url(${desktopBgAsset.url})`,
@@ -492,21 +492,6 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
 
   return (
     <div className="absolute inset-0 flex flex-col desktop-bg overflow-hidden">
-      {/* Dynamic island */}
-      <div className="pointer-events-none absolute top-2 left-1/2 -translate-x-1/2 w-28 h-7 rounded-full bg-black z-[200]" />
-
-      {/* Status bar */}
-      <div className="relative z-10 flex items-center justify-between px-7 pt-3 text-ink text-[13px] font-semibold tabular-nums">
-        <span>{time}</span>
-        <span className="flex items-center gap-1 text-[11px]">
-          <span>•••</span>
-          <span>5G</span>
-          <span className="ml-1 w-6 h-2.5 rounded-sm border border-ink/70 relative">
-            <span className="absolute inset-0.5 bg-ink rounded-[1px]" />
-          </span>
-        </span>
-      </div>
-
       <div className="relative z-[5] flex-1 flex flex-col px-4 pt-10 pb-4 gap-5">
         {/* Sticky note — desktop style */}
         <motion.div
@@ -924,7 +909,6 @@ function Window({ id, zIndex, onClose, onFocus }: {
         style={{ zIndex }}
         className="absolute inset-0 bg-white flex flex-col"
       >
-        <div className="pointer-events-none absolute top-2 left-1/2 -translate-x-1/2 w-28 h-7 rounded-full bg-black z-[10]" />
         <div className="h-14 px-3 pt-3 flex items-center gap-2 border-b border-ink/10">
           <button onClick={onClose} className="flex items-center gap-1 text-[15px] text-[#007aff] font-medium px-2 py-1 -ml-2 active:opacity-60">
             <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m15 6-6 6 6 6"/></svg>
@@ -936,7 +920,6 @@ function Window({ id, zIndex, onClose, onFocus }: {
         <div className="flex-1 overflow-y-auto overscroll-contain p-5 pb-10">
           {config.body}
         </div>
-        <div className="pointer-events-none absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 rounded-full bg-black/80" />
       </motion.div>
     );
   }
