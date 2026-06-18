@@ -19,7 +19,6 @@ import gallery6 from "@/assets/gallery/photo-6.jpg.asset.json";
 import memoji from "@/assets/memoji.jpg";
 import iconPhotosAsset from "@/assets/icon-photos-new.png.asset.json";
 import iconFigmaAsset from "@/assets/icon-figma-new.png.asset.json";
-import iconGal from "@/assets/icon-gal.svg";
 import mailIconAsset from "@/assets/mail-icon.svg.asset.json";
 const mailIcon = mailIconAsset.url;
 const iconPhotos = iconPhotosAsset.url;
