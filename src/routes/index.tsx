@@ -258,7 +258,7 @@ function Desktop() {
               initial={{ opacity: 0, y: -20, rotate: -3 }}
               animate={{ opacity: 1, y: 0, rotate: -3 }}
               transition={{ delay: 0.3, duration: 0.6 }}
-              className="absolute top-16 left-4 md:left-12 w-[320px] md:w-[400px] p-6 bg-note shadow-2xl"
+              className="absolute top-16 left-4 md:left-12 w-[360px] md:w-[520px] p-5 md:p-6 bg-note shadow-2xl"
               style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.25)" }}
             >
               <h1 className="font-display text-2xl md:text-[34px] leading-tight font-semibold">
