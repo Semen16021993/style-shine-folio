@@ -1390,7 +1390,7 @@ function FourDevCase() {
           transition={{ duration: 0.5 }}
           className="rounded-lg overflow-hidden border border-ink/10 bg-ink/5"
         >
-          <img src={caseFourdev} alt="Дашборд продаж 4DEV" loading="lazy" className="w-full h-auto block" />
+          <img src={caseFourdev} alt="Дашборд продаж 4DEV" className="w-full h-auto block" />
         </motion.div>
       </div>
 
