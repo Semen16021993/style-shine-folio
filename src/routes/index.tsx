@@ -1609,7 +1609,6 @@ function OrienCase() {
           transition={{ duration: 0.5 }}
           src={cryptoCover}
           alt="Crypto Orien.AI — обложка"
-          loading="lazy"
           className={fullImg}
         />
       </div>
