@@ -864,13 +864,26 @@ function DesktopIcon({
   );
 }
 
-function IconGraphic({ icon, color }: { icon: DesktopItem["icon"]; color?: string; emblem?: string }) {
+function IconGraphic({
+  icon,
+  color,
+  size,
+}: {
+  icon: DesktopItem["icon"];
+  color?: string;
+  emblem?: string;
+  size?: number;
+}) {
+  const sizeStyle = size ? { width: size, height: (size * 128) / 144 } : undefined;
   if (icon === "folder") {
     const base = color || "#9CC4E4";
     // SVG fragment ids can't contain "#" — strip it so url(#fb-XXXXXX) parses correctly
     const slug = base.replace(/[^a-zA-Z0-9]/g, "");
     return (
-      <div className="relative w-36 h-32 group/folder">
+      <div
+        className={size ? "relative group/folder" : "relative w-36 h-32 group/folder"}
+        style={sizeStyle}
+      >
         <svg
           viewBox="0 0 144 128"
           className="w-full h-full"
