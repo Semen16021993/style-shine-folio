@@ -332,7 +332,7 @@ function Desktop() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
-              className="fixed inset-0 bg-black/20 backdrop-blur-[2px] z-[65] pointer-events-none"
+              className="fixed inset-0 bg-black/20 backdrop-blur-[2px] z-[290] pointer-events-none"
             />
           )}
           <AnimatePresence>
@@ -340,7 +340,7 @@ function Desktop() {
               <Window
                 key={id}
                 id={id}
-                zIndex={70 + i + (focus === id ? 20 : 0)}
+                zIndex={300 + i + (focus === id ? 20 : 0)}
                 onClose={() => closeWindow(id)}
                 onFocus={() => setFocus(id)}
               />
