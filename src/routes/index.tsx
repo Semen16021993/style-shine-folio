@@ -1823,7 +1823,7 @@ function CaseStudy({
             transition={{ duration: 0.5 }}
             className="rounded-lg overflow-hidden border border-ink/10 bg-ink/5"
           >
-            <img src={cover} alt={lead} loading="lazy" className="w-full h-auto block" />
+            <img src={cover} alt={lead} className="w-full h-auto block" />
           </motion.div>
         </div>
       )}
