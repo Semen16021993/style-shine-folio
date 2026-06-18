@@ -566,22 +566,22 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
 
   return (
     <div className="absolute inset-0 flex flex-col desktop-bg overflow-hidden">
-      <div className="relative z-[5] flex-1 flex flex-col px-4 pt-10 pb-4 gap-5">
+      <div className="relative z-[5] flex-1 flex flex-col px-4 pt-8 pb-3 gap-3">
         {/* Sticky note — desktop style */}
         <motion.div
           initial={{ opacity: 0, y: -10, rotate: -3 }}
           animate={{ opacity: 1, y: 0, rotate: -3 }}
           transition={{ delay: 0.15, duration: 0.5 }}
-          className="self-start w-[88%] p-4 bg-note shadow-2xl"
+          className="self-start w-[88%] p-3 bg-note shadow-2xl"
           style={{ boxShadow: "0 16px 40px rgba(0,0,0,0.20)" }}
         >
-          <h1 className="font-display text-[22px] leading-tight font-semibold">
+          <h1 className="font-display text-[20px] leading-tight font-semibold">
             Привет! <span className="text-coral">🌸</span>
           </h1>
-          <p className="mt-2 text-[12px] leading-snug">
+          <p className="mt-1.5 text-[12px] leading-snug">
             Меня зовут <b>Дарья</b>, я&nbsp;проектирую цифровые продукты, которые решают реальные бизнес-задачи.
           </p>
-          <p className="mt-2 text-[12px]">
+          <p className="mt-1.5 text-[12px]">
             <a href="https://t.me/Darialud" target="_blank" rel="noreferrer" className="underline">
               @Darialud
             </a>{" "}
@@ -597,19 +597,19 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3 }}
-          className="self-end -mt-3 rounded-2xl p-3 bg-white/85 border border-white/80 backdrop-blur-xl shadow-md"
-          style={{ minWidth: 130 }}
+          className="self-end -mt-2 rounded-2xl px-3 py-2 bg-white/85 border border-white/80 backdrop-blur-xl shadow-md"
+          style={{ minWidth: 124 }}
         >
           <div className="flex items-center gap-1.5 text-ink/80 text-[10px] font-semibold uppercase tracking-wider">
             <span className="grid place-items-center size-4 rounded-full bg-coral text-white text-[8px]">📍</span>
             Локация
           </div>
-          <div className="mt-1 font-display text-[18px] leading-none font-semibold text-ink">Москва</div>
-          <div className="mt-1 text-[10px] text-ink/70 tabular-nums">{time} · MSK</div>
+          <div className="mt-0.5 font-display text-[16px] leading-none font-semibold text-ink">Москва</div>
+          <div className="mt-0.5 text-[10px] text-ink/70 tabular-nums">{time} · MSK</div>
         </motion.div>
 
         {/* Folder grid — desktop blue folders, no emblems */}
-        <div className="grid grid-cols-2 gap-x-2 gap-y-3 w-full mt-2">
+        <div className="grid grid-cols-3 gap-x-1 gap-y-1 w-full mt-1">
           {folders.map((f, i) => (
             <motion.button
               key={f.id}
@@ -625,26 +625,26 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
                 }
                 onOpen(f.id as WindowId);
               }}
-              className="flex flex-col items-center gap-1"
+              className="flex flex-col items-center gap-0.5"
             >
-              <div className="w-[144px] h-[128px] origin-top scale-[0.78] grid place-items-center">
+              <div className="w-[100px] h-[88px] grid place-items-center">
                 {f.iconKind === "figma" ? (
-                  <img src={iconFigma} alt="" className="w-[128px] h-[128px] object-contain drop-shadow-xl" />
+                  <img src={iconFigma} alt="" className="w-[80px] h-[80px] object-contain drop-shadow-xl" />
                 ) : f.id === "gallery" ? (
-                  <img src={iconPhotos} alt="" className="w-[128px] h-[128px] object-contain drop-shadow-xl" />
+                  <img src={iconPhotos} alt="" className="w-[80px] h-[80px] object-contain drop-shadow-xl" />
                 ) : f.id === "cv" ? (
-                  <IconGraphic icon="pdf" />
+                  <div className="scale-[0.62] origin-center"><IconGraphic icon="pdf" /></div>
                 ) : (
-                  <IconGraphic icon="folder" color={FOLDER_BLUE} />
+                  <div className="scale-[0.62] origin-center"><IconGraphic icon="folder" color={FOLDER_BLUE} /></div>
                 )}
               </div>
 
-              <span className="text-ink text-[12px] font-semibold leading-tight text-center">{f.label}</span>
+              <span className="text-ink text-[11px] font-semibold leading-tight text-center">{f.label}</span>
             </motion.button>
           ))}
         </div>
 
-        <div className="flex-1" />
+        <div className="flex-1 min-h-0" />
 
         {/* Search pill */}
         <div className="mx-auto px-4 py-1.5 rounded-full bg-white/40 backdrop-blur-xl text-ink text-[13px] flex items-center gap-2 border border-white/60">
