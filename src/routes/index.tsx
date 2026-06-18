@@ -248,7 +248,20 @@ function Desktop() {
         }
       >
         {phoneMode ? (
-          <MobileHome onOpen={openWindow} />
+          <>
+            <MobileHome onOpen={openWindow} />
+            <AnimatePresence>
+              {open.map((id, i) => (
+                <Window
+                  key={id}
+                  id={id}
+                  zIndex={70 + i + (focus === id ? 20 : 0)}
+                  onClose={() => closeWindow(id)}
+                  onFocus={() => setFocus(id)}
+                />
+              ))}
+            </AnimatePresence>
+          </>
         ) : (
           <>
             <MenuBar focused={focus} />
@@ -258,7 +271,7 @@ function Desktop() {
               initial={{ opacity: 0, y: -20, rotate: -3 }}
               animate={{ opacity: 1, y: 0, rotate: -3 }}
               transition={{ delay: 0.3, duration: 0.6 }}
-              className="absolute top-16 left-4 md:left-12 w-[320px] md:w-[400px] p-6 bg-note shadow-2xl"
+              className="absolute top-16 left-4 md:left-12 w-[360px] md:w-[520px] p-5 md:p-6 bg-note shadow-2xl"
               style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.25)" }}
             >
               <h1 className="font-display text-2xl md:text-[34px] leading-tight font-semibold">
@@ -308,20 +321,33 @@ function Desktop() {
             })}
           </>
         )}
-
-      {/* Windows */}
-      <AnimatePresence>
-        {open.map((id, i) => (
-          <Window
-            key={id}
-            id={id}
-            zIndex={50 + i + (focus === id ? 20 : 0)}
-            onClose={() => closeWindow(id)}
-            onFocus={() => setFocus(id)}
-          />
-        ))}
-      </AnimatePresence>
       </div>
+
+      {/* Desktop windows overlay layer */}
+      {!phoneMode && (
+        <>
+          {open.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="fixed inset-0 bg-black/20 backdrop-blur-[2px] z-[65] pointer-events-none"
+            />
+          )}
+          <AnimatePresence>
+            {open.map((id, i) => (
+              <Window
+                key={id}
+                id={id}
+                zIndex={70 + i + (focus === id ? 20 : 0)}
+                onClose={() => closeWindow(id)}
+                onFocus={() => setFocus(id)}
+              />
+            ))}
+          </AnimatePresence>
+        </>
+      )}
     </div>
   );
 }
