@@ -3,10 +3,12 @@ import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useRef, useState, type ReactNode, type RefObject, type PointerEvent as ReactPointerEvent } from "react";
 import wallpaper from "@/assets/wallpaper.jpg";
 import desktopBgAsset from "@/assets/desktop-bg.jpg.asset.json";
-import gallery1 from "@/assets/gallery-1.jpg";
-import gallery2 from "@/assets/gallery-2.jpg";
-import gallery3 from "@/assets/gallery-3.jpg";
-import gallery4 from "@/assets/gallery-4.jpg";
+import gallery1 from "@/assets/gallery/photo-1.jpg.asset.json";
+import gallery2 from "@/assets/gallery/photo-2.jpg.asset.json";
+import gallery3 from "@/assets/gallery/photo-3.jpg.asset.json";
+import gallery4 from "@/assets/gallery/photo-4.jpg.asset.json";
+import gallery5 from "@/assets/gallery/photo-5.jpg.asset.json";
+import gallery6 from "@/assets/gallery/photo-6.jpg.asset.json";
 import memoji from "@/assets/memoji.jpg";
 import iconPhotosAsset from "@/assets/icon-photos-new.png.asset.json";
 import iconFigmaAsset from "@/assets/icon-figma-new.png.asset.json";
@@ -1118,7 +1120,7 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
         <div className="px-5 pt-5 pb-3 flex items-end justify-between">
           <div>
             <h2 className="text-[34px] leading-tight font-semibold tracking-tight text-ink">Недавние</h2>
-            <p className="text-[13px] text-ink/50 mt-0.5">4 фото · 2025</p>
+            <p className="text-[13px] text-ink/50 mt-0.5">6 фото · 2025</p>
           </div>
           <div className="size-9 rounded-full bg-white/80 backdrop-blur grid place-items-center text-ink/70 shadow-sm">
             <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -1127,10 +1129,12 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
         {/* Squircle grid */}
         <div className="px-3 pb-5 grid grid-cols-2 gap-1.5">
           {[
-            { src: gallery1, cap: "Готовимся к большому выступлению с Шерханом, Раджой, Диего и Тигрой" },
-            { src: gallery2, cap: "Усердно тренируемся три раза по 2-3 часа каждый день" },
-            { src: gallery3, cap: "Наконец-то добрались" },
-            { src: gallery4, cap: "Отдыхаем в Камакуре" },
+            { src: gallery1.url, cap: "Устойчивость на любой «доске» — будь то лонгборд или рабочие задачи." },
+            { src: gallery2.url, cap: "Не боюсь «белой воды» и крутых поворотов." },
+            { src: gallery3.url, cap: "Вдохновляюсь культурой, где каждая деталь имеет значение." },
+            { src: gallery4.url, cap: "Умею высматривать детали там, где другие проходят мимо." },
+            { src: gallery5.url, cap: "Умею создать уют и порядок даже в лесу." },
+            { src: gallery6.url, cap: "Расширяю границы возможного. Если страшно — значит, надо делать." },
           ].map((p, i) => (
             <motion.figure
               key={i}
