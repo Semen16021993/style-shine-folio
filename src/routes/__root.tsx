@@ -81,8 +81,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Дарья Верескунова — Продуктовый дизайнер" },
       { name: "twitter:description", content: "Портфолио продуктового дизайнера: B2B/B2C, SaaS, дизайн-системы, мобильные приложения." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/txfhLfuXnhOBtNB2GYczXheqhJ72/social-images/social-1781790695928-1200w_light.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/txfhLfuXnhOBtNB2GYczXheqhJ72/social-images/social-1781790695928-1200w_light.webp" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/txfhLfuXnhOBtNB2GYczXheqhJ72/social-images/social-1781794868946-1200w_light.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/txfhLfuXnhOBtNB2GYczXheqhJ72/social-images/social-1781794868946-1200w_light.webp" },
     ],
     links: [
       {
