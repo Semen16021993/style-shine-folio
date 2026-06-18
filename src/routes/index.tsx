@@ -644,15 +644,15 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
         {/* Dock — quick contacts */}
         <div className="mt-2 rounded-[28px] bg-white/45 backdrop-blur-2xl border border-white/60 px-3 py-3 flex justify-around items-center shadow-xl">
           {[
-            { src: sysIcon1, label: "Телефон", href: "tel:+79109076181" },
-            { src: sysIcon3, label: "Почта", href: "mailto:vereskunovadaria@gmail.com" },
-            { src: sysAqua, label: "Telegram", href: "https://t.me/DariaIud" },
+            { src: sysIcon1, label: "Телефон", href: "tel:+79109076181", contain: false },
+            { src: mailIcon, label: "Почта", href: "mailto:vereskunovadaria@gmail.com", contain: true },
+            { src: sysAqua, label: "Telegram", href: "https://t.me/DariaIud", contain: false },
           ].map((d, i) => {
             const inner = (
               <img
                 src={d.src}
                 alt={d.label}
-                className="w-[56px] h-[56px] rounded-[14px] object-cover"
+                className={`w-[56px] h-[56px] rounded-[14px] ${d.contain ? "object-contain p-1" : "object-cover"}`}
                 draggable={false}
               />
             );
