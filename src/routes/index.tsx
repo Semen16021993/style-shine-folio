@@ -525,11 +525,26 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.35 + i * 0.06, type: "spring", stiffness: 220, damping: 18 }}
               whileTap={{ scale: 0.94 }}
-              onClick={() => { playTap(); onOpen(f.id); }}
+              onClick={() => {
+                playTap();
+                if (f.href) {
+                  window.open(f.href, "_blank", "noopener,noreferrer");
+                  return;
+                }
+                onOpen(f.id as WindowId);
+              }}
               className="flex flex-col items-center gap-1"
             >
-              <div className="w-[144px] h-[128px] origin-top scale-[0.78]">
-                <IconGraphic icon="folder" color={FOLDER_BLUE} />
+              <div className="w-[144px] h-[128px] origin-top scale-[0.78] grid place-items-center">
+                {f.iconKind === "figma" ? (
+                  <img src={iconFigma} alt="" className="w-[128px] h-[128px] object-contain drop-shadow-xl" />
+                ) : f.id === "gallery" ? (
+                  <img src={iconPhotos} alt="" className="w-[128px] h-[128px] object-contain drop-shadow-xl" />
+                ) : f.id === "cv" ? (
+                  <IconGraphic icon="pdf" />
+                ) : (
+                  <IconGraphic icon="folder" color={FOLDER_BLUE} />
+                )}
               </div>
 
               <span className="text-ink text-[12px] font-semibold leading-tight text-center">
