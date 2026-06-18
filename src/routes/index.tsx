@@ -492,18 +492,6 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
 
   return (
     <div className="absolute inset-0 flex flex-col desktop-bg overflow-hidden">
-      {/* Status bar */}
-      <div className="relative z-10 flex items-center justify-between px-7 pt-3 text-ink text-[13px] font-semibold tabular-nums">
-        <span>{time}</span>
-        <span className="flex items-center gap-1 text-[11px]">
-          <span>•••</span>
-          <span>5G</span>
-          <span className="ml-1 w-6 h-2.5 rounded-sm border border-ink/70 relative">
-            <span className="absolute inset-0.5 bg-ink rounded-[1px]" />
-          </span>
-        </span>
-      </div>
-
       <div className="relative z-[5] flex-1 flex flex-col px-4 pt-10 pb-4 gap-5">
         {/* Sticky note — desktop style */}
         <motion.div
