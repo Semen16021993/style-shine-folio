@@ -450,11 +450,16 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
     return () => clearInterval(id);
   }, []);
 
-  const folders: { id: WindowId; label: string }[] = [
+  type MobileFolder =
+    | { id: WindowId; label: string; href?: undefined; iconKind?: undefined }
+    | { id: string;   label: string; href: string; iconKind?: "figma" };
+  const folders: MobileFolder[] = [
     { id: "orien",   label: "Crypto" },
     { id: "fourdev", label: "4Dev" },
     { id: "debtor",  label: "Должник" },
     { id: "gallery", label: "Галерея" },
+    { id: "figma",   label: "Figma", href: FIGMA_URL, iconKind: "figma" },
+    { id: "cv",      label: "CV",    href: "https://docs.google.com/document/d/12Lyzo4MLM1DhmpTNTif1u9eAyQeliljbuUQ1dLv_KlE/edit?tab=t.0" },
   ];
 
   return (
@@ -520,11 +525,26 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.35 + i * 0.06, type: "spring", stiffness: 220, damping: 18 }}
               whileTap={{ scale: 0.94 }}
-              onClick={() => { playTap(); onOpen(f.id); }}
+              onClick={() => {
+                playTap();
+                if (f.href) {
+                  window.open(f.href, "_blank", "noopener,noreferrer");
+                  return;
+                }
+                onOpen(f.id as WindowId);
+              }}
               className="flex flex-col items-center gap-1"
             >
-              <div className="w-[144px] h-[128px] origin-top scale-[0.78]">
-                <IconGraphic icon="folder" color={FOLDER_BLUE} />
+              <div className="w-[144px] h-[128px] origin-top scale-[0.78] grid place-items-center">
+                {f.iconKind === "figma" ? (
+                  <img src={iconFigma} alt="" className="w-[128px] h-[128px] object-contain drop-shadow-xl" />
+                ) : f.id === "gallery" ? (
+                  <img src={iconPhotos} alt="" className="w-[128px] h-[128px] object-contain drop-shadow-xl" />
+                ) : f.id === "cv" ? (
+                  <IconGraphic icon="pdf" />
+                ) : (
+                  <IconGraphic icon="folder" color={FOLDER_BLUE} />
+                )}
               </div>
 
               <span className="text-ink text-[12px] font-semibold leading-tight text-center">
@@ -1122,7 +1142,7 @@ interface GalleryItem { src: string; cap: string }
 function FourDevCase() {
   const cap = "text-ink/60 font-medium text-gray-500 font-sans text-center text-sm";
   const h4 = "font-mono text-xs uppercase tracking-widest text-ink/60 mb-2 font-semibold";
-  const fullImg = "w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]";
+  const fullImg = "w-full rounded-lg border border-ink/10";
 
   return (
     <TypoScope className="space-y-6">
@@ -1132,7 +1152,7 @@ function FourDevCase() {
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="rounded-lg overflow-hidden border border-ink/10 bg-ink/5 -mx-2 md:-mx-4"
+        className="rounded-lg overflow-hidden border border-ink/10 bg-ink/5"
       >
         <img src={caseFourdev} alt="Дашборд продаж 4DEV" loading="lazy" className="w-full h-auto block" />
       </motion.div>
@@ -1462,7 +1482,7 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="rounded-lg overflow-hidden border border-ink/10 bg-ink/5 -mx-2 md:-mx-4"
+          className="rounded-lg overflow-hidden border border-ink/10 bg-ink/5"
         >
           <img src={cover} alt={lead} loading="lazy" className="w-full h-auto block" />
         </motion.div>
@@ -1489,7 +1509,7 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
             src={image}
             alt={imageCaption || ""}
             loading="lazy"
-            className="w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]"
+            className="w-full rounded-lg border border-ink/10"
           />
           {imageCaption && <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-center text-sm">{imageCaption}</figcaption>}
         </figure>
@@ -1522,7 +1542,7 @@ function CaseStudy({ cover, tag, period, lead, sections = [], image, imageCaptio
                 src={g.src}
                 alt={g.cap}
                 loading="lazy"
-                className="w-full rounded-lg border border-ink/10 -mx-2 md:-mx-4 max-w-[calc(100%+2rem)]"
+                className="w-full rounded-lg border border-ink/10"
               />
               <figcaption className="text-ink/60 font-medium text-gray-500 font-sans text-center text-sm">{g.cap}</figcaption>
             </figure>
