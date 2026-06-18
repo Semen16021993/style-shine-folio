@@ -19,7 +19,8 @@ import gallery6 from "@/assets/gallery/photo-6.jpg.asset.json";
 import memoji from "@/assets/memoji.jpg";
 import iconPhotosAsset from "@/assets/icon-photos-new.png.asset.json";
 import iconFigmaAsset from "@/assets/icon-figma-new.png.asset.json";
-import iconGal from "@/assets/icon-gal.svg";
+import mailIconAsset from "@/assets/mail-icon.svg.asset.json";
+const mailIcon = mailIconAsset.url;
 const iconPhotos = iconPhotosAsset.url;
 const iconFigma = iconFigmaAsset.url;
 import iconPs from "@/assets/icon-ps.svg";
@@ -229,7 +230,7 @@ const items: DesktopItem[] = [
   { id: "cv", label: "CV", icon: "pdf", x: 41, y: 60, rot: -3 },
 ];
 
-type DockIconKey = "gal" | "figma" | "ps" | "ai" | "id" | "in";
+type DockIconKey = "mail" | "figma" | "ps" | "ai" | "id" | "in";
 const dockItems: {
   id: DockIconKey | "gallery";
   label: string;
@@ -237,7 +238,7 @@ const dockItems: {
   disabled?: boolean;
   href?: string;
 }[] = [
-  { id: "gallery", label: "Галерея", icon: "gal" },
+  { id: "mail", label: "Почта", icon: "mail", href: "mailto:vereskunovadaria@gmail.com" },
   { id: "figma", label: "Figma", icon: "figma", href: FIGMA_URL },
   { id: "ps", label: "Adobe Photoshop", icon: "ps", disabled: true },
   { id: "ai", label: "Adobe Illustrator", icon: "ai", disabled: true },
@@ -245,7 +246,7 @@ const dockItems: {
   { id: "in", label: "Adobe InDesign", icon: "in", disabled: true },
 ];
 const dockIconMap: Record<DockIconKey, string> = {
-  gal: iconGal,
+  mail: mailIcon,
   figma: iconFigma,
   ps: iconPs,
   ai: iconAi,
