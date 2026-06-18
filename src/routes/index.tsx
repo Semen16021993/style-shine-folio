@@ -1022,7 +1022,7 @@ function Window({
         transition={{ type: "spring", stiffness: 320, damping: 34 }}
         onMouseDown={onFocus}
         style={{ zIndex }}
-        className="absolute inset-0 bg-white flex flex-col"
+        className="fixed inset-0 bg-white flex flex-col"
       >
         <div className="h-14 px-3 pt-3 flex items-center gap-2 border-b border-ink/10">
           <button
