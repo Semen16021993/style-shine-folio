@@ -592,10 +592,11 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
         </motion.div>
 
         {/* Folder grid — desktop blue folders, no emblems */}
-        <div className="grid grid-cols-3 gap-x-1 gap-y-1 w-full mt-1">
+        <div className="relative z-[10] grid grid-cols-3 gap-x-1 gap-y-1 w-full mt-1">
           {folders.map((f, i) => (
             <motion.button
               key={f.id}
+              type="button"
               initial={{ opacity: 0, scale: 0.7 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.35 + i * 0.06, type: "spring", stiffness: 220, damping: 18 }}
@@ -608,13 +609,14 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
                 }
                 onOpen(f.id as WindowId);
               }}
-              className="flex flex-col items-center gap-0.5"
+              style={{ touchAction: "manipulation", WebkitTapHighlightColor: "transparent" }}
+              className="relative z-[10] flex flex-col items-center gap-0.5 cursor-pointer select-none"
             >
-              <div className="w-[110px] h-[80px] grid place-items-center overflow-visible">
+              <div className="w-[110px] h-[80px] grid place-items-center overflow-visible pointer-events-none">
                 {f.iconKind === "figma" ? (
-                  <img src={iconFigma} alt="" className="w-[72px] h-[72px] object-contain drop-shadow-xl" />
+                  <img src={iconFigma} alt="" className="w-[72px] h-[72px] object-contain drop-shadow-xl" draggable={false} />
                 ) : f.id === "gallery" ? (
-                  <img src={iconPhotos} alt="" className="w-[72px] h-[72px] object-contain drop-shadow-xl" />
+                  <img src={iconPhotos} alt="" className="w-[72px] h-[72px] object-contain drop-shadow-xl" draggable={false} />
                 ) : f.id === "cv" ? (
                   <IconGraphic icon="pdf" size={72} />
                 ) : (
@@ -622,7 +624,7 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
                 )}
               </div>
 
-              <span className="text-ink text-[11px] font-semibold leading-tight text-center">{f.label}</span>
+              <span className="text-ink text-[11px] font-semibold leading-tight text-center pointer-events-none">{f.label}</span>
             </motion.button>
           ))}
         </div>
@@ -1020,30 +1022,43 @@ function Window({
 
   if (isMobile) {
     return (
-      <motion.div
-        initial={{ y: "100%" }}
-        animate={{ y: 0 }}
-        exit={{ y: "100%" }}
-        transition={{ type: "spring", stiffness: 320, damping: 34 }}
-        onMouseDown={onFocus}
-        style={{ zIndex }}
-        className="fixed inset-0 bg-white flex flex-col"
-      >
-        <div className="h-14 px-3 pt-3 flex items-center gap-2 border-b border-ink/10">
-          <button
-            onClick={onClose}
-            className="flex items-center gap-1 text-[15px] text-[#007aff] font-medium px-2 py-1 -ml-2 active:opacity-60"
-          >
-            <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="m15 6-6 6 6 6" />
-            </svg>
-            Назад
-          </button>
-          <div className="flex-1 text-center text-[14px] font-semibold text-ink truncate px-2">{config.title}</div>
-          <div className="w-14" />
-        </div>
-        <div className="flex-1 overflow-y-auto overscroll-contain p-5 pb-10">{config.body}</div>
-      </motion.div>
+      <>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          style={{ zIndex: 499 }}
+          className="fixed inset-0 bg-black/30"
+          onClick={onClose}
+        />
+        <motion.div
+          initial={{ y: "100%" }}
+          animate={{ y: 0 }}
+          exit={{ y: "100%" }}
+          transition={{ type: "spring", stiffness: 320, damping: 34 }}
+          onMouseDown={onFocus}
+          onPointerDown={onFocus}
+          style={{ zIndex: 500, touchAction: "pan-y" }}
+          className="fixed inset-0 bg-white flex flex-col pointer-events-auto"
+        >
+          <div className="h-14 px-3 pt-3 flex items-center gap-2 border-b border-ink/10">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex items-center gap-1 text-[15px] text-[#007aff] font-medium px-2 py-1 -ml-2 active:opacity-60"
+            >
+              <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="m15 6-6 6 6 6" />
+              </svg>
+              Назад
+            </button>
+            <div className="flex-1 text-center text-[14px] font-semibold text-ink truncate px-2">{config.title}</div>
+            <div className="w-14" />
+          </div>
+          <div className="flex-1 overflow-y-auto overscroll-contain p-5 pb-10">{config.body}</div>
+        </motion.div>
+      </>
     );
   }
 
