@@ -660,17 +660,29 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
         <div className="mt-2 rounded-[28px] bg-white/45 backdrop-blur-2xl border border-white/60 px-3 py-3 flex justify-around items-center shadow-xl">
           {[
             { src: sysIcon1, label: "Телефон", href: "tel:+79109076181" },
-            { src: mailIcon, label: "Почта", href: "mailto:vereskunovadaria@gmail.com" },
+            { src: null, label: "Почта", href: "mailto:vereskunovadaria@gmail.com", kind: "mail" as const },
             { src: sysAqua, label: "Telegram", href: "https://t.me/DariaIud" },
           ].map((d, i) => {
-            const inner = (
+            const inner = d.src ? (
               <img
                 src={d.src}
                 alt={d.label}
                 className="w-[56px] h-[56px] rounded-[14px] object-cover"
                 draggable={false}
               />
+            ) : (
+              <div
+                className="w-[56px] h-[56px] rounded-[14px] grid place-items-center"
+                style={{
+                  background: "linear-gradient(180deg,#e9f2ff 0%,#bcd7ff 55%,#7fb0ff 100%)",
+                  boxShadow: "inset 0 -2px 4px rgba(0,0,0,0.08), 0 6px 14px rgba(0,0,0,0.12)",
+                }}
+                aria-label={d.label}
+              >
+                <LucideMail className="w-8 h-8" strokeWidth={1.75} color="#1f4fb8" />
+              </div>
             );
+
             return (
               <motion.a
                 key={i}
