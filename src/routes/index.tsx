@@ -8,6 +8,7 @@ import {
   type RefObject,
   type PointerEvent as ReactPointerEvent,
 } from "react";
+import { Images as LucideImages, Figma as LucideFigma, Mail as LucideMail } from "lucide-react";
 import wallpaper from "@/assets/wallpaper.jpg";
 import desktopBgAsset from "@/assets/desktop-bg.jpg.asset.json";
 import gallery1 from "@/assets/gallery/photo-1.jpg.asset.json";
