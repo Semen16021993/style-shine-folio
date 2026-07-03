@@ -8,6 +8,7 @@ import {
   type RefObject,
   type PointerEvent as ReactPointerEvent,
 } from "react";
+import { Images as LucideImages, Figma as LucideFigma, Mail as LucideMail } from "lucide-react";
 import wallpaper from "@/assets/wallpaper.jpg";
 import desktopBgAsset from "@/assets/desktop-bg.jpg.asset.json";
 import gallery1 from "@/assets/gallery/photo-1.jpg.asset.json";
@@ -615,15 +616,29 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
             >
               <div className="w-[110px] h-[80px] grid place-items-center overflow-visible pointer-events-none">
                 {f.iconKind === "figma" ? (
-                  <img src={iconFigma} alt="" className="w-[72px] h-[72px] object-contain drop-shadow-xl" draggable={false} />
+                  <div
+                    className="w-[68px] h-[68px] rounded-[18px] bg-white grid place-items-center drop-shadow-xl"
+                    style={{ boxShadow: "0 10px 24px rgba(0,0,0,0.18)" }}
+                  >
+                    <LucideFigma className="w-9 h-9" strokeWidth={1.75} color="#111" />
+                  </div>
                 ) : f.id === "gallery" ? (
-                  <img src={iconPhotos} alt="" className="w-[72px] h-[72px] object-contain drop-shadow-xl" draggable={false} />
+                  <div
+                    className="w-[68px] h-[68px] rounded-[18px] grid place-items-center drop-shadow-xl"
+                    style={{
+                      background: "linear-gradient(180deg,#7ad0ff 0%,#3aa0ff 55%,#1f6fe0 100%)",
+                      boxShadow: "0 10px 24px rgba(0,0,0,0.18)",
+                    }}
+                  >
+                    <LucideImages className="w-9 h-9" strokeWidth={1.75} color="#fff" />
+                  </div>
                 ) : f.id === "cv" ? (
                   <IconGraphic icon="pdf" size={72} />
                 ) : (
                   <IconGraphic icon="folder" color={FOLDER_BLUE} size={88} />
                 )}
               </div>
+
 
               <span className="text-ink text-[11px] font-semibold leading-tight text-center pointer-events-none">{f.label}</span>
             </motion.button>
@@ -645,17 +660,29 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
         <div className="mt-2 rounded-[28px] bg-white/45 backdrop-blur-2xl border border-white/60 px-3 py-3 flex justify-around items-center shadow-xl">
           {[
             { src: sysIcon1, label: "Телефон", href: "tel:+79109076181" },
-            { src: mailIcon, label: "Почта", href: "mailto:vereskunovadaria@gmail.com" },
+            { src: null, label: "Почта", href: "mailto:vereskunovadaria@gmail.com", kind: "mail" as const },
             { src: sysAqua, label: "Telegram", href: "https://t.me/DariaIud" },
           ].map((d, i) => {
-            const inner = (
+            const inner = d.src ? (
               <img
                 src={d.src}
                 alt={d.label}
                 className="w-[56px] h-[56px] rounded-[14px] object-cover"
                 draggable={false}
               />
+            ) : (
+              <div
+                className="w-[56px] h-[56px] rounded-[14px] grid place-items-center"
+                style={{
+                  background: "linear-gradient(180deg,#e9f2ff 0%,#bcd7ff 55%,#7fb0ff 100%)",
+                  boxShadow: "inset 0 -2px 4px rgba(0,0,0,0.08), 0 6px 14px rgba(0,0,0,0.12)",
+                }}
+                aria-label={d.label}
+              >
+                <LucideMail className="w-8 h-8" strokeWidth={1.75} color="#1f4fb8" />
+              </div>
             );
+
             return (
               <motion.a
                 key={i}
