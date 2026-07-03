@@ -616,15 +616,29 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
             >
               <div className="w-[110px] h-[80px] grid place-items-center overflow-visible pointer-events-none">
                 {f.iconKind === "figma" ? (
-                  <img src={iconFigma} alt="" className="w-[72px] h-[72px] object-contain drop-shadow-xl" draggable={false} />
+                  <div
+                    className="w-[68px] h-[68px] rounded-[18px] bg-white grid place-items-center drop-shadow-xl"
+                    style={{ boxShadow: "0 10px 24px rgba(0,0,0,0.18)" }}
+                  >
+                    <LucideFigma className="w-9 h-9" strokeWidth={1.75} color="#111" />
+                  </div>
                 ) : f.id === "gallery" ? (
-                  <img src={iconPhotos} alt="" className="w-[72px] h-[72px] object-contain drop-shadow-xl" draggable={false} />
+                  <div
+                    className="w-[68px] h-[68px] rounded-[18px] grid place-items-center drop-shadow-xl"
+                    style={{
+                      background: "linear-gradient(180deg,#7ad0ff 0%,#3aa0ff 55%,#1f6fe0 100%)",
+                      boxShadow: "0 10px 24px rgba(0,0,0,0.18)",
+                    }}
+                  >
+                    <LucideImages className="w-9 h-9" strokeWidth={1.75} color="#fff" />
+                  </div>
                 ) : f.id === "cv" ? (
                   <IconGraphic icon="pdf" size={72} />
                 ) : (
                   <IconGraphic icon="folder" color={FOLDER_BLUE} size={88} />
                 )}
               </div>
+
 
               <span className="text-ink text-[11px] font-semibold leading-tight text-center pointer-events-none">{f.label}</span>
             </motion.button>
