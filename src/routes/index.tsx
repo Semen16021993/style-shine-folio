@@ -9,14 +9,14 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import { Images as LucideImages, Figma as LucideFigma, Mail as LucideMail } from "lucide-react";
-import wallpaper from "@/assets/wallpaper.jpg";
+import wallpaper from "@/assets/new-bg.jpg";
 import desktopBgAsset from "@/assets/desktop-bg.jpg.asset.json";
-import gallery1 from "@/assets/gallery/photo-1.jpg.asset.json";
-import gallery2 from "@/assets/gallery/photo-2.jpg.asset.json";
-import gallery3 from "@/assets/gallery/photo-3.jpg.asset.json";
-import gallery4 from "@/assets/gallery/photo-4.jpg.asset.json";
-import gallery5 from "@/assets/gallery/photo-5.jpg.asset.json";
-import gallery6 from "@/assets/gallery/photo-6.jpg.asset.json";
+import gallery1 from "@/assets/new-photo-1.jpg";
+import gallery2 from "@/assets/new-photo-2.jpg";
+import gallery3 from "@/assets/new-photo-3.jpg";
+import gallery4 from "@/assets/new-photo-4.jpg";
+import gallery5 from "@/assets/new-photo-5.jpg";
+import gallery6 from "@/assets/new-photo-6.jpg";
 import memoji from "@/assets/memoji.jpg";
 import iconPhotosAsset from "@/assets/icon-photos-new.png.asset.json";
 import iconFigma from "@/assets/icon-figma-color.svg";
