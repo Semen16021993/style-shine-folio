@@ -9,14 +9,14 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import { Images as LucideImages, Figma as LucideFigma, Mail as LucideMail } from "lucide-react";
-import wallpaper from "@/assets/wallpaper.jpg";
+import wallpaper from "@/assets/new-bg.jpg";
 import desktopBgAsset from "@/assets/desktop-bg.jpg.asset.json";
-import gallery1 from "@/assets/gallery/photo-1.jpg.asset.json";
-import gallery2 from "@/assets/gallery/photo-2.jpg.asset.json";
-import gallery3 from "@/assets/gallery/photo-3.jpg.asset.json";
-import gallery4 from "@/assets/gallery/photo-4.jpg.asset.json";
-import gallery5 from "@/assets/gallery/photo-5.jpg.asset.json";
-import gallery6 from "@/assets/gallery/photo-6.jpg.asset.json";
+import gallery1 from "@/assets/new-photo-1.jpg";
+import gallery2 from "@/assets/new-photo-2.jpg";
+import gallery3 from "@/assets/new-photo-3.jpg";
+import gallery4 from "@/assets/new-photo-4.jpg";
+import gallery5 from "@/assets/new-photo-5.jpg";
+import gallery6 from "@/assets/new-photo-6.jpg";
 import memoji from "@/assets/memoji.jpg";
 import iconPhotosAsset from "@/assets/icon-photos-new.png.asset.json";
 import iconFigma from "@/assets/icon-figma-color.svg";
@@ -328,7 +328,7 @@ function Desktop() {
               initial={{ opacity: 0, y: -20, rotate: -3 }}
               animate={{ opacity: 1, y: 0, rotate: -3 }}
               transition={{ delay: 0.3, duration: 0.6 }}
-              className="absolute top-16 left-4 md:left-12 w-[360px] md:w-[520px] p-5 md:p-6 bg-note shadow-2xl"
+              className="absolute top-16 left-4 md:left-12 w-[360px] md:w-[520px] p-5 md:p-6 bg-note rounded-2xl shadow-2xl"
               style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.25)" }}
             >
               <h1 className="font-display text-2xl md:text-[34px] leading-tight font-semibold">
@@ -556,7 +556,7 @@ function MobileHome({ onOpen }: { onOpen: (id: WindowId) => void }) {
           initial={{ opacity: 0, y: -10, rotate: -3 }}
           animate={{ opacity: 1, y: 0, rotate: -3 }}
           transition={{ delay: 0.15, duration: 0.5 }}
-          className="self-start w-[88%] p-3 bg-note shadow-2xl"
+          className="self-start w-[88%] p-3 bg-note rounded-2xl shadow-2xl"
           style={{ boxShadow: "0 16px 40px rgba(0,0,0,0.20)" }}
         >
           <h1 className="font-display text-[20px] leading-tight font-semibold">
@@ -1351,12 +1351,12 @@ const windowConfig: Record<WindowId, { title: string; body: ReactNode }> = {
         {/* Squircle grid */}
         <div className="px-3 pb-5 grid grid-cols-2 gap-1.5">
           {[
-            { src: gallery1.url, cap: "Устойчивость на любой «доске» — будь то лонгборд или рабочие задачи." },
-            { src: gallery2.url, cap: "Не боюсь «белой воды» и крутых поворотов." },
-            { src: gallery3.url, cap: "Вдохновляюсь культурой, где каждая деталь имеет значение." },
-            { src: gallery4.url, cap: "Умею высматривать детали там, где другие проходят мимо." },
-            { src: gallery5.url, cap: "Умею создать уют и порядок даже в лесу." },
-            { src: gallery6.url, cap: "Расширяю границы возможного. Если страшно — значит, надо делать." },
+            { src: gallery1, cap: "Устойчивость на любой «доске» — будь то лонгборд или рабочие задачи." },
+            { src: gallery2, cap: "Не боюсь «белой воды» и крутых поворотов." },
+            { src: gallery3, cap: "Вдохновляюсь культурой, где каждая деталь имеет значение." },
+            { src: gallery4, cap: "Умею высматривать детали там, где другие проходят мимо." },
+            { src: gallery5, cap: "Умею создать уют и порядок даже в лесу." },
+            { src: gallery6, cap: "Расширяю границы возможного. Если страшно — значит, надо делать." },
           ].map((p, i) => (
             <motion.figure
               key={i}
